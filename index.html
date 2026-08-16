@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Education Point - Free CBSE notes, study material and educational videos for Classes 9 to 12.">
+  <title>Education Point | CBSE Classes 9–12</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <div>🎓 Education Point — Your Success, Our Mission!</div>
+    <div class="social">
+      <a href="https://www.youtube.com/@educationpoint7355" target="_blank">▶ YouTube</a>
+      <span>•</span><a href="#" title="Add your Telegram link later">Telegram</a>
+      <span>•</span><a href="#" title="Add your Instagram link later">Instagram</a>
+      <button id="themeBtn">🌙 Dark Mode</button>
+    </div>
+  </header>
+
+  <nav class="navbar">
+    <div class="brand">
+      <div class="logo">EP</div>
+      <div>
+        <strong>EDUCATION POINT</strong>
+        <small>@educationpoint7355</small>
+      </div>
+    </div>
+    <div class="navlinks">
+      <a href="#home">Home</a>
+      <a href="#classes">Classes</a>
+      <a href="#subjects">Subjects</a>
+      <a href="#materials">Study Material</a>
+      <a href="#youtube">YouTube</a>
+      <a href="#updates">Updates</a>
+      <a href="#about">About</a>
+    </div>
+  </nav>
+
+  <main>
+    <section id="home" class="hero">
+      <div class="hero-text">
+        <p class="eyebrow">WELCOME TO</p>
+        <h1>EDUCATION <span>POINT</span></h1>
+        <h2>CBSE Board | Classes 9 to 12 | Biology Stream | All Subjects</h2>
+        <p>Free Notes, Important Questions, Sample Papers, Previous Year Papers, Worksheets and more — all in one place.</p>
+        <div class="buttons">
+          <a class="btn primary" href="#materials">📚 Explore Notes</a>
+          <a class="btn secondary" href="#subjects">📖 View Subjects</a>
+          <a class="btn youtube" href="https://www.youtube.com/@educationpoint7355" target="_blank">▶ Watch on YouTube</a>
+        </div>
+      </div>
+      <div class="hero-art">
+        <div class="books">📚</div>
+        <div class="cap">🎓</div>
+      </div>
+    </section>
+
+    <section class="quick">
+      <a href="#classes">📚 <b>Class 9–12</b><small>All Classes</small></a>
+      <a href="#subjects">📗 <b>All Subjects</b><small>CBSE Board</small></a>
+      <a href="#materials">📄 <b>Study Material</b><small>Notes, Papers & More</small></a>
+      <a href="#youtube">▶️ <b>YouTube Videos</b><small>Educational Videos</small></a>
+      <a href="#updates">🔔 <b>Latest Updates</b><small>New Notes & Papers</small></a>
+      <a href="#materials">⬇️ <b>Download PDFs</b><small>Free PDFs</small></a>
+    </section>
+
+    <section class="grid3">
+      <div class="panel" id="materials">
+        <div class="panel-head"><h3>📚 Latest Notes</h3><button onclick="showMessage()">View All</button></div>
+        <ul class="note-list">
+          <li><span>📄</span> Class 12 Biology — Human Reproduction Notes <b>New</b></li>
+          <li><span>📄</span> Class 11 Chemistry — Notes <b>New</b></li>
+          <li><span>📄</span> Class 10 Science — Life Processes Notes <b>New</b></li>
+          <li><span>📄</span> Class 9 Maths — Notes <b>New</b></li>
+          <li><span>📄</span> Class 12 Physics — Current Electricity Notes <b>New</b></li>
+        </ul>
+        <button class="fullbtn" onclick="showMessage()">View All Notes</button>
+      </div>
+
+      <div class="panel" id="youtube">
+        <div class="panel-head"><h3>▶ Latest Videos</h3></div>
+        <div class="video">
+          <div class="thumb">▶</div>
+          <div><b>Education Point</b><small>Educational Video</small></div>
+        </div>
+        <div class="video">
+          <div class="thumb">▶</div>
+          <div><b>Latest CBSE Study Video</b><small>Notes & Explanation</small></div>
+        </div>
+        <a class="fullbtn" href="https://www.youtube.com/@educationpoint7355" target="_blank">Visit YouTube Channel</a>
+      </div>
+
+      <div class="panel" id="updates">
+        <div class="panel-head"><h3>🔔 Latest Updates</h3></div>
+        <ul class="updates">
+          <li><b>NEW</b> New Class 12 Biology notes uploaded</li>
+          <li><b>NEW</b> Class 11 Chemistry material added</li>
+          <li><b>NEW</b> Class 10 Science notes updated</li>
+          <li><b>NEW</b> Class 9 Maths material added</li>
+          <li><b>NEW</b> Sample papers section updated</li>
+        </ul>
+        <button class="fullbtn" onclick="showMessage()">View All Updates</button>
+      </div>
+    </section>
+
+    <section id="classes" class="section">
+      <h2>🎓 Choose Your Class</h2>
+      <div class="class-grid">
+        <button onclick="selectClass(9)">Class 9<br><small>View Notes →</small></button>
+        <button onclick="selectClass(10)">Class 10<br><small>View Notes →</small></button>
+        <button onclick="selectClass(11)">Class 11<br><small>View Notes →</small></button>
+        <button onclick="selectClass(12)">Class 12<br><small>View Notes →</small></button>
+      </div>
+      <p id="classMessage" class="message"></p>
+    </section>
+
+    <section id="subjects" class="section">
+      <h2>📖 Subjects</h2>
+      <div class="subject-grid">
+        <div>🧬 Biology</div><div>⚛️ Physics</div><div>🧪 Chemistry</div>
+        <div>📐 Mathematics</div><div>📘 English</div><div>📕 Hindi</div>
+        <div>💻 Computer / IT</div><div>📚 Other CBSE Subjects</div>
+      </div>
+    </section>
+
+    <section id="about" class="about">
+      <h2>About Education Point</h2>
+      <p>Education Point provides free, student-friendly CBSE study resources for Classes 9–12, including notes, important questions, papers and educational videos.</p>
+      <a class="btn youtube" href="https://www.youtube.com/@educationpoint7355" target="_blank">Subscribe on YouTube</a>
+    </section>
+  </main>
+
+  <footer>
+    <div><b>🛡️ 100% Free</b><small>Study material for students</small></div>
+    <div><b>✅ CBSE Focused</b><small>Based on CBSE syllabus</small></div>
+    <div><b>🏆 Quality Content</b><small>Notes & important questions</small></div>
+    <div><b>⬇️ Easy Download</b><small>PDF links in one place</small></div>
+    <div><b>❤️ Made for Students</b><small>Education Point</small></div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
