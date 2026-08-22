@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Education Point - Admin</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f4f7fb;
+      color: #172033;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 20px;
+    }
+
+    .card {
+      background: white;
+      padding: 30px;
+      border-radius: 18px;
+      box-shadow: 0 8px 30px rgba(0,0,0,.08);
+      margin-bottom: 25px;
+    }
+
+    h1, h2 {
+      margin-top: 0;
+    }
+
+    .logo {
+      font-size: 28px;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    .subtitle {
+      color: #667085;
+      margin-bottom: 25px;
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      padding: 13px;
+      margin: 7px 0 16px;
+      border: 1px solid #d0d5dd;
+      border-radius: 10px;
+      font-size: 15px;
+    }
+
+    button {
+      border: 0;
+      border-radius: 10px;
+      padding: 13px 20px;
+      font-size: 15px;
+      cursor: pointer;
+      background: #2563eb;
+      color: white;
+      font-weight: bold;
+    }
+
+    button:hover {
+      opacity: .9;
+    }
+
+    .logout {
+      background: #dc2626;
+      float: right;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .message {
+      margin-top: 15px;
+      padding: 12px;
+      border-radius: 10px;
+      background: #eef4ff;
+    }
+
+    label {
+      font-weight: bold;
+      display: block;
+      margin-top: 8px;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+
+    .material-box {
+      padding: 15px;
+      border: 1px solid #e4e7ec;
+      border-radius: 12px;
+      margin-top: 12px;
+    }
+
+    .small {
+      color: #667085;
+      font-size: 14px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+
+    <!-- LOGIN -->
+
+    <div id="loginBox" class="card">
+
+      <div class="logo">🎓 Education Point</div>
+
+      <div class="subtitle">
+        Private Admin Panel
+      </div>
+
+      <h2>🔐 Admin Login</h2>
+
+      <label>Email</label>
+
+      <input
+        type="email"
+        id="email"
+        placeholder="Admin email"
+      >
+
+      <label>Password</label>
+
+      <input
+        type="password"
+        id="password"
+        placeholder="Password"
+      >
+
+      <button onclick="login()">
+        Login
+      </button>
+
+      <div id="loginMessage" class="message hidden"></div>
+
+    </div>
+
+
+    <!-- DASHBOARD -->
+
+    <div id="dashboard" class="hidden">
+
+      <div class="header">
+
+        <div>
+          <div class="logo">📊 Admin Dashboard</div>
+
+          <div class="subtitle">
+            Education Point
+          </div>
+        </div>
+
+        <button class="logout" onclick="logout()">
+          Logout
+        </button>
+
+      </div>
+
+
+      <!-- ADD MATERIAL -->
+
+      <div class="card">
+
+        <h2>➕ Add Study Material</h2>
+
+        <label>Class</label>
+
+        <select id="classSelect">
+          <option value="">Select Class</option>
+        </select>
+
+
+        <label>Subject</label>
+
+        <select id="subjectSelect">
+          <option value="">Select Subject</option>
+        </select>
+
+
+        <label>Chapter</label>
+
+        <input
+          type="text"
+          id="chapter"
+          placeholder="Example: Chapter 1 - Real Numbers"
+        >
+
+
+        <label>Material Title</label>
+
+        <input
+          type="text"
+          id="title"
+          placeholder="Example: Important Questions"
+        >
+
+
+        <label>PDF File</label>
+
+        <input
+          type="file"
+          id="pdfFile"
+          accept=".pdf,application/pdf"
+        >
+
+
+        <label>YouTube Video URL (optional)</label>
+
+        <input
+          type="url"
+          id="youtubeUrl"
+          placeholder="https://www.youtube.com/watch?v=..."
+        >
+
+
+        <label>Description (optional)</label>
+
+        <textarea
+          id="description"
+          rows="4"
+          placeholder="Short description..."
+        ></textarea>
+
+
+        <button onclick="uploadMaterial()">
+          🚀 Publish Material
+        </button>
+
+
+        <div id="uploadMessage" class="message hidden"></div>
+
+      </div>
+
+
+      <!-- MATERIALS -->
+
+      <div class="card">
+
+        <h2>📚 Existing Materials</h2>
+
+        <div id="materialsList">
+          Loading...
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- Supabase -->
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+
+  <script>
+
+    /*
+      ==========================================
+      SUPABASE CONFIGURATION
+      ==========================================
+
+      IMPORTANT:
+      Replace ONLY the two values below.
+
+      1. YOUR_PROJECT_URL
+      2. YOUR_PUBLISHABLE_KEY
+
+      Do NOT put a secret/service_role key here.
+    */
+
+    const SUPABASE_URL = "https://zpvqgrqgxckzxkoygeqo.supabase.co/rest/v1/";
+
+    const SUPABASE_KEY = "sb_publishable_Fm2B3h3_qyVMKcGc_CABcA_FU0ptpud";
+
+
+    const supabaseClient =
+      window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+      );
+
+
+    /*
+      ==========================================
+      LOGIN
+      ==========================================
+    */
+
+    async function login() {
+
+      const email =
+        document.getElementById("email").value.trim();
+
+      const password =
+        document.getElementById("password").value;
+
+
+      const message =
+        document.getElementById("loginMessage");
+
+
+      message.classList.remove("hidden");
+
+      message.textContent = "Logging in...";
+
+
+      const { data, error } =
+        await supabaseClient.auth.signInWithPassword({
+          email: email,
+          password: password
+        });
+
+
+      if (error) {
+
+        message.textContent =
+          "❌ Login failed: " + error.message;
+
+        return;
+      }
+
+
+      message.textContent =
+        "✅ Login successful";
+
+
+      showDashboard();
+
+    }
+
+
+    /*
+      ==========================================
+      CHECK LOGIN
+      ==========================================
+    */
+
+    async function checkLogin() {
+
+      const {
+        data: { session }
+      } = await supabaseClient.auth.getSession();
+
+
+      if (session) {
+
+        showDashboard();
+
+      }
+
+    }
+
+
+    /*
+      ==========================================
+      SHOW DASHBOARD
+      ==========================================
+    */
+
+    async function showDashboard() {
+
+      document
+        .getElementById("loginBox")
+        .classList.add("hidden");
+
+
+      document
+        .getElementById("dashboard")
+        .classList.remove("hidden");
+
+
+      await loadClasses();
+
+      await loadMaterials();
+
+    }
+
+
+    /*
+      ==========================================
+      LOGOUT
+      ==========================================
+    */
+
+    async function logout() {
+
+      await supabaseClient.auth.signOut();
+
+      location.reload();
+
+    }
+
+
+    /*
+      ==========================================
+      LOAD CLASSES
+      ==========================================
+    */
+
+    async function loadClasses() {
+
+      const { data, error } =
+        await supabaseClient
+          .from("classes")
+          .select("*")
+          .order("id");
+
+
+      if (error) {
+
+        console.error(error);
+
+        return;
+      }
+
+
+      const select =
+        document.getElementById("classSelect");
+
+
+      select.innerHTML =
+        '<option value="">Select Class</option>';
+
+
+      data.forEach(cls => {
+
+        const option =
+          document.createElement("option");
+
+        option.value = cls.id;
+
+        option.textContent = cls.name;
+
+        select.appendChild(option);
+
+      });
+
+    }
+
+
+    /*
+      ==========================================
+      LOAD SUBJECTS
+      ==========================================
+    */
+
+    document
+      .getElementById("classSelect")
+      .addEventListener("change", loadSubjects);
+
+
+    async function loadSubjects() {
+
+      const classId =
+        document.getElementById("classSelect").value;
+
+
+      const select =
+        document.getElementById("subjectSelect");
+
+
+      select.innerHTML =
+        '<option value="">Select Subject</option>';
+
+
+      if (!classId) return;
+
+
+      const { data, error } =
+        await supabaseClient
+          .from("subjects")
+          .select("*")
+          .eq("class_id", classId)
+          .order("name");
+
+
+      if (error) {
+
+        console.error(error);
+
+        return;
+      }
+
+
+      data.forEach(subject => {
+
+        const option =
+          document.createElement("option");
+
+        option.value = subject.id;
+
+        option.textContent = subject.name;
+
+        select.appendChild(option);
+
+      });
+
+    }
+
+
+    /*
+      ==========================================
+      UPLOAD MATERIAL
+      ==========================================
+    */
+
+    async function uploadMaterial() {
+
+      const classId =
+        document.getElementById("classSelect").value;
+
+      const subjectId =
+        document.getElementById("subjectSelect").value;
+
+      const chapter =
+        document.getElementById("chapter").value.trim();
+
+      const title =
+        document.getElementById("title").value.trim();
+
+      const file =
+        document.getElementById("pdfFile").files[0];
+
+      const youtubeUrl =
+        document.getElementById("youtubeUrl").value.trim();
+
+      const description =
+        document.getElementById("description").value.trim();
+
+
+      const message =
+        document.getElementById("uploadMessage");
+
+
+      message.classList.remove("hidden");
+
+
+      if (!classId || !subjectId || !title) {
+
+        message.textContent =
+          "❌ Class, Subject and Title are required.";
+
+        return;
+      }
+
+
+      if (!file) {
+
+        message.textContent =
+          "❌ Please select a PDF file.";
+
+        return;
+      }
+
+
+      if (file.type !== "application/pdf") {
+
+        message.textContent =
+          "❌ Only PDF files are allowed.";
+
+        return;
+      }
+
+
+      if (file.size > 50 * 1024 * 1024) {
+
+        message.textContent =
+          "❌ PDF must be smaller than 50 MB.";
+
+        return;
+      }
+
+
+      message.textContent =
+        "⏳ Uploading PDF...";
+
+
+      const safeName =
+        file.name
+          .replace(/[^a-zA-Z0-9._-]/g, "_");
+
+
+      const filePath =
+        Date.now() + "_" + safeName;
+
+
+      const { error: uploadError } =
+        await supabaseClient
+          .storage
+          .from("study-material")
+          .upload(filePath, file);
+
+
+      if (uploadError) {
+
+        message.textContent =
+          "❌ Upload failed: " +
+          uploadError.message;
+
+        return;
+      }
+
+
+      message.textContent =
+        "⏳ Saving material...";
+
+
+      const { error: dbError } =
+        await supabaseClient
+          .from("materials")
+          .insert({
+
+            class_id: classId,
+
+            subject_id: subjectId,
+
+            title: title,
+
+            chapter: chapter,
+
+            material_type: "PDF",
+
+            file_url: filePath,
+
+            youtube_url: youtubeUrl || null,
+
+            description: description || null
+
+          });
+
+
+      if (dbError) {
+
+        message.textContent =
+          "❌ Database error: " +
+          dbError.message;
+
+        return;
+      }
+
+
+      message.textContent =
+        "✅ Material published successfully!";
+
+
+      document
+        .getElementById("chapter")
+        .value = "";
+
+      document
+        .getElementById("title")
+        .value = "";
+
+      document
+        .getElementById("pdfFile")
+        .value = "";
+
+      document
+        .getElementById("youtubeUrl")
+        .value = "";
+
+      document
+        .getElementById("description")
+        .value = "";
+
+
+      await loadMaterials();
+
+    }
+
+
+    /*
+      ==========================================
+      LOAD EXISTING MATERIALS
+      ==========================================
+    */
+
+    async function loadMaterials() {
+
+      const list =
+        document.getElementById("materialsList");
+
+
+      const { data, error } =
+        await supabaseClient
+          .from("materials")
+          .select(`
+            id,
+            title,
+            chapter,
+            created_at,
+            classes(name),
+            subjects(name)
+          `)
+          .order("created_at", {
+            ascending: false
+          });
+
+
+      if (error) {
+
+        list.textContent =
+          "Unable to load materials.";
+
+        console.error(error);
+
+        return;
+      }
+
+
+      if (!data.length) {
+
+        list.innerHTML =
+          '<p class="small">No materials uploaded yet.</p>';
+
+        return;
+      }
+
+
+      list.innerHTML = "";
+
+
+      data.forEach(material => {
+
+        const box =
+          document.createElement("div");
+
+        box.className =
+          "material-box";
+
+
+        box.innerHTML = `
+
+          <strong>
+            ${escapeHtml(material.title)}
+          </strong>
+
+          <div class="small">
+            ${escapeHtml(material.classes?.name || "")}
+            →
+            ${escapeHtml(material.subjects?.name || "")}
+          </div>
+
+          <div class="small">
+            ${escapeHtml(material.chapter || "")}
+          </div>
+
+        `;
+
+
+        list.appendChild(box);
+
+      });
+
+    }
+
+
+    /*
+      ==========================================
+      SIMPLE HTML ESCAPE
+      ==========================================
+    */
+
+    function escapeHtml(value) {
+
+      return String(value || "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+
+    }
+
+
+    /*
+      START
+    */
+
+    checkLogin();
+
+  </script>
+
+</body>
+</html>
