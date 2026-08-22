@@ -556,7 +556,23 @@
     </section>
 
 
+<!-- LIVE STUDY MATERIALS -->
 
+<section id="live-materials" class="section">
+
+  <div class="heading">
+    <span>03</span>
+    <div>
+      <small>LIVE FROM EDUCATION POINT</small>
+      <h2>📚 Latest Study Materials</h2>
+    </div>
+  </div>
+
+  <div id="liveMaterials">
+    <p>⏳ Loading study materials...</p>
+  </div>
+
+</section>
     <!-- YOUTUBE -->
 
     <section id="youtube" class="youtube-banner">
@@ -677,7 +693,197 @@
 
   <!-- SCRIPT -->
 
-  <script src="script.js"></script>
+<!-- Supabase -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script src="script.js"></script>
+
+<script>
+
+  const SUPABASE_URL = "https://zpvqgrqgxckzxkoygeqo.supabase.co";
+  const SUPABASE_KEY = "sb_publishable_Fm2B3h3_qyVMKcGc_CABcA_FU0ptpud";
+
+  const supabaseClient = window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
+
+
+  async function loadLiveMaterials() {
+
+    const container =
+      document.getElementById("liveMaterials");
+
+    const { data, error } =
+      await supabaseClient
+        .from("materials")
+        .select(`
+          id,
+          title,
+          chapter,
+          material_type,
+          file_url,
+          youtube_url,
+          description,
+          created_at,
+          classes(name),
+          subjects(name)
+        `)
+        .order("created_at", {
+          ascending: false
+        });
+
+
+    if (error) {
+
+      console.error(error);
+
+      container.innerHTML =
+        "<p>❌ Materials load nahi ho pa rahe.</p>";
+
+      return;
+    }
+
+
+    if (!data || data.length === 0) {
+
+      container.innerHTML =
+        "<p>📚 Abhi study material available nahi hai.</p>";
+
+      return;
+    }
+
+
+    container.innerHTML = "";
+
+
+    for (const material of data) {
+
+      let pdfLink = "#";
+
+
+      // Create secure PDF link
+      if (material.file_url) {
+
+        const { data: signedData, error: signedError } =
+          await supabaseClient
+            .storage
+            .from("study-material")
+            .createSignedUrl(
+              material.file_url,
+              3600
+            );
+
+
+        if (!signedError && signedData) {
+
+          pdfLink = signedData.signedUrl;
+
+        }
+
+      }
+
+
+      const card =
+        document.createElement("div");
+
+      card.style.cssText = `
+        background:white;
+        padding:20px;
+        margin:15px 0;
+        border-radius:15px;
+        box-shadow:0 5px 20px rgba(0,0,0,.08);
+      `;
+
+
+      card.innerHTML = `
+
+        <div style="font-size:13px;color:#667085;">
+          Class ${escapeMaterial(material.classes?.name)}
+          →
+          ${escapeMaterial(material.subjects?.name)}
+        </div>
+
+        <h3 style="margin:8px 0;">
+          📄 ${escapeMaterial(material.title)}
+        </h3>
+
+        <div style="color:#667085;margin-bottom:10px;">
+          ${escapeMaterial(material.chapter || "")}
+        </div>
+
+        ${
+          material.description
+          ? `<p>${escapeMaterial(material.description)}</p>`
+          : ""
+        }
+
+        <a
+          href="${pdfLink}"
+          target="_blank"
+          rel="noopener"
+          style="
+            display:inline-block;
+            padding:10px 16px;
+            background:#2563eb;
+            color:white;
+            text-decoration:none;
+            border-radius:9px;
+            font-weight:bold;
+          "
+        >
+          📥 View / Download PDF
+        </a>
+
+        ${
+          material.youtube_url
+          ? `
+          <a
+            href="${escapeMaterial(material.youtube_url)}"
+            target="_blank"
+            rel="noopener"
+            style="
+              display:inline-block;
+              padding:10px 16px;
+              margin-left:8px;
+              background:#dc2626;
+              color:white;
+              text-decoration:none;
+              border-radius:9px;
+              font-weight:bold;
+            "
+          >
+            ▶ Watch Video
+          </a>
+          `
+          : ""
+        }
+
+      `;
+
+
+      container.appendChild(card);
+
+    }
+
+  }
+
+
+  function escapeMaterial(value) {
+
+    return String(value || "")
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+
+  }
+
+
+  loadLiveMaterials();
+
+</script>
 
 </body>
 </html>
