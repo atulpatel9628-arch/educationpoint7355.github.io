@@ -1123,6 +1123,119 @@
 
 </section>
 </script>
+  async function showSubjectMaterials(className, subjectName) {
 
+  const section = document.getElementById("subjectMaterials");
+  const title = document.getElementById("selectedSubject");
+  const classTitle = document.getElementById("selectedClass");
+  const list = document.getElementById("subjectMaterialsList");
+
+  if (!section || !title || !classTitle || !list) {
+    console.error("Materials section not found");
+    return;
+  }
+
+  section.style.display = "block";
+
+  classTitle.textContent = className.toUpperCase();
+  title.textContent = subjectName;
+
+  list.innerHTML = "<p>⏳ Loading materials...</p>";
+
+  const { data, error } = await supabaseClient
+    .from("materials")
+    .select("*")
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    console.error("Materials error:", error);
+
+    list.innerHTML = `
+      <div class="material-box">
+        <h3>❌ Materials load nahi ho pa rahe</h3>
+        <p>Please try again.</p>
+      </div>
+    `;
+
+    return;
+  }
+
+  if (!data || data.length === 0) {
+
+    list.innerHTML = `
+      <div class="material-box">
+        <h3>📚 No Materials</h3>
+        <p>
+          ${className} → ${subjectName} ke liye
+          abhi material upload nahi hua hai.
+        </p>
+      </div>
+    `;
+
+    return;
+  }
+
+  list.innerHTML = "";
+
+  data.forEach(material => {
+
+    const card = document.createElement("div");
+
+    card.className = "material-box";
+
+    card.innerHTML = `
+      <h3>📄 ${material.title || "Study Material"}</h3>
+
+      ${
+        material.chapter
+          ? `<p>📖 ${material.chapter}</p>`
+          : ""
+      }
+
+      ${
+        material.description
+          ? `<p>${material.description}</p>`
+          : ""
+      }
+
+      ${
+        material.file_url
+          ? `
+            <a
+              href="${material.file_url}"
+              target="_blank"
+              rel="noopener"
+            >
+              📥 View / Download PDF
+            </a>
+          `
+          : ""
+      }
+
+      ${
+        material.youtube_url
+          ? `
+            <a
+              href="${material.youtube_url}"
+              target="_blank"
+              rel="noopener"
+            >
+              ▶ Watch Video
+            </a>
+          `
+          : ""
+      }
+    `;
+
+    list.appendChild(card);
+
+  });
+
+  section.scrollIntoView({
+    behavior: "smooth"
+  });
+
+}
+<script src="script.js"></script>
 </body>
 </html>
