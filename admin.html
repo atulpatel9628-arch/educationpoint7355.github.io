@@ -586,8 +586,488 @@ async function logout() {
    ========================================= */
 
 checkLogin();
+loadClasses();
+loadAdminMaterials();
+ /* =========================================
+   LOAD ADMIN MATERIALS
+========================================= */
 
+async function loadAdminMaterials() {
+
+  const container =
+    document.getElementById("adminMaterialsList");
+
+  if (!container) return;
+
+  container.innerHTML = `
+    <p style="color:#64748b;">
+      ⏳ Loading materials...
+    </p>
+  `;
+
+
+  const { data, error } =
+    await supabaseClient
+      .from("materials")
+      .select(`
+        id,
+        title,
+        chapter,
+        material_type,
+        file_url,
+        created_at,
+        classes(name),
+        subjects(name)
+      `)
+      .order("created_at", {
+        ascending: false
+      });
+
+
+  if (error) {
+
+    console.error(error);
+
+    container.innerHTML = `
+      <div style="
+        padding:15px;
+        border-radius:10px;
+        background:#fee2e2;
+        color:#991b1b;
+      ">
+        ❌ Materials load nahi ho pa rahe.
+        <br>
+        ${escapeAdminText(error.message)}
+      </div>
+    `;
+
+    return;
+  }
+
+
+  if (!data || data.length === 0) {
+
+    container.innerHTML = `
+      <div style="
+        padding:25px;
+        text-align:center;
+        color:#64748b;
+      ">
+        📚 Abhi koi uploaded material nahi hai.
+      </div>
+    `;
+
+    return;
+  }
+
+
+  container.innerHTML = "";
+
+
+  data.forEach(material => {
+
+    const card =
+      document.createElement("div");
+
+    card.style.cssText = `
+      border:1px solid #e5e7eb;
+      border-radius:15px;
+      padding:18px;
+      margin-bottom:14px;
+      background:#fff;
+    `;
+
+
+    const className =
+      material.classes?.name || "Unknown Class";
+
+    const subjectName =
+      material.subjects?.name || "Unknown Subject";
+
+
+    card.innerHTML = `
+
+      <div style="
+        display:flex;
+        justify-content:space-between;
+        gap:15px;
+        flex-wrap:wrap;
+      ">
+
+        <div style="min-width:0;">
+
+          <div style="
+            font-size:12px;
+            color:#2563eb;
+            font-weight:bold;
+            margin-bottom:6px;
+          ">
+            ${escapeAdminText(className)}
+            →
+            ${escapeAdminText(subjectName)}
+          </div>
+
+
+          <h3 style="
+            margin:5px 0;
+            color:#111827;
+          ">
+            📄
+            ${escapeAdminText(
+              material.title || "Untitled PDF"
+            )}
+          </h3>
+
+
+          <p style="
+            margin:5px 0;
+            color:#64748b;
+            font-size:14px;
+          ">
+            📖
+            ${escapeAdminText(
+              material.chapter || "No chapter"
+            )}
+          </p>
+
+        </div>
+
+
+        <div style="
+          display:flex;
+          gap:8px;
+          flex-wrap:wrap;
+          align-items:center;
+        ">
+
+          ${
+            material.file_url
+            ? `
+              <a
+                href="${escapeAdminText(
+                  material.file_url
+                )}"
+                target="_blank"
+                rel="noopener"
+                style="
+                  text-decoration:none;
+                  background:#2563eb;
+                  color:white;
+                  padding:9px 13px;
+                  border-radius:8px;
+                  font-weight:bold;
+                  font-size:13px;
+                "
+              >
+                📄 Open
+              </a>
+            `
+            : ""
+          }
+
+
+          <button
+            type="button"
+            onclick="editMaterial('${material.id}')"
+            style="
+              width:auto;
+              margin:0;
+              padding:9px 13px;
+              background:#f59e0b;
+              border-radius:8px;
+              font-size:13px;
+            "
+          >
+            ✏️ Edit
+          </button>
+
+
+          <button
+            type="button"
+            onclick="deleteMaterial('${material.id}')"
+            style="
+              width:auto;
+              margin:0;
+              padding:9px 13px;
+              background:#dc2626;
+              border-radius:8px;
+              font-size:13px;
+            "
+          >
+            🗑️ Delete
+          </button>
+
+        </div>
+
+      </div>
+
+    `;
+
+
+    container.appendChild(card);
+
+  });
+
+}
+
+
+/* =========================================
+   ESCAPE ADMIN TEXT
+========================================= */
+
+function escapeAdminText(value) {
+
+  return String(value || "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+
+}
+
+
+/* =========================================
+   EDIT MATERIAL
+========================================= */
+
+async function editMaterial(id) {
+
+  const newTitle =
+    prompt(
+      "New material title:"
+    );
+
+  if (newTitle === null) {
+    return;
+  }
+
+
+  const title =
+    newTitle.trim();
+
+
+  if (!title) {
+
+    alert(
+      "Title empty nahi ho sakta."
+    );
+
+    return;
+  }
+
+
+  const newChapter =
+    prompt(
+      "New chapter name:"
+    );
+
+  if (newChapter === null) {
+    return;
+  }
+
+
+  const chapter =
+    newChapter.trim();
+
+
+  const { error } =
+    await supabaseClient
+      .from("materials")
+      .update({
+        title: title,
+        chapter: chapter
+      })
+      .eq("id", id);
+
+
+  if (error) {
+
+    console.error(error);
+
+    alert(
+      "❌ Edit failed: " +
+      error.message
+    );
+
+    return;
+  }
+
+
+  alert(
+    "✅ Material updated successfully!"
+  );
+
+
+  loadAdminMaterials();
+
+}
+
+
+/* =========================================
+   DELETE MATERIAL
+========================================= */
+
+async function deleteMaterial(id) {
+
+  const confirmDelete =
+    confirm(
+      "⚠️ Kya tum is material ko delete karna chahte ho?"
+    );
+
+
+  if (!confirmDelete) {
+    return;
+  }
+
+
+  /*
+   * First get the file URL.
+   */
+
+  const { data: material, error: fetchError } =
+    await supabaseClient
+      .from("materials")
+      .select("id, file_url")
+      .eq("id", id)
+      .single();
+
+
+  if (fetchError) {
+
+    alert(
+      "❌ Material find nahi hua: " +
+      fetchError.message
+    );
+
+    return;
+  }
+
+
+  /*
+   * Delete database record.
+   */
+
+  const { error: deleteError } =
+    await supabaseClient
+      .from("materials")
+      .delete()
+      .eq("id", id);
+
+
+  if (deleteError) {
+
+    alert(
+      "❌ Delete failed: " +
+      deleteError.message
+    );
+
+    return;
+  }
+
+
+  /*
+   * Delete PDF from Storage.
+   */
+
+  if (material.file_url) {
+
+    try {
+
+      const marker =
+        "/storage/v1/object/public/study-material/";
+
+      const index =
+        material.file_url.indexOf(marker);
+
+
+      if (index !== -1) {
+
+        const filePath =
+          decodeURIComponent(
+            material.file_url.substring(
+              index + marker.length
+            )
+          );
+
+
+        await supabaseClient
+          .storage
+          .from("study-material")
+          .remove([filePath]);
+
+      }
+
+    } catch (storageError) {
+
+      console.error(
+        "Storage delete error:",
+        storageError
+      );
+
+    }
+
+  }
+
+
+  alert(
+    "✅ Material deleted successfully!"
+  );
+
+
+  loadAdminMaterials();
+
+} 
 </script>
 
 </body>
 </html>
+<!-- =========================================
+     MANAGE UPLOADED MATERIALS
+========================================= -->
+
+<div class="card" style="margin-top:25px;">
+
+  <div style="
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:15px;
+    margin-bottom:20px;
+    flex-wrap:wrap;
+  ">
+
+    <div>
+      <h2 style="margin-bottom:5px;">
+        📚 Manage Uploaded PDFs
+      </h2>
+
+      <p style="color:#64748b;font-size:14px;">
+        Edit, open or delete your uploaded study materials.
+      </p>
+    </div>
+
+    <button
+      type="button"
+      onclick="loadAdminMaterials()"
+      style="
+        width:auto;
+        margin:0;
+        padding:10px 16px;
+      "
+    >
+      🔄 Refresh
+    </button>
+
+  </div>
+
+
+  <div id="adminMaterialsList">
+
+    <p style="color:#64748b;">
+      ⏳ Loading materials...
+    </p>
+
+  </div>
+
+</div>
