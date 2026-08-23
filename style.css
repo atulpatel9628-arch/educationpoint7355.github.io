@@ -459,3 +459,70 @@ footer p {
   }
 
 }
+/* =========================================
+   CLASS CARD FIX
+   ========================================= */
+
+.class-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 24px;
+}
+
+.class-card {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+
+  min-height: 170px;
+  padding: 24px;
+
+  overflow: hidden;
+}
+
+.class-card .number {
+  flex: 0 0 66px;
+
+  width: 66px;
+  height: 66px;
+
+  margin-bottom: 0;
+
+  font-size: 22px;
+}
+
+.class-card h3 {
+  font-size: 20px;
+  margin-bottom: 5px;
+  white-space: nowrap;
+}
+
+.class-card p {
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+/* Remove unwanted clipping */
+.class-card > div {
+  min-width: 0;
+}
+
+/* =========================================
+   MOBILE CLASS CARDS
+   ========================================= */
+
+@media (max-width: 900px) {
+  .class-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 600px) {
+  .class-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .class-card {
+    min-height: 150px;
+  }
+}
