@@ -300,63 +300,154 @@
 
 
 
-    <!-- CLASS 10 SUBJECTS -->
+<!-- CLASS 10 SUBJECTS -->
 
-    <section id="class10" class="section">
+<section id="class10" class="section">
 
-      <div class="heading">
+  <div class="heading">
 
-        <span>10</span>
+    <span>10</span>
 
-        <div>
-          <small>CLASS 10</small>
-          <h2>Choose Your Subject</h2>
-        </div>
+    <div>
+      <small>CLASS 10</small>
+      <h2>Choose Your Subject</h2>
+    </div>
 
-      </div>
-
-
-      <div class="subject-grid">
+  </div>
 
 
-        <div>
-          📐
-          <strong>Mathematics</strong>
-          <small>Notes • PDFs • Questions</small>
-        </div>
+  <div class="subject-grid">
 
 
-        <div>
-          🔬
-          <strong>Science</strong>
-          <small>Notes • PDFs • Questions</small>
-        </div>
+    <!-- MATHEMATICS -->
+
+    <div
+      class="subject-card"
+      onclick="showSubjectMaterials('Class 10', 'Mathematics')"
+    >
+
+      <div class="subject-icon">📐</div>
+
+      <strong>Mathematics</strong>
+
+      <small>
+        Notes • PDFs • Questions
+      </small>
+
+    </div>
 
 
-        <div>
-          📖
-          <strong>English</strong>
-          <small>Notes • PDFs • Questions</small>
-        </div>
+    <!-- SCIENCE -->
+
+    <div
+      class="subject-card"
+      onclick="showSubjectMaterials('Class 10', 'Science')"
+    >
+
+      <div class="subject-icon">🔬</div>
+
+      <strong>Science</strong>
+
+      <small>
+        Notes • PDFs • Questions
+      </small>
+
+    </div>
 
 
-        <div>
-          🇮🇳
-          <strong>Hindi</strong>
-          <small>Notes • PDFs • Questions</small>
-        </div>
+    <!-- ENGLISH -->
+
+    <div
+      class="subject-card"
+      onclick="showSubjectMaterials('Class 10', 'English')"
+    >
+
+      <div class="subject-icon">📖</div>
+
+      <strong>English</strong>
+
+      <small>
+        Notes • PDFs • Questions
+      </small>
+
+    </div>
 
 
-        <div>
-          🌍
-          <strong>Social Science</strong>
-          <small>Notes • PDFs • Questions</small>
-        </div>
+    <!-- HINDI -->
 
-      </div>
+    <div
+      class="subject-card"
+      onclick="showSubjectMaterials('Class 10', 'Hindi')"
+    >
 
-    </section>
+      <div class="subject-icon">🇮🇳</div>
 
+      <strong>Hindi</strong>
+
+      <small>
+        Notes • PDFs • Questions
+      </small>
+
+    </div>
+
+
+    <!-- SOCIAL SCIENCE -->
+
+    <div
+      class="subject-card"
+      onclick="showSubjectMaterials('Class 10', 'Social Science')"
+    >
+
+      <div class="subject-icon">🌍</div>
+
+      <strong>Social Science</strong>
+
+      <small>
+        Notes • PDFs • Questions
+      </small>
+
+    </div>
+
+
+  </div>
+
+</section>
+
+
+<!-- CLASS 10 MATERIALS -->
+
+<section
+  id="subjectMaterials"
+  class="section"
+  style="display:none;"
+>
+
+  <div class="heading">
+
+    <span>📚</span>
+
+    <div>
+
+      <small id="selectedClass">
+        CLASS 10
+      </small>
+
+      <h2 id="selectedSubject">
+        Study Materials
+      </h2>
+
+    </div>
+
+  </div>
+
+
+  <div id="subjectMaterialsList">
+
+    <p>⏳ Loading...</p>
+
+  </div>
+
+</section>   
 
 
     <!-- CLASS 11 SUBJECTS -->
@@ -882,7 +973,154 @@
 
 
   loadLiveMaterials();
+<!-- CLASS 10 SUBJECTS -->
 
+<section id="class10" class="section">
+
+  <div class="heading">
+
+    <span>10</span>
+
+    <div>
+      <small>CLASS 10</small>
+      <h2>Choose Your Subject</h2>
+    </div>
+
+  </div>
+
+
+  <div class="subject-grid">
+
+
+    <!-- MATHEMATICS -->
+
+    <div
+      class="subject-card"
+      onclick="showSubjectMaterials('Class 10', 'Mathematics')"
+    >
+
+      <div class="subject-icon">📐</div>
+
+      <strong>Mathematics</strong>
+
+      <small>
+        Notes • PDFs • Questions
+      </small>
+
+    </div>
+
+
+    <!-- SCIENCE -->
+
+    <div
+      class="subject-card"
+      onclick="showSubjectMaterials('Class 10', 'Science')"
+    >
+
+      <div class="subject-icon">🔬</div>
+
+      <strong>Science</strong>
+
+      <small>
+        Notes • PDFs • Questions
+      </small>
+
+    </div>
+
+
+    <!-- ENGLISH -->
+
+    <div
+      class="subject-card"
+      onclick="showSubjectMaterials('Class 10', 'English')"
+    >
+
+      <div class="subject-icon">📖</div>
+
+      <strong>English</strong>
+
+      <small>
+        Notes • PDFs • Questions
+      </small>
+
+    </div>
+
+
+    <!-- HINDI -->
+
+    <div
+      class="subject-card"
+      onclick="showSubjectMaterials('Class 10', 'Hindi')"
+    >
+
+      <div class="subject-icon">🇮🇳</div>
+
+      <strong>Hindi</strong>
+
+      <small>
+        Notes • PDFs • Questions
+      </small>
+
+    </div>
+
+
+    <!-- SOCIAL SCIENCE -->
+
+    <div
+      class="subject-card"
+      onclick="showSubjectMaterials('Class 10', 'Social Science')"
+    >
+
+      <div class="subject-icon">🌍</div>
+
+      <strong>Social Science</strong>
+
+      <small>
+        Notes • PDFs • Questions
+      </small>
+
+    </div>
+
+
+  </div>
+
+</section>
+
+
+<!-- CLASS 10 MATERIALS -->
+
+<section
+  id="subjectMaterials"
+  class="section"
+  style="display:none;"
+>
+
+  <div class="heading">
+
+    <span>📚</span>
+
+    <div>
+
+      <small id="selectedClass">
+        CLASS 10
+      </small>
+
+      <h2 id="selectedSubject">
+        Study Materials
+      </h2>
+
+    </div>
+
+  </div>
+
+
+  <div id="subjectMaterialsList">
+
+    <p>⏳ Loading...</p>
+
+  </div>
+
+</section>
 </script>
 
 </body>
