@@ -1795,7 +1795,20 @@
 
   const subjectName =
     material.subjects?.name || "";
+const materialType =
+  material.material_type || "PDF";
 
+let typeIcon = "📄";
+
+if (materialType.toLowerCase().includes("question")) {
+  typeIcon = "📝";
+} else if (materialType.toLowerCase().includes("note")) {
+  typeIcon = "📚";
+} else if (materialType.toLowerCase().includes("worksheet")) {
+  typeIcon = "📋";
+} else if (materialType.toLowerCase().includes("important")) {
+  typeIcon = "🎯";
+}
   card.innerHTML = `
 
     <div class="pdf-icon">
@@ -1803,6 +1816,10 @@
     </div>
 
     <div class="material-meta">
+    <div class="material-type-badge">
+  ${typeIcon}
+  ${escapeMaterial(materialType)}
+</div>
       🎓 ${escapeMaterial(className)}
       &nbsp; → &nbsp;
       📚 ${escapeMaterial(subjectName)}
