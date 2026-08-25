@@ -1393,3 +1393,309 @@ footer p {
     width: 100%;
   }
 }
+/* =========================================
+   ✨ ATTRACTIVE STUDY MATERIAL CARDS
+   ========================================= */
+
+.material-box {
+  position: relative;
+  overflow: hidden;
+
+  background: linear-gradient(145deg, #ffffff, #f5f8ff);
+
+  border: 1px solid rgba(37, 99, 235, 0.12);
+  border-radius: 24px;
+
+  padding: 25px;
+
+  box-shadow:
+    0 10px 30px rgba(15, 23, 42, 0.07);
+
+  transition:
+    transform 0.35s ease,
+    box-shadow 0.35s ease,
+    border-color 0.35s ease;
+}
+
+/* Animated background glow */
+.material-box::before {
+  content: "";
+
+  position: absolute;
+
+  width: 150px;
+  height: 150px;
+
+  right: -70px;
+  top: -70px;
+
+  border-radius: 50%;
+
+  background: rgba(37, 99, 235, 0.10);
+
+  transition:
+    transform 0.5s ease,
+    background 0.5s ease;
+}
+
+/* Second glow */
+.material-box::after {
+  content: "";
+
+  position: absolute;
+
+  width: 90px;
+  height: 90px;
+
+  left: -45px;
+  bottom: -45px;
+
+  border-radius: 50%;
+
+  background: rgba(124, 58, 237, 0.07);
+
+  transition: transform 0.5s ease;
+}
+
+.material-box:hover {
+  transform: translateY(-8px);
+
+  border-color: rgba(37, 99, 235, 0.30);
+
+  box-shadow:
+    0 20px 45px rgba(37, 99, 235, 0.14);
+}
+
+.material-box:hover::before {
+  transform: scale(1.7);
+  background: rgba(37, 99, 235, 0.14);
+}
+
+.material-box:hover::after {
+  transform: scale(1.5);
+}
+
+
+/* Keep content above decoration */
+
+.material-box > * {
+  position: relative;
+  z-index: 2;
+}
+
+
+/* Class → Subject line */
+
+.material-box .material-meta {
+  display: inline-flex;
+
+  align-items: center;
+
+  padding: 6px 11px;
+
+  margin-bottom: 10px;
+
+  border-radius: 999px;
+
+  background: #eef4ff;
+
+  color: #2563eb;
+
+  font-size: 12px;
+
+  font-weight: 700;
+}
+
+
+/* Material title */
+
+.material-box h3 {
+  margin: 8px 0 10px;
+
+  color: #14213d;
+
+  font-size: 21px;
+
+  font-weight: 800;
+
+  line-height: 1.35;
+}
+
+
+/* Chapter */
+
+.material-box .material-chapter {
+  display: flex;
+
+  align-items: center;
+
+  gap: 7px;
+
+  margin-bottom: 10px;
+
+  color: #667085;
+
+  font-size: 14px;
+}
+
+
+/* Description */
+
+.material-box p {
+  color: #667085;
+
+  line-height: 1.65;
+
+  font-size: 14px;
+}
+
+
+/* =========================================
+   BUTTONS
+   ========================================= */
+
+.material-buttons {
+  display: flex;
+
+  flex-wrap: wrap;
+
+  gap: 11px;
+
+  margin-top: 18px;
+}
+
+.material-btn {
+  position: relative;
+
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 8px;
+
+  padding: 11px 17px;
+
+  border-radius: 12px;
+
+  text-decoration: none;
+
+  color: white;
+
+  background: linear-gradient(
+    135deg,
+    #2563eb,
+    #4f46e5
+  );
+
+  font-size: 14px;
+
+  font-weight: 700;
+
+  box-shadow:
+    0 7px 18px rgba(37, 99, 235, 0.22);
+
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.material-btn:hover {
+  transform: translateY(-3px);
+
+  box-shadow:
+    0 12px 25px rgba(37, 99, 235, 0.30);
+}
+
+
+/* PDF button */
+
+.material-btn.pdf-btn {
+  background: linear-gradient(
+    135deg,
+    #2563eb,
+    #7c3aed
+  );
+}
+
+
+/* YouTube button */
+
+.material-btn.video-btn {
+  background: linear-gradient(
+    135deg,
+    #dc2626,
+    #ef4444
+  );
+
+  box-shadow:
+    0 7px 18px rgba(220, 38, 38, 0.20);
+}
+
+.material-btn.video-btn:hover {
+  box-shadow:
+    0 12px 25px rgba(220, 38, 38, 0.28);
+}
+
+
+/* =========================================
+   PDF ICON ANIMATION
+   ========================================= */
+
+.pdf-icon {
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  width: 46px;
+  height: 46px;
+
+  margin-bottom: 7px;
+
+  border-radius: 14px;
+
+  background: linear-gradient(
+    135deg,
+    #eff6ff,
+    #ede9fe
+  );
+
+  font-size: 25px;
+
+  transition:
+    transform 0.35s ease;
+}
+
+.material-box:hover .pdf-icon {
+  transform:
+    rotate(-7deg)
+    scale(1.12);
+}
+
+
+/* =========================================
+   MOBILE
+   ========================================= */
+
+@media (max-width: 600px) {
+
+  .material-box {
+    padding: 20px;
+
+    border-radius: 20px;
+  }
+
+  .material-box h3 {
+    font-size: 18px;
+  }
+
+  .material-buttons {
+    flex-direction: column;
+  }
+
+  .material-btn {
+    width: 100%;
+  }
+
+}
