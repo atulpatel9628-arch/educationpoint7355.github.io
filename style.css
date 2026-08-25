@@ -1739,3 +1739,64 @@ footer p {
   box-shadow:
     0 6px 16px rgba(79, 70, 229, 0.15);
 }
+/* =========================================
+   📱 MOBILE MATERIAL CARD POLISH
+   ========================================= */
+
+@media (max-width: 600px) {
+
+  #subjectMaterialsList {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .material-box {
+    width: 100%;
+    padding: 20px 17px;
+    border-radius: 20px;
+
+    /* Prevent horizontal overflow */
+    overflow: hidden;
+    word-break: break-word;
+  }
+
+  .material-box h3 {
+    font-size: 18px;
+    line-height: 1.4;
+  }
+
+  .material-meta {
+    max-width: 100%;
+    flex-wrap: wrap;
+    line-height: 1.5;
+  }
+
+  .material-type-badge {
+    font-size: 11px;
+    padding: 6px 10px;
+  }
+
+  .material-chapter {
+    max-width: 100%;
+    line-height: 1.5;
+  }
+
+  .material-buttons {
+    width: 100%;
+    flex-direction: column;
+    gap: 9px;
+  }
+
+  .material-btn {
+    width: 100%;
+    min-height: 45px;
+    padding: 11px 14px;
+  }
+
+  .pdf-icon {
+    width: 44px;
+    height: 44px;
+    font-size: 23px;
+  }
+
+}
