@@ -1917,217 +1917,110 @@
        SHOW SUBJECT MATERIALS
     ============================== */
 
-    async function showSubjectMaterials(
-      className,
-      subjectName
-    ) {
+  async function showSubjectMaterials(className, subjectName) {
+
+  const section = document.getElementById("subjectMaterials");
+  const title = document.getElementById("selectedSubject");
+  const classTitle = document.getElementById("selectedClass");
+  const list = document.getElementById("subjectMaterialsList");
+
+  if (!section || !title || !classTitle || !list) {
+    console.error("Subject materials section missing.");
+    return;
+  }
+
+  // Show materials section
+  section.style.display = "block";
+
+  // Set heading
+  classTitle.textContent = className.toUpperCase();
+  title.textContent = subjectName;
+
+  // Loading message
+  list.innerHTML = `
+    <div class="material-box">
+      <h3>⏳ Loading...</h3>
+      <p>
+        ${escapeMaterial(className)} →
+        ${escapeMaterial(subjectName)}
+      </p>
+    </div>
+  `;
+
+  // Scroll to materials section
+  section.scrollIntoView({
+    behavior: "smooth",
+    block: "start"
+  });
+
+  // Get materials from Supabase
+  const { data, error } = await supabaseClient
+    .from("materials")
+    .select(`
+      id,
+      title,
+      chapter,
+      material_type,
+      file_url,
+      youtube_url,
+      description,
+      created_at,
+      classes!inner(name),
+      subjects!inner(name)
+    `)
+    .eq("classes.name", className)
+    .eq("subjects.name", subjectName)
+    .order("created_at", {
+      ascending: false
+    });
+
+  // Error
+  if (error) {
+
+    console.error("Subject materials error:", error);
+
+    list.innerHTML = `
+      <div class="material-box">
+        <h3>❌ Materials load nahi ho pa rahe</h3>
+        <p>Please try again later.</p>
+      </div>
+    `;
+
+    return;
+  }
+
+  // No materials
+  if (!data || data.length === 0) {
+
+    list.innerHTML = `
+      <div class="material-box">
+        <h3>📚 No Materials Available</h3>
+
+        <p>
+          ${escapeMaterial(className)}
+          →
+          ${escapeMaterial(subjectName)}
+          ke liye abhi material upload nahi hua hai.
+        </p>
+      </div>
+    `;
+
+    return;
+  }
+
+  // Clear loading
+  list.innerHTML = "";
+
+  // Show every material
+  data.forEach(material => {
+
+    const card = createMaterialCard(material);
+
+    list.appendChild(card);
+
+  });
 
-      const section =
-        document.getElementById(
-          "subjectMaterials"
-        );
-
-
-      const title =
-        document.getElementById(
-          "selectedSubject"
-        );
-
-
-      const classTitle =
-        document.getElementById(
-          "selectedClass"
-        );
-
-
-      const list =
-        document.getElementById(
-          "subjectMaterialsList"
-        );
-
-
-      if (
-        !section ||
-        !title ||
-        !classTitle ||
-        !list
-      ) {
-
-        console.error(
-          "Subject materials section missing."
-        );
-
-        return;
-
-      }
-
-
-      section.style.display =
-        "block";
-
-
-      classTitle.textContent =
-        className.toUpperCase();
-
-
-      title.textContent =
-        subjectName;
-
-
-      list.innerHTML = `
-        <div class="material-box">
-          <p>
-            ⏳ Loading ${escapeMaterial(
-              subjectName
-            )} materials...
-          </p>
-        </div>
-      `;
-
-
-      section.scrollIntoView({
-        behavior: "smooth",
-        block: "start"
-      });
-
-
-
-      /*
-       * !inner is important.
-       *
-       * It tells Supabase to return only
-       * materials whose class and subject
-       * actually match.
-       */
-
-      const { data, error } =
-        await supabaseClient
-
-          .from("materials")
-
-          .select(`
-            id,
-            title,
-            chapter,
-            material_type,
-            file_url,
-            youtube_url,
-            description,
-            created_at,
-            classes!inner(name),
-            subjects!inner(name)
-          `)
-
-          .eq(
-            "classes.name",
-            className
-          )
-
-          .eq(
-            "subjects.name",
-            subjectName
-          )
-
-          .order(
-            "created_at",
-            {
-              ascending: false
-            }
-          );
-
-
-      if (error) {
-
-        console.error(
-          "Subject materials error:",
-          error
-        );
-
-
-        list.innerHTML = `
-
-          <div class="material-box">
-
-            <h3>
-              ❌ Materials load nahi ho pa rahe
-            </h3>
-
-            <p>
-              Supabase query error.
-            </p>
-
-          </div>
-
-        `;
-
-        return;
-
-      }
-
-
-
-      if (
-        !data ||
-        data.length === 0
-      ) {
-
-        list.innerHTML = `
-
-          <div class="material-box">
-
-            <h3>
-              📚 No Materials Available
-            </h3>
-
-            <p>
-
-              ${escapeMaterial(
-                className
-              )}
-
-              →
-
-              ${escapeMaterial(
-                subjectName
-              )}
-
-              ke liye abhi material
-              upload nahi hua hai.
-
-            </p>
-
-          </div>
-
-        `;
-
-        return;
-
-      }
-
-
-
-      list.innerHTML = "";
-
-
-
-      for (
-        const material of data
-      ) {
-
-        const card =
-          createMaterialCard(
-            material
-          );
-
-
-        list.appendChild(
-          card
-        );
-
-      }
-
-    }
-
+}
 
 
     /* ==============================
