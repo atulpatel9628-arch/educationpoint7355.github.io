@@ -1786,131 +1786,95 @@
 
     function createMaterialCard(material) {
 
-      const card =
-        document.createElement(
-          "div"
-        );
+  const card = document.createElement("div");
 
+  card.className = "material-box";
 
-      card.className =
-        "material-box";
+  const className =
+    material.classes?.name || "";
 
+  const subjectName =
+    material.subjects?.name || "";
 
-      const className =
-        material.classes?.name || "";
+  card.innerHTML = `
 
+    <div class="pdf-icon">
+      📄
+    </div>
 
-      const subjectName =
-        material.subjects?.name || "";
+    <div class="material-meta">
+      🎓 ${escapeMaterial(className)}
+      &nbsp; → &nbsp;
+      📚 ${escapeMaterial(subjectName)}
+    </div>
 
+    <h3>
+      ${escapeMaterial(
+        material.title || "Study Material"
+      )}
+    </h3>
 
-      card.innerHTML = `
-
-        <div
-          style="
-            font-size:13px;
-            color:#667085;
-          "
-        >
-
-          ${escapeMaterial(className)}
-
-          →
-
-          ${escapeMaterial(subjectName)}
-
+    ${
+      material.chapter
+      ? `
+        <div class="material-chapter">
+          📖
+          <span>
+            ${escapeMaterial(material.chapter)}
+          </span>
         </div>
-
-
-        <h3>
-
-          📄
-          ${escapeMaterial(
-            material.title ||
-            "Study Material"
-          )}
-
-        </h3>
-
-
-        ${
-          material.chapter
-          ? `
-            <div
-              style="
-                color:#667085;
-                margin-bottom:10px;
-              "
-            >
-              📖
-              ${escapeMaterial(
-                material.chapter
-              )}
-            </div>
-          `
-          : ""
-        }
-
-
-        ${
-          material.description
-          ? `
-            <p>
-              ${escapeMaterial(
-                material.description
-              )}
-            </p>
-          `
-          : ""
-        }
-
-
-        <div class="material-buttons">
-
-          ${
-            material.file_url
-            ? `
-              <a
-                class="material-btn"
-                href="${escapeMaterial(
-                  material.file_url
-                )}"
-                target="_blank"
-                rel="noopener"
-              >
-                📥 View / Download PDF
-              </a>
-            `
-            : ""
-          }
-
-
-          ${
-            material.youtube_url
-            ? `
-              <a
-                class="material-btn video-btn"
-                href="${escapeMaterial(
-                  material.youtube_url
-                )}"
-                target="_blank"
-                rel="noopener"
-              >
-                ▶ Watch Video
-              </a>
-            `
-            : ""
-          }
-
-        </div>
-
-      `;
-
-
-      return card;
-
+      `
+      : ""
     }
 
+    ${
+      material.description
+      ? `
+        <p>
+          ${escapeMaterial(material.description)}
+        </p>
+      `
+      : ""
+    }
+
+    <div class="material-buttons">
+
+      ${
+        material.file_url
+        ? `
+          <a
+            class="material-btn pdf-btn"
+            href="${escapeMaterial(material.file_url)}"
+            target="_blank"
+            rel="noopener"
+          >
+            📥 Open / Download PDF
+          </a>
+        `
+        : ""
+      }
+
+      ${
+        material.youtube_url
+        ? `
+          <a
+            class="material-btn video-btn"
+            href="${escapeMaterial(material.youtube_url)}"
+            target="_blank"
+            rel="noopener"
+          >
+            ▶ Watch Video
+          </a>
+        `
+        : ""
+      }
+
+    </div>
+
+  `;
+
+  return card;
+}
 
 
     /* ==============================
