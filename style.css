@@ -2669,3 +2669,372 @@ footer {
   }
 
 }
+/* =========================================
+   ✨ EDUCATION POINT - HERO UPGRADE
+========================================= */
+
+.hero {
+  position: relative;
+  isolation: isolate;
+}
+
+/* Soft animated background glow */
+
+.hero::before {
+  content: "";
+  position: absolute;
+
+  width: 380px;
+  height: 380px;
+
+  top: -150px;
+  left: -120px;
+
+  border-radius: 50%;
+
+  background: rgba(91, 108, 255, 0.12);
+
+  filter: blur(10px);
+
+  animation: heroGlow 6s ease-in-out infinite;
+
+  z-index: -1;
+}
+
+.hero::after {
+  content: "";
+  position: absolute;
+
+  width: 350px;
+  height: 350px;
+
+  right: -120px;
+  bottom: -150px;
+
+  border-radius: 50%;
+
+  background: rgba(236, 72, 153, 0.10);
+
+  filter: blur(12px);
+
+  animation: heroGlow2 7s ease-in-out infinite;
+
+  z-index: -1;
+}
+
+@keyframes heroGlow {
+
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+
+  50% {
+    transform: translate(40px, 25px) scale(1.12);
+  }
+
+}
+
+@keyframes heroGlow2 {
+
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+
+  50% {
+    transform: translate(-35px, -25px) scale(1.1);
+  }
+
+}
+
+
+/* =========================================
+   HERO TEXT
+========================================= */
+
+.hero-content {
+  position: relative;
+  z-index: 5;
+}
+
+.hero h1 {
+  font-weight: 900;
+
+  letter-spacing: -2px;
+
+  line-height: 1.05;
+
+  text-shadow:
+    0 8px 30px rgba(91, 108, 255, 0.08);
+}
+
+.hero h1 span {
+  background:
+    linear-gradient(
+      90deg,
+      #5b6cff,
+      #7c3aed,
+      #ec4899
+    );
+
+  -webkit-background-clip: text;
+  background-clip: text;
+
+  -webkit-text-fill-color: transparent;
+}
+
+
+/* =========================================
+   HERO PILL
+========================================= */
+
+.hero .pill {
+  border: 1px solid rgba(91,108,255,.12);
+
+  box-shadow:
+    0 10px 30px rgba(91,108,255,.10);
+
+  animation:
+    pillFloat 3s ease-in-out infinite;
+}
+
+@keyframes pillFloat {
+
+  0%, 100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-5px);
+  }
+
+}
+
+
+/* =========================================
+   HERO BUTTONS
+========================================= */
+
+.hero-buttons .btn {
+  position: relative;
+
+  overflow: hidden;
+
+  border-radius: 15px !important;
+}
+
+.hero-buttons .btn::after {
+  content: "";
+
+  position: absolute;
+
+  top: 0;
+  left: -100%;
+
+  width: 70%;
+  height: 100%;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(255,255,255,.35),
+      transparent
+    );
+
+  transform: skewX(-20deg);
+
+  transition: .6s ease;
+}
+
+.hero-buttons .btn:hover::after {
+  left: 130%;
+}
+
+
+/* =========================================
+   HERO VISUAL
+========================================= */
+
+.hero-visual {
+  position: relative;
+}
+
+/* Main book */
+
+.hero-visual .book {
+  animation:
+    bookFloat 4s ease-in-out infinite;
+
+  filter:
+    drop-shadow(
+      0 20px 30px rgba(91,108,255,.18)
+    );
+}
+
+@keyframes bookFloat {
+
+  0%, 100% {
+    transform: translateY(0) rotate(-2deg);
+  }
+
+  50% {
+    transform: translateY(-12px) rotate(2deg);
+  }
+
+}
+
+
+/* Graduation cap */
+
+.hero-visual .cap {
+  animation:
+    capFloat 3.5s ease-in-out infinite;
+
+  animation-delay: .5s;
+}
+
+@keyframes capFloat {
+
+  0%, 100% {
+    transform: translateY(0) rotate(0);
+  }
+
+  50% {
+    transform: translateY(-10px) rotate(5deg);
+  }
+
+}
+
+
+/* =========================================
+   FLOATING CARDS
+========================================= */
+
+.float-card {
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+
+  background:
+    rgba(255,255,255,.78) !important;
+
+  border:
+    1px solid rgba(255,255,255,.8) !important;
+
+  box-shadow:
+    0 15px 35px rgba(15,23,42,.10) !important;
+
+  border-radius: 18px !important;
+
+  transition:
+    transform .3s ease,
+    box-shadow .3s ease;
+}
+
+.float-card:hover {
+  transform:
+    translateY(-8px)
+    scale(1.03);
+
+  box-shadow:
+    0 20px 45px rgba(91,108,255,.16) !important;
+}
+
+
+/* Individual floating animations */
+
+.card-one {
+  animation:
+    floatOne 4s ease-in-out infinite;
+}
+
+.card-two {
+  animation:
+    floatTwo 5s ease-in-out infinite;
+}
+
+.card-three {
+  animation:
+    floatThree 4.5s ease-in-out infinite;
+}
+
+@keyframes floatOne {
+
+  0%,100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-9px);
+  }
+
+}
+
+@keyframes floatTwo {
+
+  0%,100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(10px);
+  }
+
+}
+
+@keyframes floatThree {
+
+  0%,100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-7px);
+  }
+
+}
+
+
+/* =========================================
+   MINI STATS
+========================================= */
+
+.mini-stats > div {
+  transition:
+    transform .25s ease,
+    box-shadow .25s ease;
+}
+
+.mini-stats > div:hover {
+  transform:
+    translateY(-5px);
+
+  box-shadow:
+    0 12px 28px rgba(91,108,255,.10);
+}
+
+
+/* =========================================
+   MOBILE HERO
+========================================= */
+
+@media (max-width: 700px) {
+
+  .hero h1 {
+    letter-spacing: -1px;
+  }
+
+  .hero::before {
+    width: 250px;
+    height: 250px;
+  }
+
+  .hero::after {
+    width: 220px;
+    height: 220px;
+  }
+
+  .float-card {
+    transform: scale(.85);
+  }
+
+}
