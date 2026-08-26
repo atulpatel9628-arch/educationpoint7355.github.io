@@ -2042,7 +2042,90 @@ if (materialType.toLowerCase().includes("question")) {
       function () {
 
         loadLiveMaterials();
+       document.addEventListener(
+  "DOMContentLoaded",
+  function () {
 
+    loadLiveMaterials();
+
+    document.getElementById("materialSearch")
+      ?.addEventListener("input", filterMaterials);
+
+    document.getElementById("classFilter")
+      ?.addEventListener("change", filterMaterials);
+
+    document.getElementById("subjectFilter")
+      ?.addEventListener("change", filterMaterials);
+
+  }
+); 
+/* ==============================
+   FILTER MATERIALS
+============================== */
+
+function filterMaterials() {
+
+  const searchInput =
+    document.getElementById("materialSearch");
+
+  const classFilter =
+    document.getElementById("classFilter");
+
+  const subjectFilter =
+    document.getElementById("subjectFilter");
+
+  const search =
+    searchInput?.value.toLowerCase().trim() || "";
+
+  const selectedClass =
+    classFilter?.value || "";
+
+  const selectedSubject =
+    subjectFilter?.value || "";
+
+  const cards =
+    document.querySelectorAll(
+      "#liveMaterials .material-box"
+    );
+
+  cards.forEach(card => {
+
+    const text =
+      card.textContent.toLowerCase();
+
+    const classMatch =
+      !selectedClass ||
+      text.includes(
+        selectedClass.toLowerCase()
+      );
+
+    const subjectMatch =
+      !selectedSubject ||
+      text.includes(
+        selectedSubject.toLowerCase()
+      );
+
+    const searchMatch =
+      !search ||
+      text.includes(search);
+
+    if (
+      classMatch &&
+      subjectMatch &&
+      searchMatch
+    ) {
+
+      card.style.display = "";
+
+    } else {
+
+      card.style.display = "none";
+
+    }
+
+  });
+
+}
       }
     );
 
