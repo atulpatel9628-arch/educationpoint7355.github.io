@@ -1800,3 +1800,168 @@ footer p {
   }
 
 }
+/* =========================================
+   LIVE MATERIALS - PREMIUM CARDS
+========================================= */
+
+#liveMaterials {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 22px;
+  margin-top: 25px;
+}
+
+#liveMaterials .material-box {
+  position: relative;
+  overflow: hidden;
+
+  background: linear-gradient(
+    145deg,
+    #ffffff,
+    #f7f9ff
+  );
+
+  border: 1px solid #e5eaf5;
+  border-radius: 22px;
+
+  padding: 24px;
+
+  box-shadow:
+    0 10px 28px rgba(20, 33, 61, 0.07);
+
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease,
+    border-color 0.3s ease;
+}
+
+#liveMaterials .material-box::before {
+  content: "";
+
+  position: absolute;
+
+  width: 110px;
+  height: 110px;
+
+  right: -45px;
+  top: -45px;
+
+  border-radius: 50%;
+
+  background: rgba(37, 99, 235, 0.08);
+
+  transition: transform 0.4s ease;
+}
+
+#liveMaterials .material-box:hover {
+  transform: translateY(-8px);
+
+  border-color: #b9ccff;
+
+  box-shadow:
+    0 20px 45px rgba(37, 99, 235, 0.14);
+}
+
+#liveMaterials .material-box:hover::before {
+  transform: scale(1.5);
+}
+
+#liveMaterials .material-box h3 {
+  position: relative;
+  z-index: 1;
+
+  font-size: 20px;
+  margin: 10px 0;
+
+  color: #14213d;
+}
+
+#liveMaterials .material-buttons {
+  position: relative;
+  z-index: 2;
+
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+
+  margin-top: 18px;
+}
+
+#liveMaterials .material-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+
+  padding: 11px 16px;
+
+  border-radius: 12px;
+
+  background: #2563eb;
+  color: white;
+
+  text-decoration: none;
+
+  font-weight: 700;
+
+  transition:
+    transform 0.25s ease,
+    background 0.25s ease;
+}
+
+#liveMaterials .material-btn:hover {
+  transform: translateY(-3px);
+  background: #1d4ed8;
+}
+
+#liveMaterials .video-btn {
+  background: #dc2626;
+}
+
+#liveMaterials .video-btn:hover {
+  background: #b91c1c;
+}
+
+
+/* FILTER BOX */
+
+.material-filters {
+  display: grid;
+
+  grid-template-columns:
+    2fr 1fr 1fr;
+
+  gap: 12px;
+
+  margin-bottom: 25px;
+}
+
+.material-filters input,
+.material-filters select {
+  min-height: 48px;
+
+  border-radius: 14px;
+
+  border: 1px solid #dce3f0;
+
+  background: white;
+
+  padding: 12px 15px;
+
+  font-size: 14px;
+}
+
+
+/* MOBILE */
+
+@media (max-width: 700px) {
+
+  #liveMaterials {
+    grid-template-columns: 1fr;
+  }
+
+  .material-filters {
+    grid-template-columns: 1fr;
+  }
+
+}
