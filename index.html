@@ -1227,7 +1227,7 @@
 
         <div
           class="subject-card"
-          onclick="showSubjectMaterials('Class 12','Biology')"
+          onclick="('Class 12','Biology')"
         >
           <div class="subject-icon">
             🧬
@@ -2019,19 +2019,81 @@ if (materialType.toLowerCase().includes("question")) {
   }
 
   // Clear loading
-  list.innerHTML = "";
+ list.innerHTML = "";
 
-  // Show every material
-  data.forEach(material => {
+const chapters = {};
 
-    const card = createMaterialCard(material);
+data.forEach(material => {
 
-    list.appendChild(card);
+  const chapter =
+    material.chapter?.trim() || "Other Materials";
 
-  });
+  if (!chapters[chapter]) {
+    chapters[chapter] = [];
+  }
 
-}
+  chapters[chapter].push(material);
 
+});
+
+
+Object.entries(chapters).forEach(
+  ([chapterName, materials]) => {
+
+    const chapterBox =
+      document.createElement("div");
+
+    chapterBox.className =
+      "chapter-material-group";
+
+
+    chapterBox.innerHTML = `
+
+      <div class="chapter-heading">
+
+        <span class="chapter-icon">
+          📖
+        </span>
+
+        <div>
+
+          <small>
+            CHAPTER
+          </small>
+
+          <h3>
+            ${escapeMaterial(chapterName)}
+          </h3>
+
+        </div>
+
+      </div>
+
+      <div class="chapter-material-list"></div>
+
+    `;
+
+
+    const materialList =
+      chapterBox.querySelector(
+        ".chapter-material-list"
+      );
+
+
+    materials.forEach(material => {
+
+      const card =
+        createMaterialCard(material);
+
+      materialList.appendChild(card);
+
+    });
+
+
+    list.appendChild(chapterBox);
+
+  }
+);
 
     /* ==============================
        START
