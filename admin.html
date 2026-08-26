@@ -141,8 +141,65 @@
 </head>
 
 <body>
+  <div id="loginScreen" style="
+  display:none;
+  max-width:420px;
+  margin:80px auto;
+  background:white;
+  padding:30px;
+  border-radius:20px;
+  box-shadow:0 10px 35px rgba(0,0,0,.08);
+">
 
-<div class="container">
+  <h2>🔐 Admin Login</h2>
+
+  <p style="color:#64748b;margin:8px 0 20px;">
+    Education Point Admin Panel
+  </p>
+
+  <input
+    type="email"
+    id="loginEmail"
+    placeholder="Admin email"
+    style="
+      width:100%;
+      padding:13px;
+      margin-bottom:12px;
+      border:1px solid #d9e0eb;
+      border-radius:10px;
+    "
+  >
+
+  <input
+    type="password"
+    id="loginPassword"
+    placeholder="Password"
+    style="
+      width:100%;
+      padding:13px;
+      margin-bottom:12px;
+      border:1px solid #d9e0eb;
+      border-radius:10px;
+    "
+  >
+
+  <button
+    onclick="loginAdmin()"
+    style="margin-top:5px;"
+  >
+    🔑 Login
+  </button>
+
+  <div
+    id="loginStatus"
+    class="status"
+  ></div>
+
+</div>
+
+<div id="adminApp" style="display:none;">
+
+  <div class="container">
 
   <div class="header">
     <button class="logout" onclick="logout()">Logout</button>
@@ -249,20 +306,81 @@ const supabaseClient = window.supabase.createClient(
 
 async function checkLogin() {
 
-  const {
-    data: { user },
-    error
-  } = await supabaseClient.auth.getUser();
+  const loginScreen =
+    document.getElementById("loginScreen");
 
-  if (error || !user) {
-    window.location.href = "admin.html";
+  const adminApp =
+    document.getElementById("adminApp");
+
+  const {
+    data: { session },
+    error
+  } = await supabaseClient.auth.getSession();
+
+  if (error || !session) {
+
+    adminApp.style.display = "none";
+    loginScreen.style.display = "block";
+
     return;
   }
 
+  loginScreen.style.display = "none";
+  adminApp.style.display = "block";
+
   loadClasses();
+  loadAdminMaterials();
 }
+  async function loginAdmin() {
 
+  const email =
+    document.getElementById("loginEmail").value.trim();
 
+  const password =
+    document.getElementById("loginPassword").value;
+
+  const status =
+    document.getElementById("loginStatus");
+
+  if (!email || !password) {
+
+    status.textContent =
+      "Email aur password dono enter karo.";
+
+    status.className =
+      "status error";
+
+    return;
+  }
+
+  status.textContent = "⏳ Logging in...";
+  status.className = "status";
+
+  const { error } =
+    await supabaseClient.auth.signInWithPassword({
+      email: email,
+      password: password
+    });
+
+  if (error) {
+
+    status.textContent =
+      "❌ " + error.message;
+
+    status.className =
+      "status error";
+
+    return;
+  }
+
+  status.textContent =
+    "✅ Login successful!";
+
+  status.className =
+    "status success";
+
+  checkLogin();
+}
 /* =========================================
    LOAD CLASSES
    ========================================= */
@@ -586,8 +704,7 @@ async function logout() {
    ========================================= */
 
 checkLogin();
-loadClasses();
-loadAdminMaterials();
+
  /* =========================================
    LOAD ADMIN MATERIALS
 ========================================= */
@@ -1039,7 +1156,7 @@ async function deleteMaterial(id) {
 
     <div>
       <h2 style="margin-bottom:5px;">
-        📚 Manage Uploaded PDFs
+        📚 
       </h2>
 
       <p style="color:#64748b;font-size:14px;">
