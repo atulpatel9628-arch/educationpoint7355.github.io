@@ -1926,73 +1926,96 @@ if (materialType.toLowerCase().includes("question")) {
     /* ==============================
        SHOW SUBJECT MATERIALS
     ============================== */
+     /* ==============================
+   SHOW SUBJECT MATERIALS
+============================== */
 
-  async function showSubjectMaterials(className, subjectName) {
+async function showSubjectMaterials(className, subjectName) {
 
-  const section = document.getElementById("subjectMaterials");
-  const title = document.getElementById("selectedSubject");
-  const classTitle = document.getElementById("selectedClass");
-  const list = document.getElementById("subjectMaterialsList");
+  const section =
+    document.getElementById("subjectMaterials");
+
+  const title =
+    document.getElementById("selectedSubject");
+
+  const classTitle =
+    document.getElementById("selectedClass");
+
+  const list =
+    document.getElementById("subjectMaterialsList");
 
   if (!section || !title || !classTitle || !list) {
     console.error("Subject materials section missing.");
     return;
   }
 
-  // Show materials section
+  // Show section
   section.style.display = "block";
 
   // Set heading
-  classTitle.textContent = className.toUpperCase();
-  title.textContent = subjectName;
+  classTitle.textContent =
+    className.toUpperCase();
 
-  // Loading message
+  title.textContent =
+    subjectName;
+
+  // Loading
   list.innerHTML = `
     <div class="material-box">
       <h3>⏳ Loading...</h3>
       <p>
-        ${escapeMaterial(className)} →
+        ${escapeMaterial(className)}
+        →
         ${escapeMaterial(subjectName)}
       </p>
     </div>
   `;
 
-  // Scroll to materials section
+  // Scroll
   section.scrollIntoView({
     behavior: "smooth",
     block: "start"
   });
 
-  // Get materials from Supabase
-  const { data, error } = await supabaseClient
-    .from("materials")
-    .select(`
-      id,
-      title,
-      chapter,
-      material_type,
-      file_url,
-      youtube_url,
-      description,
-      created_at,
-      classes!inner(name),
-      subjects!inner(name)
-    `)
-    .eq("classes.name", className)
-    .eq("subjects.name", subjectName)
-    .order("created_at", {
-      ascending: false
-    });
+  // Get materials
+  const { data, error } =
+    await supabaseClient
+      .from("materials")
+      .select(`
+        id,
+        title,
+        chapter,
+        material_type,
+        file_url,
+        youtube_url,
+        description,
+        created_at,
+        classes!inner(name),
+        subjects!inner(name)
+      `)
+      .eq("classes.name", className)
+      .eq("subjects.name", subjectName)
+      .order("created_at", {
+        ascending: false
+      });
 
   // Error
   if (error) {
 
-    console.error("Subject materials error:", error);
+    console.error(
+      "Subject materials error:",
+      error
+    );
 
     list.innerHTML = `
       <div class="material-box">
-        <h3>❌ Materials load nahi ho pa rahe</h3>
-        <p>Please try again later.</p>
+        <h3>
+          ❌ Materials load nahi ho pa rahe
+        </h3>
+
+        <p>
+          Please try again later.
+        </p>
       </div>
     `;
 
@@ -2001,17 +2024,39 @@ if (materialType.toLowerCase().includes("question")) {
 
   // No materials
   if (!data || data.length === 0) {
-list.innerHTML = "";
 
-for (const material of data) {
+    list.innerHTML = `
+      <div class="material-box">
+        <h3>
+          📚 No materials yet
+        </h3>
 
-  const card =
-    createMaterialCard(material);
+        <p>
+          ${escapeMaterial(className)}
+          →
+          ${escapeMaterial(subjectName)}
+          ke liye abhi material available nahi hai.
+        </p>
+      </div>
+    `;
 
-  list.appendChild(card);
+    return;
+  }
+
+  // Show materials
+  list.innerHTML = "";
+
+  for (const material of data) {
+
+    const card =
+      createMaterialCard(material);
+
+    list.appendChild(card);
+
+  }
 
 }
-  
+
 
     /* ==============================
        START
