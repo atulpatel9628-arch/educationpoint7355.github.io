@@ -2062,28 +2062,35 @@ async function showSubjectMaterials(className, subjectName) {
        START
     ============================== */
 
-    document.addEventListener(
-      "DOMContentLoaded",
-      function () {
-
-        loadLiveMaterials();
-       document.addEventListener(
+document.addEventListener(
   "DOMContentLoaded",
   function () {
 
     loadLiveMaterials();
 
     document.getElementById("materialSearch")
-      ?.addEventListener("input", filterMaterials);
+      ?.addEventListener(
+        "input",
+        filterMaterials
+      );
 
     document.getElementById("classFilter")
-      ?.addEventListener("change", filterMaterials);
+      ?.addEventListener(
+        "change",
+        filterMaterials
+      );
 
     document.getElementById("subjectFilter")
-      ?.addEventListener("change", filterMaterials);
+      ?.addEventListener(
+        "change",
+        filterMaterials
+      );
 
   }
-); 
+);
+   
+    
+);  
 /* ==============================
    FILTER MATERIALS
 ============================== */
