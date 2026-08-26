@@ -2139,403 +2139,384 @@
     }
 
 
-    /* =========================================
-       SHOW SUBJECT MATERIALS
-    ========================================= */
+/* =========================================
+   SHOW SUBJECT MATERIALS
+========================================= */
 
-    async function showSubjectMaterials(
-      className,
-      subjectName
-    ) {
+async function showSubjectMaterials(className, subjectName) {
 
-      const section =
-        document.getElementById(
-          "subjectMaterials"
-        );
+  const section =
+    document.getElementById("subjectMaterials");
 
+  const title =
+    document.getElementById("selectedSubject");
 
-      const title =
-        document.getElementById(
-          "selectedSubject"
-        );
+  const classTitle =
+    document.getElementById("selectedClass");
+
+  const list =
+    document.getElementById("subjectMaterialsList");
 
 
-      const classTitle =
-        document.getElementById(
-          "selectedClass"
-        );
+  if (!section || !title || !classTitle || !list) {
+
+    console.error("Subject materials section missing.");
+
+    return;
+  }
 
 
-      const list =
-        document.getElementById(
-          "subjectMaterialsList"
-        );
+  /* SHOW SECTION */
+
+  section.style.display = "block";
 
 
-      if (
-        !section ||
-        !title ||
-        !classTitle ||
-        !list
-      ) {
+  /* SET HEADING */
 
-        console.error(
-          "Subject materials section missing."
-        );
+  classTitle.textContent =
+    className.toUpperCase();
 
-        return;
-
-      }
+  title.textContent =
+    subjectName;
 
 
-      /* Show section */
+  /* LOADING */
 
-      section.style.display = "block";
+  list.innerHTML = `
+    <div class="material-box">
+      <h3>⏳ Loading materials...</h3>
+
+      <p>
+        ${escapeMaterial(className)}
+        →
+        ${escapeMaterial(subjectName)}
+      </p>
+    </div>
+  `;
 
 
-      /* Set heading */
+  /* SCROLL */
 
-      classTitle.textContent =
-        className.toUpperCase();
-
-
-      title.textContent =
-        subjectName;
+  section.scrollIntoView({
+    behavior: "smooth",
+    block: "start"
+  });
 
 
-      /* Loading */
+  try {
+
+    /* =====================================
+       FIND CLASS
+    ===================================== */
+
+    const {
+      data: classData,
+      error: classError
+    } = await supabaseClient
+      .from("classes")
+      .select("id,name")
+      .eq("name", className)
+      .maybeSingle();
+
+
+    if (classError) {
+      throw classError;
+    }
+
+
+    if (!classData) {
 
       list.innerHTML = `
+        <div class="material-box">
+          <h3>❌ Class not found</h3>
 
-        <div class="material-message">
-
-          ⏳ Loading ${escapeMaterial(subjectName)} materials...
-
+          <p>
+            ${escapeMaterial(className)}
+            database mein nahi mili.
+          </p>
         </div>
-
       `;
 
-
-      /* Scroll */
-
-      section.scrollIntoView({
-        behavior: "smooth",
-        block: "start"
-      });
-
-
-      /* Query */
-
-      const {
-        data,
-        error
-      } =
-        await supabaseClient
-
-          .from("materials")
-
-          .select(`
-            id,
-            title,
-            chapter,
-            material_type,
-            file_url,
-            youtube_url,
-            description,
-            created_at,
-            classes!inner(name),
-            subjects!inner(name)
-          `)
-
-          .eq(
-            "classes.name",
-            className
-          )
-
-          .eq(
-            "subjects.name",
-            subjectName
-          )
-
-          .order(
-            "created_at",
-            {
-              ascending: false
-            }
-          );
-
-
-      /* Error */
-
-      if (error) {
-
-        console.error(
-          "showSubjectMaterials error:",
-          error
-        );
-
-
-        list.innerHTML = `
-
-          <div class="material-message">
-
-            ❌ Materials load nahi ho pa rahe.
-
-            <br><br>
-
-            <small>
-              ${escapeMaterial(error.message)}
-            </small>
-
-          </div>
-
-        `;
-
-        return;
-
-      }
-
-
-      /* No materials */
-
-      if (!data || data.length === 0) {
-
-        list.innerHTML = `
-
-          <div class="material-message">
-
-            📚
-
-            <br><br>
-
-            <strong>
-              ${escapeMaterial(subjectName)}
-              ke materials abhi available nahi hain.
-            </strong>
-
-            <br><br>
-
-            <small>
-              Is subject ke notes/PDFs jaldi add kiye jayenge.
-            </small>
-
-          </div>
-
-        `;
-
-        return;
-
-      }
-
-
-      /* Clear */
-
-      list.innerHTML = "";
-
-
-      /* Create cards */
-
-      data.forEach(material => {
-
-        list.appendChild(
-          createMaterialCard(material)
-        );
-
-      });
-
+      return;
     }
 
 
-    /* =========================================
-       FILTER MATERIALS
-    ========================================= */
+    /* =====================================
+       FIND SUBJECT
+    ===================================== */
 
-    function filterMaterials() {
-
-      const searchInput =
-        document.getElementById(
-          "materialSearch"
-        );
-
-
-      const classFilter =
-        document.getElementById(
-          "classFilter"
-        );
+    const {
+      data: subjectData,
+      error: subjectError
+    } = await supabaseClient
+      .from("subjects")
+      .select("id,name")
+      .eq("class_id", classData.id)
+      .eq("name", subjectName)
+      .maybeSingle();
 
 
-      const subjectFilter =
-        document.getElementById(
-          "subjectFilter"
-        );
-
-
-      const search =
-        searchInput?.value
-          .toLowerCase()
-          .trim() || "";
-
-
-      const selectedClass =
-        classFilter?.value || "";
-
-
-      const selectedSubject =
-        subjectFilter?.value || "";
-
-
-      const cards =
-        document.querySelectorAll(
-          "#liveMaterials .material-box"
-        );
-
-
-      cards.forEach(card => {
-
-        const text =
-          card.textContent
-            .toLowerCase();
-
-
-        const classMatch =
-          !selectedClass ||
-          text.includes(
-            selectedClass.toLowerCase()
-          );
-
-
-        const subjectMatch =
-          !selectedSubject ||
-          text.includes(
-            selectedSubject.toLowerCase()
-          );
-
-
-        const searchMatch =
-          !search ||
-          text.includes(search);
-
-
-        card.style.display =
-          classMatch &&
-          subjectMatch &&
-          searchMatch
-            ? ""
-            : "none";
-
-      });
-
+    if (subjectError) {
+      throw subjectError;
     }
 
 
-    /* =========================================
-       DARK MODE
-    ========================================= */
+    if (!subjectData) {
 
-    function setupTheme() {
+      list.innerHTML = `
+        <div class="material-box">
+          <h3>❌ Subject not found</h3>
 
-      const themeBtn =
-        document.getElementById(
-          "themeBtn"
-        );
+          <p>
+            ${escapeMaterial(subjectName)}
+            database mein nahi mila.
+          </p>
+        </div>
+      `;
 
-
-      if (!themeBtn) return;
-
-
-      const savedTheme =
-        localStorage.getItem(
-          "educationPointTheme"
-        );
+      return;
+    }
 
 
-      if (savedTheme === "dark") {
+    /* =====================================
+       GET MATERIALS
+    ===================================== */
 
-        document.body.classList.add(
-          "dark"
-        );
-
-        themeBtn.textContent =
-          "☀️";
-
-      }
-
-
-      themeBtn.addEventListener(
-        "click",
-        function () {
-
-          document.body.classList.toggle(
-            "dark"
-          );
-
-
-          const isDark =
-            document.body.classList.contains(
-              "dark"
-            );
-
-
-          themeBtn.textContent =
-            isDark
-              ? "☀️"
-              : "🌙";
+    const {
+      data,
+      error
+    } = await supabaseClient
+      .from("materials")
+      .select(`
+        id,
+        title,
+        chapter,
+        material_type,
+        file_url,
+        youtube_url,
+        description,
+        created_at
+      `)
+      .eq("class_id", classData.id)
+      .eq("subject_id", subjectData.id)
+      .order("created_at", {
+        ascending: false
+      });
 
 
-          localStorage.setItem(
-            "educationPointTheme",
-            isDark
-              ? "dark"
-              : "light"
-          );
+    if (error) {
+      throw error;
+    }
 
+
+    /* =====================================
+       NO MATERIALS
+    ===================================== */
+
+    if (!data || data.length === 0) {
+
+      list.innerHTML = `
+        <div class="material-box">
+          <h3>📚 No materials yet</h3>
+
+          <p>
+            ${escapeMaterial(className)}
+            →
+            ${escapeMaterial(subjectName)}
+          </p>
+
+          <p>
+            Is subject ke liye abhi koi
+            study material upload nahi hua.
+          </p>
+        </div>
+      `;
+
+      return;
+    }
+
+
+    /* =====================================
+       SHOW MATERIALS
+    ===================================== */
+
+    list.innerHTML = "";
+
+
+    data.forEach(material => {
+
+      const materialWithNames = {
+
+        ...material,
+
+        classes: {
+          name: className
+        },
+
+        subjects: {
+          name: subjectName
         }
-      );
 
-    }
-
-
-    /* =========================================
-       START WEBSITE
-    ========================================= */
-
-    document.addEventListener(
-      "DOMContentLoaded",
-      function () {
-
-        setupTheme();
+      };
 
 
-        loadLiveMaterials();
+      const card =
+        createMaterialCard(
+          materialWithNames
+        );
 
 
-        document
-          .getElementById("materialSearch")
-          ?.addEventListener(
-            "input",
-            filterMaterials
-          );
+      list.appendChild(card);
 
+    });
 
-        document
-          .getElementById("classFilter")
-          ?.addEventListener(
-            "change",
-            filterMaterials
-          );
+  }
 
+  catch (error) {
 
-        document
-          .getElementById("subjectFilter")
-          ?.addEventListener(
-            "change",
-            filterMaterials
-          );
-
-      }
+    console.error(
+      "Subject materials error:",
+      error
     );
 
-  </script>
+
+    list.innerHTML = `
+      <div class="material-box">
+
+        <h3>
+          ❌ Materials load nahi ho pa rahe
+        </h3>
+
+        <p>
+          ${escapeMaterial(error.message)}
+        </p>
+
+      </div>
+    `;
+
+  }
+
+}
+
+
+/* =========================================
+   FILTER MATERIALS
+========================================= */
+
+function filterMaterials() {
+
+  const searchInput =
+    document.getElementById("materialSearch");
+
+  const classFilter =
+    document.getElementById("classFilter");
+
+  const subjectFilter =
+    document.getElementById("subjectFilter");
+
+
+  const search =
+    searchInput?.value
+      .toLowerCase()
+      .trim() || "";
+
+
+  const selectedClass =
+    classFilter?.value || "";
+
+
+  const selectedSubject =
+    subjectFilter?.value || "";
+
+
+  const cards =
+    document.querySelectorAll(
+      "#liveMaterials .material-box"
+    );
+
+
+  cards.forEach(card => {
+
+    const text =
+      card.textContent
+        .toLowerCase();
+
+
+    const classMatch =
+      !selectedClass ||
+      text.includes(
+        selectedClass.toLowerCase()
+      );
+
+
+    const subjectMatch =
+      !selectedSubject ||
+      text.includes(
+        selectedSubject.toLowerCase()
+      );
+
+
+    const searchMatch =
+      !search ||
+      text.includes(search);
+
+
+    card.style.display =
+      classMatch &&
+      subjectMatch &&
+      searchMatch
+        ? ""
+        : "none";
+
+  });
+
+}
+
+
+/* =========================================
+   START WEBSITE
+========================================= */
+
+document.addEventListener(
+  "DOMContentLoaded",
+  function () {
+
+    /* Load all materials */
+
+    loadLiveMaterials();
+
+
+    /* Search */
+
+    document
+      .getElementById("materialSearch")
+      ?.addEventListener(
+        "input",
+        filterMaterials
+      );
+
+
+    /* Class filter */
+
+    document
+      .getElementById("classFilter")
+      ?.addEventListener(
+        "change",
+        filterMaterials
+      );
+
+
+    /* Subject filter */
+
+    document
+      .getElementById("subjectFilter")
+      ?.addEventListener(
+        "change",
+        filterMaterials
+      );
+
+  }
+);
 
 </body>
 
