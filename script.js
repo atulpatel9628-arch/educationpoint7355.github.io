@@ -1,11 +1,19 @@
-const themeBtn = document.getElementById("themeBtn");
+document.addEventListener("DOMContentLoaded", function () {
 
-themeBtn.addEventListener("click", function () {
+  const themeBtn = document.getElementById("themeBtn");
+
+  if (!themeBtn) return;
+
+  themeBtn.addEventListener("click", function () {
+
     document.body.classList.toggle("dark");
 
     if (document.body.classList.contains("dark")) {
-        themeBtn.textContent = "☀️";
+      themeBtn.textContent = "☀️";
     } else {
-        themeBtn.textContent = "🌙";
+      themeBtn.textContent = "🌙";
     }
+
+  });
+
 });
