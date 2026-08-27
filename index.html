@@ -1,200 +1,3847 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Education Point | CBSE Classes 9–12</title>
-  <meta name="description" content="Education Point - Free CBSE study material for Classes 9 to 12.">
-  <link rel="stylesheet" href="style.css">
+
+<meta charset="UTF-8">
+
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0"
+>
+
+<title>Education Point | CBSE Classes 9–12</title>
+
+<meta
+  name="description"
+  content="Education Point - Free CBSE study material for Classes 9 to 12."
+>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+
+/* =========================================================
+   RESET
+========================================================= */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family:
+    Inter,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+
+  background:
+    linear-gradient(
+      135deg,
+      #f8fbff 0%,
+      #eef5ff 50%,
+      #fff8fd 100%
+    );
+
+  color: #172033;
+
+  min-height: 100vh;
+
+  transition:
+    background .3s ease,
+    color .3s ease;
+}
+
+button,
+input,
+select {
+  font: inherit;
+}
+
+
+/* =========================================================
+   DARK MODE
+========================================================= */
+
+body.dark {
+  background:
+    radial-gradient(
+      circle at top left,
+      #172554,
+      #0f172a 45%,
+      #111827
+    );
+
+  color: #f8fafc;
+}
+
+body.dark .topbar,
+body.dark .navbar,
+body.dark .subject-card,
+body.dark .class-card,
+body.dark .material-box,
+body.dark .resource-card,
+body.dark .filter-box,
+body.dark .about-box {
+  background: rgba(15, 23, 42, .92);
+
+  color: #f8fafc;
+
+  border-color:
+    rgba(148, 163, 184, .16);
+}
+
+body.dark .subject-card small,
+body.dark .class-info small,
+body.dark .material-box p,
+body.dark .about-box p {
+  color: #cbd5e1;
+}
+
+body.dark input,
+body.dark select {
+  background: #1e293b;
+  color: #f8fafc;
+  border-color: #475569;
+}
+
+
+/* =========================================================
+   TOP BAR
+========================================================= */
+
+.topbar {
+  display: flex;
+
+  justify-content: space-between;
+  align-items: center;
+
+  gap: 15px;
+
+  padding: 10px 6%;
+
+  background:
+    linear-gradient(
+      90deg,
+      #2563eb,
+      #7c3aed,
+      #db2777
+    );
+
+  color: white;
+
+  font-size: 13px;
+}
+
+.topbar a {
+  color: white;
+  text-decoration: none;
+  font-weight: 800;
+}
+
+
+/* =========================================================
+   NAVBAR
+========================================================= */
+
+.navbar {
+  position: sticky;
+  top: 0;
+
+  z-index: 1000;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  gap: 20px;
+
+  padding: 16px 6%;
+
+  background:
+    rgba(255,255,255,.88);
+
+  backdrop-filter:
+    blur(18px);
+
+  border-bottom:
+    1px solid rgba(37,99,235,.08);
+}
+
+.brand {
+  display: flex;
+
+  align-items: center;
+
+  gap: 12px;
+
+  text-decoration: none;
+
+  color: inherit;
+}
+
+.logo {
+  width: 48px;
+  height: 48px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 15px;
+
+  color: white;
+
+  font-weight: 1000;
+
+  background:
+    linear-gradient(
+      135deg,
+      #2563eb,
+      #7c3aed
+    );
+
+  box-shadow:
+    0 10px 25px rgba(37,99,235,.25);
+}
+
+.brand b {
+  display: block;
+
+  font-size: 15px;
+}
+
+.brand small {
+  color: #64748b;
+
+  font-size: 11px;
+}
+
+.navlinks {
+  display: flex;
+
+  align-items: center;
+
+  gap: 22px;
+}
+
+.navlinks a {
+  color: inherit;
+
+  text-decoration: none;
+
+  font-weight: 700;
+
+  font-size: 14px;
+
+  transition: .2s;
+}
+
+.navlinks a:hover {
+  color: #2563eb;
+}
+
+#themeBtn {
+  width: 44px;
+  height: 44px;
+
+  border: none;
+
+  border-radius: 50%;
+
+  cursor: pointer;
+
+  background: #eef4ff;
+
+  font-size: 19px;
+
+  transition: .25s;
+}
+
+#themeBtn:hover {
+  transform: rotate(15deg) scale(1.08);
+}
+
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.hero {
+  max-width: 1250px;
+
+  margin: auto;
+
+  min-height: 650px;
+
+  padding:
+    90px 6%
+    70px;
+
+  display: grid;
+
+  grid-template-columns:
+    1.1fr .9fr;
+
+  gap: 50px;
+
+  align-items: center;
+}
+
+.pill {
+  display: inline-flex;
+
+  padding: 9px 15px;
+
+  border-radius: 999px;
+
+  background:
+    rgba(37,99,235,.09);
+
+  color: #2563eb;
+
+  font-weight: 900;
+
+  font-size: 12px;
+
+  margin-bottom: 20px;
+}
+
+.hero h1 {
+  font-size:
+    clamp(42px, 6vw, 76px);
+
+  line-height: 1.02;
+
+  letter-spacing: -3px;
+
+  margin-bottom: 25px;
+}
+
+.hero h1 span {
+  background:
+    linear-gradient(
+      90deg,
+      #2563eb,
+      #7c3aed,
+      #db2777
+    );
+
+  -webkit-background-clip: text;
+
+  background-clip: text;
+
+  color: transparent;
+}
+
+.hero p {
+  max-width: 620px;
+
+  color: #64748b;
+
+  font-size: 18px;
+
+  line-height: 1.7;
+
+  margin-bottom: 30px;
+}
+
+.hero-buttons {
+  display: flex;
+
+  flex-wrap: wrap;
+
+  gap: 12px;
+}
+
+.btn {
+  display: inline-flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  padding: 14px 21px;
+
+  border-radius: 13px;
+
+  text-decoration: none;
+
+  font-weight: 900;
+
+  transition: .25s;
+}
+
+.btn:hover {
+  transform: translateY(-3px);
+}
+
+.btn.primary {
+  color: white;
+
+  background:
+    linear-gradient(
+      135deg,
+      #2563eb,
+      #7c3aed
+    );
+
+  box-shadow:
+    0 12px 30px rgba(37,99,235,.25);
+}
+
+.btn.light {
+  color: #2563eb;
+
+  background: white;
+
+  border:
+    1px solid #dbe5ff;
+}
+
+
+/* =========================================================
+   HERO VISUAL
+========================================================= */
+
+.hero-visual {
+  position: relative;
+
+  min-height: 430px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+}
+
+.hero-circle {
+  position: absolute;
+
+  border-radius: 50%;
+
+  filter: blur(1px);
+
+  animation:
+    floatCircle 5s ease-in-out infinite;
+}
+
+.circle-one {
+  width: 330px;
+  height: 330px;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(37,99,235,.18),
+      rgba(124,58,237,.14)
+    );
+}
+
+.circle-two {
+  width: 220px;
+  height: 220px;
+
+  background:
+    rgba(219,39,119,.12);
+
+  animation-delay: 1s;
+}
+
+.hero-book {
+  position: relative;
+
+  z-index: 3;
+
+  width: 170px;
+  height: 170px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 45px;
+
+  font-size: 85px;
+
+  background:
+    rgba(255,255,255,.85);
+
+  box-shadow:
+    0 25px 70px rgba(37,99,235,.20);
+
+  animation:
+    floating 4s ease-in-out infinite;
+}
+
+.floating-card {
+  position: absolute;
+
+  z-index: 5;
+
+  padding: 14px 17px;
+
+  border-radius: 16px;
+
+  background: white;
+
+  box-shadow:
+    0 15px 40px rgba(15,23,42,.13);
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 3px;
+
+  animation:
+    floating 4s ease-in-out infinite;
+}
+
+.floating-card small {
+  color: #64748b;
+}
+
+.float-one {
+  top: 40px;
+  left: 5%;
+}
+
+.float-two {
+  right: 2%;
+  top: 125px;
+
+  animation-delay: .8s;
+}
+
+.float-three {
+  bottom: 50px;
+  left: 10%;
+
+  animation-delay: 1.4s;
+}
+
+@keyframes floating {
+  0%,100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-12px);
+  }
+}
+
+@keyframes floatCircle {
+  0%,100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.07);
+  }
+}
+
+
+/* =========================================================
+   GENERAL SECTIONS
+========================================================= */
+
+.section {
+  max-width: 1250px;
+
+  margin: auto;
+
+  padding:
+    75px 6%;
+}
+
+.blue-section {
+  max-width: none;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(239,246,255,.9),
+      rgba(245,243,255,.9)
+    );
+}
+
+.heading {
+  display: flex;
+
+  align-items: flex-start;
+
+  gap: 16px;
+
+  margin-bottom: 35px;
+}
+
+.heading > span {
+  min-width: 50px;
+
+  height: 50px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 15px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #2563eb,
+      #7c3aed
+    );
+
+  color: white;
+
+  font-weight: 1000;
+}
+
+.heading small {
+  color: #7c3aed;
+
+  font-weight: 900;
+
+  font-size: 11px;
+
+  letter-spacing: 1px;
+}
+
+.heading h2 {
+  margin-top: 5px;
+
+  font-size:
+    clamp(28px, 4vw, 42px);
+}
+
+
+/* =========================================================
+   CLASS CARDS
+========================================================= */
+
+.class-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(4, 1fr);
+
+  gap: 20px;
+}
+
+.class-card {
+  position: relative;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 14px;
+
+  min-height: 150px;
+
+  padding: 22px;
+
+  text-decoration: none;
+
+  color: inherit;
+
+  background:
+    rgba(255,255,255,.86);
+
+  border:
+    1px solid rgba(37,99,235,.10);
+
+  border-radius: 24px;
+
+  overflow: hidden;
+
+  box-shadow:
+    0 12px 35px rgba(15,23,42,.07);
+
+  transition:
+    transform .25s,
+    box-shadow .25s;
+}
+
+.class-card::after {
+  content: "";
+
+  position: absolute;
+
+  width: 110px;
+  height: 110px;
+
+  right: -45px;
+  top: -45px;
+
+  border-radius: 50%;
+
+  background:
+    rgba(124,58,237,.10);
+
+  transition: .3s;
+}
+
+.class-card:hover {
+  transform: translateY(-8px);
+
+  box-shadow:
+    0 22px 50px rgba(15,23,42,.13);
+}
+
+.class-card:hover::after {
+  transform: scale(1.6);
+}
+
+.class-number {
+  position: relative;
+
+  z-index: 2;
+
+  width: 65px;
+  height: 65px;
+
+  flex-shrink: 0;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 19px;
+
+  color: white;
+
+  font-size: 21px;
+
+  font-weight: 1000;
+
+  background:
+    linear-gradient(
+      135deg,
+      #2563eb,
+      #7c3aed
+    );
+}
+
+.class-info {
+  position: relative;
+
+  z-index: 2;
+}
+
+.class-info strong {
+  display: block;
+
+  font-size: 19px;
+
+  margin-bottom: 5px;
+}
+
+.class-info small {
+  color: #64748b;
+
+  font-size: 12px;
+}
+
+.class-arrow {
+  position: relative;
+
+  z-index: 3;
+
+  margin-left: auto;
+
+  width: 38px;
+  height: 38px;
+
+  flex-shrink: 0;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  color: #2563eb;
+
+  background: #eef4ff;
+
+  transition: .25s;
+}
+
+.class-card:hover .class-arrow {
+  background: #2563eb;
+  color: white;
+
+  transform:
+    translateX(5px);
+}
+
+
+/* =========================================================
+   SUBJECT CARDS
+========================================================= */
+
+.subject-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(auto-fit, minmax(190px, 1fr));
+
+  gap: 18px;
+}
+
+.subject-card {
+  position: relative;
+
+  padding: 24px 20px;
+
+  min-height: 160px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  justify-content: center;
+
+  cursor: pointer;
+
+  user-select: none;
+
+  background:
+    rgba(255,255,255,.90);
+
+  border:
+    1px solid rgba(37,99,235,.10);
+
+  border-radius: 22px;
+
+  box-shadow:
+    0 10px 30px rgba(15,23,42,.07);
+
+  overflow: hidden;
+
+  transition:
+    transform .25s,
+    box-shadow .25s;
+}
+
+.subject-card::before {
+  content: "";
+
+  position: absolute;
+
+  width: 100px;
+  height: 100px;
+
+  right: -40px;
+  top: -40px;
+
+  border-radius: 50%;
+
+  background:
+    rgba(37,99,235,.08);
+
+  transition: .3s;
+}
+
+.subject-card:hover {
+  transform:
+    translateY(-8px)
+    scale(1.01);
+
+  box-shadow:
+    0 20px 45px rgba(15,23,42,.13);
+}
+
+.subject-card:hover::before {
+  transform: scale(1.7);
+}
+
+.subject-icon {
+  position: relative;
+
+  z-index: 2;
+
+  font-size: 36px;
+
+  margin-bottom: 10px;
+}
+
+.subject-card strong,
+.subject-card small {
+  position: relative;
+
+  z-index: 2;
+}
+
+.subject-card strong {
+  font-size: 18px;
+}
+
+.subject-card small {
+  margin-top: 6px;
+
+  color: #64748b;
+
+  font-size: 12px;
+}
+
+
+/* =========================================================
+   MATERIAL SECTION
+========================================================= */
+
+#subjectMaterials {
+  display: none;
+
+  max-width: 1250px;
+
+  margin: auto;
+}
+
+.materials-list {
+  display: grid;
+
+  grid-template-columns:
+    repeat(auto-fit, minmax(280px, 1fr));
+
+  gap: 18px;
+}
+
+.material-box {
+  position: relative;
+
+  background:
+    rgba(255,255,255,.92);
+
+  border:
+    1px solid rgba(37,99,235,.10);
+
+  border-radius: 20px;
+
+  padding: 22px;
+
+  box-shadow:
+    0 10px 30px rgba(15,23,42,.07);
+
+  animation:
+    materialIn .35s ease both;
+}
+
+@keyframes materialIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.material-top {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  gap: 10px;
+
+  margin-bottom: 15px;
+}
+
+.material-icon {
+  width: 48px;
+  height: 48px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 14px;
+
+  font-size: 25px;
+
+  background:
+    #eef4ff;
+}
+
+.material-type {
+  padding: 7px 10px;
+
+  border-radius: 999px;
+
+  background:
+    #f3e8ff;
+
+  color:
+    #7c3aed;
+
+  font-size: 11px;
+
+  font-weight: 900;
+}
+
+.material-meta {
+  color: #2563eb;
+
+  font-size: 12px;
+
+  font-weight: 800;
+
+  margin-bottom: 8px;
+}
+
+.material-box h3 {
+  font-size: 20px;
+
+  line-height: 1.35;
+
+  margin-bottom: 10px;
+}
+
+.material-chapter {
+  display: inline-flex;
+
+  gap: 7px;
+
+  padding: 7px 10px;
+
+  border-radius: 9px;
+
+  background: #f8fafc;
+
+  color: #475569;
+
+  font-size: 12px;
+
+  margin-bottom: 10px;
+}
+
+.material-box p {
+  color: #64748b;
+
+  line-height: 1.6;
+
+  font-size: 14px;
+
+  margin-bottom: 15px;
+}
+
+.material-buttons {
+  display: flex;
+
+  flex-wrap: wrap;
+
+  gap: 9px;
+
+  margin-top: 15px;
+}
+
+.material-btn {
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  padding: 10px 14px;
+
+  border-radius: 10px;
+
+  color: white;
+
+  text-decoration: none;
+
+  font-size: 13px;
+
+  font-weight: 900;
+
+  transition: .2s;
+}
+
+.material-btn:hover {
+  transform: translateY(-2px);
+}
+
+.pdf-btn {
+  background:
+    linear-gradient(
+      135deg,
+      #2563eb,
+      #4f46e5
+    );
+}
+
+.video-btn {
+  background:
+    linear-gradient(
+      135deg,
+      #dc2626,
+      #ef4444
+    );
+}
+
+.loading-box,
+.empty-box,
+.error-box {
+  text-align: center;
+
+  padding: 40px 20px;
+}
+
+.loading-icon,
+.empty-icon {
+  font-size: 42px;
+
+  margin-bottom: 12px;
+}
+
+.error-box {
+  border-color:
+    rgba(220,38,38,.20);
+
+  background:
+    #fff1f2;
+}
+
+.error-box h3 {
+  color: #b91c1c;
+}
+
+
+/* =========================================================
+   LIVE MATERIALS
+========================================================= */
+
+.filter-box {
+  display: grid;
+
+  grid-template-columns:
+    2fr 1fr 1fr;
+
+  gap: 12px;
+
+  margin-bottom: 25px;
+
+  padding: 15px;
+
+  border-radius: 18px;
+
+  background:
+    rgba(255,255,255,.75);
+
+  border:
+    1px solid rgba(37,99,235,.08);
+}
+
+.filter-box input,
+.filter-box select {
+  width: 100%;
+
+  padding: 13px 14px;
+
+  border:
+    1px solid #dbe3ef;
+
+  border-radius: 11px;
+
+  outline: none;
+
+  background: white;
+
+  color: #172033;
+}
+
+.filter-box input:focus,
+.filter-box select:focus {
+  border-color: #2563eb;
+
+  box-shadow:
+    0 0 0 3px rgba(37,99,235,.10);
+}
+
+.live-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(auto-fit, minmax(280px, 1fr));
+
+  gap: 18px;
+}
+
+
+/* =========================================================
+   RESOURCES
+========================================================= */
+
+.resource-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(4, 1fr);
+
+  gap: 18px;
+}
+
+.resource-card {
+  padding: 25px;
+
+  background:
+    rgba(255,255,255,.88);
+
+  border-radius: 20px;
+
+  border:
+    1px solid rgba(37,99,235,.09);
+
+  box-shadow:
+    0 10px 30px rgba(15,23,42,.06);
+
+  transition: .25s;
+}
+
+.resource-card:hover {
+  transform: translateY(-6px);
+}
+
+.resource-card div {
+  font-size: 34px;
+
+  margin-bottom: 12px;
+}
+
+.resource-card strong {
+  font-size: 18px;
+}
+
+.resource-card p {
+  color: #64748b;
+
+  margin-top: 8px;
+
+  line-height: 1.6;
+
+  font-size: 13px;
+}
+
+
+/* =========================================================
+   ABOUT
+========================================================= */
+
+.about-box {
+  max-width: 1100px;
+
+  margin: 60px auto;
+
+  padding: 55px 6%;
+
+  display: grid;
+
+  grid-template-columns:
+    1fr 1fr;
+
+  gap: 40px;
+
+  border-radius: 30px;
+
+  background:
+    rgba(255,255,255,.88);
+
+  box-shadow:
+    0 15px 45px rgba(15,23,42,.07);
+}
+
+.about-box small {
+  color: #7c3aed;
+
+  font-weight: 900;
+}
+
+.about-box h2 {
+  margin-top: 10px;
+
+  font-size: 34px;
+}
+
+.about-box p {
+  color: #64748b;
+
+  line-height: 1.8;
+}
+
+
+/* =========================================================
+   YOUTUBE
+========================================================= */
+
+.youtube-banner {
+  max-width: 1100px;
+
+  margin: 30px auto 70px;
+
+  padding: 28px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  gap: 20px;
+
+  border-radius: 25px;
+
+  color: white;
+
+  background:
+    linear-gradient(
+      135deg,
+      #ef4444,
+      #b91c1c
+    );
+
+  box-shadow:
+    0 20px 45px rgba(220,38,38,.20);
+}
+
+.youtube-left {
+  display: flex;
+
+  align-items: center;
+
+  gap: 16px;
+}
+
+.play {
+  width: 55px;
+  height: 55px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background:
+    rgba(255,255,255,.18);
+
+  font-size: 23px;
+}
+
+.youtube-banner a {
+  padding: 12px 17px;
+
+  border-radius: 11px;
+
+  color: #b91c1c;
+
+  background: white;
+
+  text-decoration: none;
+
+  font-weight: 900;
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+footer {
+  padding:
+    40px 6%;
+
+  display: grid;
+
+  grid-template-columns:
+    1.5fr 1fr 1fr 1.5fr;
+
+  gap: 20px;
+
+  background:
+    #0f172a;
+
+  color: white;
+}
+
+footer div {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 8px;
+}
+
+footer small,
+footer p {
+  color: #94a3b8;
+
+  font-size: 13px;
+}
+
+footer a {
+  color: #cbd5e1;
+
+  text-decoration: none;
+
+  font-size: 13px;
+}
+
+footer a:hover {
+  color: white;
+}
+
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+.toast {
+  position: fixed;
+
+  right: 20px;
+  bottom: 20px;
+
+  z-index: 9999;
+
+  max-width: 350px;
+
+  padding: 14px 18px;
+
+  border-radius: 13px;
+
+  color: white;
+
+  background:
+    #172033;
+
+  box-shadow:
+    0 15px 40px rgba(0,0,0,.20);
+
+  transform:
+    translateY(120px);
+
+  opacity: 0;
+
+  transition: .3s;
+}
+
+.toast.show {
+  transform:
+    translateY(0);
+
+  opacity: 1;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 950px) {
+
+  .navlinks {
+    display: none;
+  }
+
+  .hero {
+    grid-template-columns: 1fr;
+
+    text-align: center;
+  }
+
+  .hero p {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .hero-buttons {
+    justify-content: center;
+  }
+
+  .hero-visual {
+    min-height: 350px;
+  }
+
+  .class-grid {
+    grid-template-columns:
+      repeat(2, 1fr);
+  }
+
+  .resource-grid {
+    grid-template-columns:
+      repeat(2, 1fr);
+  }
+
+  .about-box {
+    grid-template-columns: 1fr;
+  }
+
+  footer {
+    grid-template-columns:
+      repeat(2, 1fr);
+  }
+
+}
+
+@media (max-width: 650px) {
+
+  .topbar {
+    justify-content: center;
+
+    text-align: center;
+  }
+
+  .topbar a {
+    display: none;
+  }
+
+  .hero {
+    padding-top: 55px;
+  }
+
+  .hero h1 {
+    letter-spacing: -2px;
+  }
+
+  .hero-visual {
+    min-height: 310px;
+  }
+
+  .hero-book {
+    width: 130px;
+    height: 130px;
+
+    font-size: 65px;
+  }
+
+  .circle-one {
+    width: 260px;
+    height: 260px;
+  }
+
+  .floating-card {
+    padding: 10px;
+
+    font-size: 12px;
+  }
+
+  .class-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .filter-box {
+    grid-template-columns: 1fr;
+  }
+
+  .resource-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .youtube-banner {
+    margin-left: 15px;
+    margin-right: 15px;
+
+    flex-direction: column;
+
+    align-items: flex-start;
+  }
+
+  footer {
+    grid-template-columns: 1fr;
+  }
+
+}
+
+</style>
 </head>
 
+
 <body>
-  <div class="bg-blur blur-one"></div>
-  <div class="bg-blur blur-two"></div>
 
-  <header class="topbar">
-    <span>🎓 Education Point • CBSE Classes 9–12</span>
-    <a href="https://www.youtube.com/@educationpoint7355" target="_blank" rel="noopener">▶ YouTube Channel</a>
-  </header>
 
-  <nav class="navbar">
-    <a class="brand" href="#home">
-      <span class="logo">EP</span>
-      <span>
-        <b>EDUCATION POINT</b>
-        <small>Study • Learn • Succeed</small>
-      </span>
+<!-- =======================================================
+     TOP BAR
+======================================================= -->
+
+<div class="topbar">
+
+  <span>
+    🎓 Education Point • CBSE Classes 9–12
+  </span>
+
+  <a
+    href="https://www.youtube.com/@educationpoint7355"
+    target="_blank"
+    rel="noopener"
+  >
+    ▶ YouTube Channel
+  </a>
+
+</div>
+
+
+<!-- =======================================================
+     NAVBAR
+======================================================= -->
+
+<nav class="navbar">
+
+  <a
+    href="#home"
+    class="brand"
+  >
+
+    <span class="logo">
+      EP
+    </span>
+
+    <span>
+
+      <b>
+        EDUCATION POINT
+      </b>
+
+      <small>
+        Study • Learn • Succeed
+      </small>
+
+    </span>
+
+  </a>
+
+
+  <div class="navlinks">
+
+    <a href="#home">
+      Home
     </a>
 
-    <div class="navlinks">
-      <a href="#home">Home</a>
-      <a href="#classes">Classes</a>
-      <a href="#class9">Subjects</a>
-      <a href="#resources">Resources</a>
-      <a href="#youtube">YouTube</a>
-      <a href="#about">About</a>
+    <a href="#classes">
+      Classes
+    </a>
+
+    <a href="#class9">
+      Subjects
+    </a>
+
+    <a href="#resources">
+      Resources
+    </a>
+
+    <a href="#youtube">
+      YouTube
+    </a>
+
+    <a href="#about">
+      About
+    </a>
+
+  </div>
+
+
+  <button
+    id="themeBtn"
+    type="button"
+    aria-label="Toggle dark mode"
+  >
+    🌙
+  </button>
+
+</nav>
+
+
+<main>
+
+
+<!-- =======================================================
+     HERO
+======================================================= -->
+
+<section
+  id="home"
+  class="hero"
+>
+
+  <div>
+
+    <div class="pill">
+      ✨ FREE CBSE STUDY MATERIAL
     </div>
 
-    <button id="themeBtn" class="theme-btn" type="button" aria-label="Toggle dark mode">🌙</button>
-  </nav>
+    <h1>
+      Learn Smarter.<br>
+      <span>Score Better.</span>
+    </h1>
 
-  <main>
-    <section id="home" class="hero">
-      <div class="hero-content">
-        <div class="pill">✨ FREE CBSE STUDY MATERIAL</div>
-        <h1>Learn Smarter.<br><span>Score Better.</span></h1>
+    <p>
+      Notes, question papers, important questions
+      and educational videos for
+      <strong>CBSE Classes 9 to 12</strong>.
+    </p>
+
+    <div class="hero-buttons">
+
+      <a
+        class="btn primary"
+        href="#classes"
+      >
+        Explore Classes →
+      </a>
+
+      <a
+        class="btn light"
+        href="https://www.youtube.com/@educationpoint7355"
+        target="_blank"
+        rel="noopener"
+      >
+        ▶ Watch Videos
+      </a>
+
+    </div>
+
+  </div>
+
+
+  <div class="hero-visual">
+
+    <div class="hero-circle circle-one"></div>
+
+    <div class="hero-circle circle-two"></div>
+
+    <div class="hero-book">
+      📚
+    </div>
+
+    <div class="floating-card float-one">
+      📄
+      <b>Notes</b>
+      <small>Easy revision</small>
+    </div>
+
+    <div class="floating-card float-two">
+      📝
+      <b>Questions</b>
+      <small>Practice more</small>
+    </div>
+
+    <div class="floating-card float-three">
+      ▶️
+      <b>Videos</b>
+      <small>Learn visually</small>
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =======================================================
+     CLASSES
+======================================================= -->
+
+<section
+  id="classes"
+  class="section"
+>
+
+  <div class="heading">
+
+    <span>
+      01
+    </span>
+
+    <div>
+
+      <small>
+        CHOOSE YOUR CLASS
+      </small>
+
+      <h2>
+        Study Material by Class
+      </h2>
+
+    </div>
+
+  </div>
+
+
+  <div class="class-grid">
+
+
+    <a
+      class="class-card"
+      href="#class9"
+    >
+
+      <span class="class-number">
+        09
+      </span>
+
+      <span class="class-info">
+
+        <strong>
+          Class 9
+        </strong>
+
+        <small>
+          Notes • PDFs • Questions
+        </small>
+
+      </span>
+
+      <span class="class-arrow">
+        →
+      </span>
+
+    </a>
+
+
+    <a
+      class="class-card"
+      href="#class10"
+    >
+
+      <span class="class-number">
+        10
+      </span>
+
+      <span class="class-info">
+
+        <strong>
+          Class 10
+        </strong>
+
+        <small>
+          Notes • PDFs • Questions
+        </small>
+
+      </span>
+
+      <span class="class-arrow">
+        →
+      </span>
+
+    </a>
+
+
+    <a
+      class="class-card"
+      href="#class11"
+    >
+
+      <span class="class-number">
+        11
+      </span>
+
+      <span class="class-info">
+
+        <strong>
+          Class 11
+        </strong>
+
+        <small>
+          Notes • PDFs • Questions
+        </small>
+
+      </span>
+
+      <span class="class-arrow">
+        →
+      </span>
+
+    </a>
+
+
+    <a
+      class="class-card"
+      href="#class12"
+    >
+
+      <span class="class-number">
+        12
+      </span>
+
+      <span class="class-info">
+
+        <strong>
+          Class 12
+        </strong>
+
+        <small>
+          Notes • PDFs • Questions
+        </small>
+
+      </span>
+
+      <span class="class-arrow">
+        →
+      </span>
+
+    </a>
+
+
+  </div>
+
+</section>
+
+
+<!-- =======================================================
+     CLASS 9
+======================================================= -->
+
+<section
+  id="class9"
+  class="section blue-section"
+>
+
+  <div class="heading">
+
+    <span>09</span>
+
+    <div>
+
+      <small>
+        CLASS 9
+      </small>
+
+      <h2>
+        Choose Your Subject
+      </h2>
+
+    </div>
+
+  </div>
+
+
+  <div class="subject-grid">
+
+    <div
+      class="subject-card"
+      data-class="Class 9"
+      data-subject="Mathematics"
+      onclick="showSubjectMaterials('Class 9','Mathematics')"
+    >
+      <div class="subject-icon">📐</div>
+      <strong>Mathematics</strong>
+      <small>Notes • PDFs • Questions</small>
+    </div>
+
+
+    <div
+      class="subject-card"
+      data-class="Class 9"
+      data-subject="Science"
+      onclick="showSubjectMaterials('Class 9','Science')"
+    >
+      <div class="subject-icon">🔬</div>
+      <strong>Science</strong>
+      <small>Notes • PDFs • Questions</small>
+    </div>
+
+
+    <div
+      class="subject-card"
+      data-class="Class 9"
+      data-subject="English"
+      onclick="showSubjectMaterials('Class 9','English')"
+    >
+      <div class="subject-icon">📖</div>
+      <strong>English</strong>
+      <small>Notes • PDFs • Questions</small>
+    </div>
+
+
+    <div
+      class="subject-card"
+      data-class="Class 9"
+      data-subject="Hindi"
+      onclick="showSubjectMaterials('Class 9','Hindi')"
+    >
+      <div class="subject-icon">🇮🇳</div>
+      <strong>Hindi</strong>
+      <small>Notes • PDFs • Questions</small>
+    </div>
+
+
+    <div
+      class="subject-card"
+      data-class="Class 9"
+      data-subject="Social Science"
+      onclick="showSubjectMaterials('Class 9','Social Science')"
+    >
+      <div class="subject-icon">🌍</div>
+      <strong>Social Science</strong>
+      <small>Notes • PDFs • Questions</small>
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =======================================================
+     CLASS 10
+======================================================= -->
+
+<section
+  id="class10"
+  class="section"
+>
+
+  <div class="heading">
+
+    <span>10</span>
+
+    <div>
+
+      <small>
+        CLASS 10
+      </small>
+
+      <h2>
+        Choose Your Subject
+      </h2>
+
+    </div>
+
+  </div>
+
+
+  <div class="subject-grid">
+
+    <div
+      class="subject-card"
+      onclick="showSubjectMaterials('Class 10','Mathematics')"
+    >
+      <div class="subject-icon">📐</div>
+      <strong>Mathematics</strong>
+      <small>Notes • PDFs • Questions</small>
+    </div>
+
+
+    <div
+      class="subject-card"
+      onclick="showSubjectMaterials('Class 10','Science')"
+    >
+      <div class="subject-icon">🔬</div>
+      <strong>Science</strong>
+      <small>Notes • PDFs • Questions</small>
+    </div>
+
+
+    <div
+      class="subject-card"
+      onclick="showSubjectMaterials('Class 10','English')"
+    >
+      <div class="subject-icon">📖</div>
+      <strong>English</strong>
+      <small>Notes • PDFs • Questions</small>
+    </div>
+
+
+    <div
+      class="subject-card"
+      onclick="showSubjectMaterials('Class 10','Hindi')"
+    >
+      <div class="subject-icon">🇮🇳</div>
+      <strong>Hindi</strong>
+      <small>Notes • PDFs • Questions</small>
+    </div>
+
+
+    <div
+      class="subject-card"
+      onclick="showSubjectMaterials('Class 10','Social Science')"
+    >
+      <div class="subject-icon">🌍</div>
+      <strong>Social Science</strong>
+      <small>Notes • PDFs • Questions</small>
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =======================================================
+     CLASS 11
+======================================================= -->
+
+<section
+  id="class11"
+  class="section blue-section"
+>
+
+  <div class="heading">
+
+    <span>11</span>
+
+    <div>
+
+      <small>
+        CLASS 11
+      </small>
+
+      <h2>
+        Choose Your Subject
+      </h2>
+
+    </div>
+
+  </div>
+
+
+  <div class="subject-grid">
+
+    <div
+      class="subject-card"
+      onclick="showSubjectMaterials('Class 11','Physics')"
+    >
+      <div class="subject-icon">⚛️</div>
+      <strong>Physics</strong>
+      <small>Notes • PDFs • Questions</small>
+    </div>
+
+
+    <div
+      class="subject-card"
+      onclick="showSubjectMaterials('Class 11','Chemistry')"
+    >
+      <div class="subject-icon">🧪</div>
+      <strong>Chemistry</strong>
+      <small>Notes • PDFs • Questions</small>
+    </div>
+
+
+    <div
+      class="subject-card"
+      onclick="showSubjectMaterials('Class 11','Biology')"
+    >
+      <div class="subject-icon">🧬</div>
+      <strong>Biology</strong>
+      <small>Notes • PDFs • Questions</small>
+    </div>
+
+
+    <div
+      class="subject-card"
+      onclick="showSubjectMaterials('Class 11','Mathematics')"
+    >
+      <div class="subject-icon">📐</div>
+      <strong>Mathematics</strong>
+      <small>Notes • PDFs • Questions</small>
+    </div>
+
+
+    <div
+      class="subject-card"
+      onclick="showSubjectMaterials('Class 11','English')"
+    >
+      <div class="subject-icon">📖</div>
+      <strong>English</strong>
+      <small>Notes • PDFs • Questions</small>
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =======================================================
+     CLASS 12
+======================================================= -->
+
+<section
+  id="class12"
+  class="section"
+>
+
+  <div class="heading">
+
+    <span>12</span>
+
+    <div>
+
+      <small>
+        CLASS 12
+      </small>
+
+      <h2>
+        Choose Your Subject
+      </h2>
+
+    </div>
+
+  </div>
+
+
+  <div class="subject-grid">
+
+    <div
+      class="subject-card"
+      onclick="showSubjectMaterials('Class 12','Physics')"
+    >
+      <div class="subject-icon">⚛️</div>
+      <strong>Physics</strong>
+      <small>Notes • PDFs • Questions</small>
+    </div>
+
+
+    <div
+      class="subject-card"
+      onclick="showSubjectMaterials('Class 12','Chemistry')"
+    >
+      <div class="subject-icon">🧪</div>
+      <strong>Chemistry</strong>
+      <small>Notes • PDFs • Questions</small>
+    </div>
+
+
+    <div
+      class="subject-card"
+      onclick="showSubjectMaterials('Class 12','Biology')"
+    >
+      <div class="subject-icon">🧬</div>
+      <strong>Biology</strong>
+      <small>Notes • PDFs • Questions</small>
+    </div>
+
+
+    <div
+      class="subject-card"
+      onclick="showSubjectMaterials('Class 12','Mathematics')"
+    >
+      <div class="subject-icon">📐</div>
+      <strong>Mathematics</strong>
+      <small>Notes • PDFs • Questions</small>
+    </div>
+
+
+    <div
+      class="subject-card"
+      onclick="showSubjectMaterials('Class 12','English')"
+    >
+      <div class="subject-icon">📖</div>
+      <strong>English</strong>
+      <small>Notes • PDFs • Questions</small>
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =======================================================
+     SELECTED SUBJECT MATERIALS
+======================================================= -->
+
+<section
+  id="subjectMaterials"
+  class="section"
+>
+
+  <div class="heading">
+
+    <span>📚</span>
+
+    <div>
+
+      <small id="selectedClass">
+        CLASS
+      </small>
+
+      <h2 id="selectedSubject">
+        Study Materials
+      </h2>
+
+    </div>
+
+  </div>
+
+
+  <div
+    id="subjectMaterialsList"
+    class="materials-list"
+  ></div>
+
+</section>
+
+
+<!-- =======================================================
+     RESOURCES
+======================================================= -->
+
+<section
+  id="resources"
+  class="section"
+>
+
+  <div class="heading">
+
+    <span>02</span>
+
+    <div>
+
+      <small>
+        STUDY RESOURCES
+      </small>
+
+      <h2>
+        Everything You Need
+      </h2>
+
+    </div>
+
+  </div>
+
+
+  <div class="resource-grid">
+
+    <article class="resource-card">
+      <div>📚</div>
+      <strong>Chapter Notes</strong>
+      <p>
+        Simple notes organized by class and subject.
+      </p>
+    </article>
+
+
+    <article class="resource-card">
+      <div>📝</div>
+      <strong>Question Papers</strong>
+      <p>
+        Practice papers and important questions.
+      </p>
+    </article>
+
+
+    <article class="resource-card">
+      <div>📥</div>
+      <strong>PDF Downloads</strong>
+      <p>
+        Easy access to study PDFs and worksheets.
+      </p>
+    </article>
+
+
+    <article class="resource-card">
+      <div>🎯</div>
+      <strong>Important Questions</strong>
+      <p>
+        Focused revision material for exams.
+      </p>
+    </article>
+
+  </div>
+
+</section>
+
+
+<!-- =======================================================
+     LIVE MATERIALS
+======================================================= -->
+
+<section
+  id="live-materials"
+  class="section"
+>
+
+  <div class="heading">
+
+    <span>03</span>
+
+    <div>
+
+      <small>
+        LIVE FROM EDUCATION POINT
+      </small>
+
+      <h2>
+        📚 Latest Study Materials
+      </h2>
+
+    </div>
+
+  </div>
+
+
+  <div class="filter-box">
+
+    <input
+      type="search"
+      id="materialSearch"
+      placeholder="🔍 Search study materials..."
+      autocomplete="off"
+    >
+
+
+    <select id="classFilter">
+
+      <option value="">
+        All Classes
+      </option>
+
+      <option value="Class 9">
+        Class 9
+      </option>
+
+      <option value="Class 10">
+        Class 10
+      </option>
+
+      <option value="Class 11">
+        Class 11
+      </option>
+
+      <option value="Class 12">
+        Class 12
+      </option>
+
+    </select>
+
+
+    <select id="subjectFilter">
+
+      <option value="">
+        All Subjects
+      </option>
+
+      <option value="Mathematics">
+        Mathematics
+      </option>
+
+      <option value="Science">
+        Science
+      </option>
+
+      <option value="English">
+        English
+      </option>
+
+      <option value="Hindi">
+        Hindi
+      </option>
+
+      <option value="Social Science">
+        Social Science
+      </option>
+
+      <option value="Physics">
+        Physics
+      </option>
+
+      <option value="Chemistry">
+        Chemistry
+      </option>
+
+      <option value="Biology">
+        Biology
+      </option>
+
+    </select>
+
+  </div>
+
+
+  <div
+    id="liveMaterials"
+    class="live-grid"
+  >
+
+    <div class="material-box loading-box">
+
+      <div class="loading-icon">
+        ⏳
+      </div>
+
+      <h3>
+        Loading study materials...
+      </h3>
+
+      <p>
+        Please wait...
+      </p>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =======================================================
+     YOUTUBE
+======================================================= -->
+
+<section
+  id="youtube"
+  class="youtube-banner"
+>
+
+  <div class="youtube-left">
+
+    <div class="play">
+      ▶
+    </div>
+
+    <div>
+
+      <small>
+        LEARN WITH EDUCATION POINT
+      </small>
+
+      <h2>
+        Watch our educational videos
+      </h2>
+
+    </div>
+
+  </div>
+
+
+  <a
+    href="https://www.youtube.com/@educationpoint7355"
+    target="_blank"
+    rel="noopener"
+  >
+    Visit YouTube ↗
+  </a>
+
+</section>
+
+
+<!-- =======================================================
+     ABOUT
+======================================================= -->
+
+<section
+  id="about"
+  class="about-box"
+>
+
+  <div>
+
+    <small>
+      ABOUT EDUCATION POINT
+    </small>
+
+    <h2>
+      Made for students.
+      Built for easy learning.
+    </h2>
+
+  </div>
+
+
+  <p>
+
+    Education Point provides CBSE
+    study resources for Classes 9–12
+    in one simple and student-friendly
+    website.
+
+    <br><br>
+
+    Notes, PDFs, question papers and
+    educational videos will be added
+    regularly.
+
+  </p>
+
+</section>
+
+
+</main>
+
+
+<!-- =======================================================
+     FOOTER
+======================================================= -->
+
+<footer>
+
+  <div>
+
+    <b>
+      🎓 EDUCATION POINT
+    </b>
+
+    <small>
+      CBSE Classes 9–12
+    </small>
+
+  </div>
+
+
+  <div>
+
+    <b>
+      Classes
+    </b>
+
+    <a href="#class9">
+      Class 9
+    </a>
+
+    <a href="#class10">
+      Class 10
+    </a>
+
+    <a href="#class11">
+      Class 11
+    </a>
+
+    <a href="#class12">
+      Class 12
+    </a>
+
+  </div>
+
+
+  <div>
+
+    <b>
+      Resources
+    </b>
+
+    <a href="#resources">
+      Study Resources
+    </a>
+
+    <a href="#live-materials">
+      Latest Materials
+    </a>
+
+    <a href="#youtube">
+      YouTube
+    </a>
+
+  </div>
+
+
+  <p>
+    © 2026 Education Point • Made for students ❤️
+  </p>
+
+</footer>
+
+
+<div
+  id="toast"
+  class="toast"
+></div>
+
+
+<script>
+
+/* =========================================================
+   SUPABASE
+========================================================= */
+
+const SUPABASE_URL =
+  "https://zpvqgrqgxckzxkoygeqo.supabase.co";
+
+const SUPABASE_KEY =
+  "sb_publishable_Fm2B3h3_qyVMKcGc_CABcA_FU0ptpud";
+
+
+const supabaseClient =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
+
+
+/* =========================================================
+   GLOBAL DATA
+========================================================= */
+
+let allMaterials = [];
+
+let allClasses = [];
+
+let allSubjects = [];
+
+
+/* =========================================================
+   HELPERS
+========================================================= */
+
+function escapeHTML(value) {
+
+  return String(value ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+
+}
+
+
+function normalize(value) {
+
+  return String(value ?? "")
+    .trim()
+    .toLowerCase();
+
+}
+
+
+function typeIcon(type) {
+
+  const value =
+    normalize(type);
+
+  if (value.includes("question"))
+    return "📝";
+
+  if (value.includes("note"))
+    return "📚";
+
+  if (value.includes("worksheet"))
+    return "📋";
+
+  if (value.includes("important"))
+    return "🎯";
+
+  if (value.includes("video"))
+    return "🎥";
+
+  return "📄";
+
+}
+
+
+function showToast(message) {
+
+  const toast =
+    document.getElementById("toast");
+
+  if (!toast) return;
+
+  toast.textContent =
+    message;
+
+  toast.classList.add("show");
+
+  setTimeout(() => {
+
+    toast.classList.remove("show");
+
+  }, 3000);
+
+}
+
+
+/* =========================================================
+   DARK MODE
+========================================================= */
+
+function setupDarkMode() {
+
+  const button =
+    document.getElementById("themeBtn");
+
+  if (!button) return;
+
+
+  const saved =
+    localStorage.getItem(
+      "educationPointTheme"
+    );
+
+
+  if (saved === "dark") {
+
+    document.body.classList.add("dark");
+
+    button.textContent = "☀️";
+
+  }
+
+
+  button.addEventListener(
+    "click",
+    function () {
+
+      document.body.classList.toggle("dark");
+
+
+      const dark =
+        document.body.classList.contains(
+          "dark"
+        );
+
+
+      button.textContent =
+        dark ? "☀️" : "🌙";
+
+
+      localStorage.setItem(
+        "educationPointTheme",
+        dark ? "dark" : "light"
+      );
+
+    }
+  );
+
+}
+
+
+/* =========================================================
+   LOAD CLASSES
+========================================================= */
+
+async function loadClasses() {
+
+  const {
+    data,
+    error
+  } = await supabaseClient
+
+    .from("classes")
+
+    .select("id,name")
+
+    .order("id");
+
+
+  if (error) {
+
+    console.error(
+      "Classes error:",
+      error
+    );
+
+    return [];
+
+  }
+
+
+  allClasses =
+    data || [];
+
+
+  return allClasses;
+
+}
+
+
+/* =========================================================
+   LOAD SUBJECTS
+========================================================= */
+
+async function loadSubjects() {
+
+  const {
+    data,
+    error
+  } = await supabaseClient
+
+    .from("subjects")
+
+    .select("id,name,class_id")
+
+    .order("id");
+
+
+  if (error) {
+
+    console.error(
+      "Subjects error:",
+      error
+    );
+
+    return [];
+
+  }
+
+
+  allSubjects =
+    data || [];
+
+
+  return allSubjects;
+
+}
+
+
+/* =========================================================
+   GET CLASS ID
+========================================================= */
+
+function getClassId(className) {
+
+  const wanted =
+    normalize(className);
+
+
+  const found =
+    allClasses.find(
+      item =>
+        normalize(item.name) === wanted
+    );
+
+
+  return found?.id ?? null;
+
+}
+
+
+/* =========================================================
+   GET SUBJECT ID
+========================================================= */
+
+function getSubjectId(
+  subjectName,
+  classId
+) {
+
+  const wanted =
+    normalize(subjectName);
+
+
+  const found =
+    allSubjects.find(
+      item =>
+        Number(item.class_id) === Number(classId) &&
+        normalize(item.name) === wanted
+    );
+
+
+  return found?.id ?? null;
+
+}
+
+
+/* =========================================================
+   LOAD ALL MATERIALS
+========================================================= */
+
+async function loadAllMaterials() {
+
+  const container =
+    document.getElementById(
+      "liveMaterials"
+    );
+
+
+  if (!container) return;
+
+
+  const {
+    data,
+    error
+  } = await supabaseClient
+
+    .from("materials")
+
+    .select(`
+      id,
+      title,
+      chapter,
+      material_type,
+      file_url,
+      youtube_url,
+      description,
+      created_at,
+      class_id,
+      subject_id
+    `)
+
+    .order(
+      "created_at",
+      {
+        ascending: false
+      }
+    );
+
+
+  if (error) {
+
+    console.error(
+      "Materials error:",
+      error
+    );
+
+
+    container.innerHTML = `
+
+      <div class="material-box error-box">
+
+        <div class="empty-icon">
+          ⚠️
+        </div>
+
+        <h3>
+          Materials load nahi ho pa rahe
+        </h3>
+
         <p>
-          Notes, question papers, important questions and educational videos for
-          <strong>CBSE Classes 9 to 12</strong>.
+          ${escapeHTML(error.message)}
         </p>
 
-        <div class="hero-buttons">
-          <a class="btn primary" href="#classes">Explore Classes →</a>
-          <a class="btn light" href="https://www.youtube.com/@educationpoint7355" target="_blank" rel="noopener">▶ Watch Videos</a>
+      </div>
+
+    `;
+
+    return;
+
+  }
+
+
+  allMaterials =
+    data || [];
+
+
+  renderLiveMaterials(
+    allMaterials
+  );
+
+}
+
+
+/* =========================================================
+   MATERIAL CARD
+========================================================= */
+
+function createMaterialCard(
+  material
+) {
+
+  const classObject =
+    allClasses.find(
+      item =>
+        Number(item.id) ===
+        Number(material.class_id)
+    );
+
+
+  const subjectObject =
+    allSubjects.find(
+      item =>
+        Number(item.id) ===
+        Number(material.subject_id)
+    );
+
+
+  const className =
+    classObject?.name ||
+    "Class";
+
+
+  const subjectName =
+    subjectObject?.name ||
+    "Subject";
+
+
+  const materialType =
+    material.material_type ||
+    "PDF";
+
+
+  const card =
+    document.createElement("article");
+
+
+  card.className =
+    "material-box";
+
+
+  card.dataset.class =
+    className;
+
+
+  card.dataset.subject =
+    subjectName;
+
+
+  card.dataset.search = [
+
+    material.title,
+
+    material.chapter,
+
+    material.description,
+
+    materialType,
+
+    className,
+
+    subjectName
+
+  ]
+    .filter(Boolean)
+    .join(" ")
+    .toLowerCase();
+
+
+  card.innerHTML = `
+
+    <div class="material-top">
+
+      <div class="material-icon">
+        ${typeIcon(materialType)}
+      </div>
+
+      <div class="material-type">
+        ${typeIcon(materialType)}
+        ${escapeHTML(materialType)}
+      </div>
+
+    </div>
+
+
+    <div class="material-meta">
+
+      🎓 ${escapeHTML(className)}
+
+      →
+
+      📚 ${escapeHTML(subjectName)}
+
+    </div>
+
+
+    <h3>
+      ${escapeHTML(
+        material.title ||
+        "Study Material"
+      )}
+    </h3>
+
+
+    ${
+      material.chapter
+      ? `
+
+        <div class="material-chapter">
+
+          📖
+
+          <span>
+            ${escapeHTML(
+              material.chapter
+            )}
+          </span>
+
         </div>
 
-        <div class="mini-stats">
-          <div><strong>9–12</strong><span>Classes</span></div>
-          <div><strong>All</strong><span>Subjects</span></div>
-          <div><strong>Free</strong><span>Resources</span></div>
+      `
+      : ""
+    }
+
+
+    ${
+      material.description
+      ? `
+
+        <p>
+          ${escapeHTML(
+            material.description
+          )}
+        </p>
+
+      `
+      : ""
+    }
+
+
+    <div class="material-buttons">
+
+      ${
+        material.file_url
+        ? `
+
+          <a
+            class="material-btn pdf-btn"
+            href="${escapeHTML(
+              material.file_url
+            )}"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            📥 Open / Download PDF
+          </a>
+
+        `
+        : ""
+      }
+
+
+      ${
+        material.youtube_url
+        ? `
+
+          <a
+            class="material-btn video-btn"
+            href="${escapeHTML(
+              material.youtube_url
+            )}"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            ▶ Watch Video
+          </a>
+
+        `
+        : ""
+      }
+
+    </div>
+
+  `;
+
+
+  return card;
+
+}
+
+
+/* =========================================================
+   RENDER LIVE MATERIALS
+========================================================= */
+
+function renderLiveMaterials(
+  materials
+) {
+
+  const container =
+    document.getElementById(
+      "liveMaterials"
+    );
+
+
+  if (!container) return;
+
+
+  if (
+    !materials ||
+    materials.length === 0
+  ) {
+
+    container.innerHTML = `
+
+      <div class="material-box empty-box">
+
+        <div class="empty-icon">
+          📚
         </div>
+
+        <h3>
+          No materials yet
+        </h3>
+
+        <p>
+          Uploaded PDFs yahan automatically show honge.
+        </p>
+
       </div>
 
-      <div class="hero-visual" aria-hidden="true">
-        <div class="circle c1"></div>
-        <div class="circle c2"></div>
-        <div class="book">📚</div>
-        <div class="cap">🎓</div>
+    `;
 
-        <div class="float-card card-one">📄 <b>Notes</b><small>Easy revision</small></div>
-        <div class="float-card card-two">📝 <b>Question Papers</b><small>Practice more</small></div>
-        <div class="float-card card-three">▶️ <b>Videos</b><small>Learn visually</small></div>
-      </div>
-    </section>
+    return;
 
-    <section id="classes" class="section">
-      <div class="heading">
-        <span>01</span>
-        <div><small>CHOOSE YOUR CLASS</small><h2>Study Material by Class</h2></div>
-      </div>
+  }
 
-      <div class="class-grid">
-        <a class="class-card" href="#class9"><span class="class-number">09</span><span class="class-info"><strong>Class 9</strong><small>Notes • PDFs • Questions</small></span><span class="class-arrow">→</span></a>
-        <a class="class-card" href="#class10"><span class="class-number">10</span><span class="class-info"><strong>Class 10</strong><small>Notes • PDFs • Questions</small></span><span class="class-arrow">→</span></a>
-        <a class="class-card" href="#class11"><span class="class-number">11</span><span class="class-info"><strong>Class 11</strong><small>Notes • PDFs • Questions</small></span><span class="class-arrow">→</span></a>
-        <a class="class-card" href="#class12"><span class="class-number">12</span><span class="class-info"><strong>Class 12</strong><small>Notes • PDFs • Questions</small></span><span class="class-arrow">→</span></a>
-      </div>
-    </section>
 
-    <section id="class9" class="section blue-section">
-      <div class="heading"><span>09</span><div><small>CLASS 9</small><h2>Choose Your Subject</h2></div></div>
-      <div class="subject-grid">
-        <button class="subject-card" data-class="Class 9" data-subject="Mathematics"><span class="subject-icon">📐</span><strong>Mathematics</strong><small>Notes • PDFs • Questions</small></button>
-        <button class="subject-card" data-class="Class 9" data-subject="Science"><span class="subject-icon">🔬</span><strong>Science</strong><small>Notes • PDFs • Questions</small></button>
-        <button class="subject-card" data-class="Class 9" data-subject="English"><span class="subject-icon">📖</span><strong>English</strong><small>Notes • PDFs • Questions</small></button>
-        <button class="subject-card" data-class="Class 9" data-subject="Hindi"><span class="subject-icon">🇮🇳</span><strong>Hindi</strong><small>Notes • PDFs • Questions</small></button>
-        <button class="subject-card" data-class="Class 9" data-subject="Social Science"><span class="subject-icon">🌍</span><strong>Social Science</strong><small>Notes • PDFs • Questions</small></button>
-      </div>
-    </section>
+  container.innerHTML = "";
 
-    <section id="class10" class="section">
-      <div class="heading"><span>10</span><div><small>CLASS 10</small><h2>Choose Your Subject</h2></div></div>
-      <div class="subject-grid">
-        <button class="subject-card" data-class="Class 10" data-subject="Mathematics"><span class="subject-icon">📐</span><strong>Mathematics</strong><small>Notes • PDFs • Questions</small></button>
-        <button class="subject-card" data-class="Class 10" data-subject="Science"><span class="subject-icon">🔬</span><strong>Science</strong><small>Notes • PDFs • Questions</small></button>
-        <button class="subject-card" data-class="Class 10" data-subject="English"><span class="subject-icon">📖</span><strong>English</strong><small>Notes • PDFs • Questions</small></button>
-        <button class="subject-card" data-class="Class 10" data-subject="Hindi"><span class="subject-icon">🇮🇳</span><strong>Hindi</strong><small>Notes • PDFs • Questions</small></button>
-        <button class="subject-card" data-class="Class 10" data-subject="Social Science"><span class="subject-icon">🌍</span><strong>Social Science</strong><small>Notes • PDFs • Questions</small></button>
-      </div>
-    </section>
 
-    <section id="class11" class="section blue-section">
-      <div class="heading"><span>11</span><div><small>CLASS 11</small><h2>Choose Your Subject</h2></div></div>
-      <div class="subject-grid">
-        <button class="subject-card" data-class="Class 11" data-subject="Physics"><span class="subject-icon">⚛️</span><strong>Physics</strong><small>Notes • PDFs • Questions</small></button>
-        <button class="subject-card" data-class="Class 11" data-subject="Chemistry"><span class="subject-icon">🧪</span><strong>Chemistry</strong><small>Notes • PDFs • Questions</small></button>
-        <button class="subject-card" data-class="Class 11" data-subject="Biology"><span class="subject-icon">🧬</span><strong>Biology</strong><small>Notes • PDFs • Questions</small></button>
-        <button class="subject-card" data-class="Class 11" data-subject="Mathematics"><span class="subject-icon">📐</span><strong>Mathematics</strong><small>Notes • PDFs • Questions</small></button>
-        <button class="subject-card" data-class="Class 11" data-subject="English"><span class="subject-icon">📖</span><strong>English</strong><small>Notes • PDFs • Questions</small></button>
-      </div>
-    </section>
+  materials.forEach(
+    material => {
 
-    <section id="class12" class="section">
-      <div class="heading"><span>12</span><div><small>CLASS 12</small><h2>Choose Your Subject</h2></div></div>
-      <div class="subject-grid">
-        <button class="subject-card" data-class="Class 12" data-subject="Physics"><span class="subject-icon">⚛️</span><strong>Physics</strong><small>Notes • PDFs • Questions</small></button>
-        <button class="subject-card" data-class="Class 12" data-subject="Chemistry"><span class="subject-icon">🧪</span><strong>Chemistry</strong><small>Notes • PDFs • Questions</small></button>
-        <button class="subject-card" data-class="Class 12" data-subject="Biology"><span class="subject-icon">🧬</span><strong>Biology</strong><small>Notes • PDFs • Questions</small></button>
-        <button class="subject-card" data-class="Class 12" data-subject="Mathematics"><span class="subject-icon">📐</span><strong>Mathematics</strong><small>Notes • PDFs • Questions</small></button>
-        <button class="subject-card" data-class="Class 12" data-subject="English"><span class="subject-icon">📖</span><strong>English</strong><small>Notes • PDFs • Questions</small></button>
-      </div>
-    </section>
+      container.appendChild(
+        createMaterialCard(material)
+      );
 
-    <section id="subjectMaterials" class="section selected-materials" hidden>
-      <div class="heading"><span>📚</span><div><small id="selectedClass">CLASS</small><h2 id="selectedSubject">Study Materials</h2></div></div>
-      <div id="subjectMaterialsList"></div>
-    </section>
+    }
+  );
 
-    <section id="resources" class="section">
-      <div class="heading"><span>02</span><div><small>STUDY RESOURCES</small><h2>Everything You Need</h2></div></div>
-      <div class="resource-grid">
-        <article><div>📚</div><strong>Chapter Notes</strong><p>Simple notes organized by class and subject.</p></article>
-        <article><div>📝</div><strong>Question Papers</strong><p>Practice papers and important questions.</p></article>
-        <article><div>📥</div><strong>PDF Downloads</strong><p>Easy access to study PDFs and worksheets.</p></article>
-        <article><div>🎯</div><strong>Important Questions</strong><p>Focused revision material for exams.</p></article>
-      </div>
-    </section>
 
-    <section id="live-materials" class="section">
-      <div class="heading"><span>03</span><div><small>LIVE FROM EDUCATION POINT</small><h2>📚 Latest Study Materials</h2></div></div>
+  applyFilters();
 
-      <div class="material-filters">
-        <input type="search" id="materialSearch" placeholder="🔍 Search study materials..." autocomplete="off">
-        <select id="classFilter">
-          <option value="">All Classes</option>
-          <option value="Class 9">Class 9</option>
-          <option value="Class 10">Class 10</option>
-          <option value="Class 11">Class 11</option>
-          <option value="Class 12">Class 12</option>
-        </select>
-        <select id="subjectFilter">
-          <option value="">All Subjects</option>
-          <option value="Mathematics">Mathematics</option>
-          <option value="Science">Science</option>
-          <option value="English">English</option>
-          <option value="Hindi">Hindi</option>
-          <option value="Social Science">Social Science</option>
-          <option value="Physics">Physics</option>
-          <option value="Chemistry">Chemistry</option>
-          <option value="Biology">Biology</option>
-        </select>
+}
+
+
+/* =========================================================
+   SHOW SUBJECT MATERIALS
+========================================================= */
+
+async function showSubjectMaterials(
+  className,
+  subjectName
+) {
+
+  const section =
+    document.getElementById(
+      "subjectMaterials"
+    );
+
+
+  const title =
+    document.getElementById(
+      "selectedSubject"
+    );
+
+
+  const classTitle =
+    document.getElementById(
+      "selectedClass"
+    );
+
+
+  const list =
+    document.getElementById(
+      "subjectMaterialsList"
+    );
+
+
+  if (
+    !section ||
+    !title ||
+    !classTitle ||
+    !list
+  ) {
+
+    console.error(
+      "Subject materials HTML missing."
+    );
+
+    return;
+
+  }
+
+
+  /* SHOW SECTION */
+
+  section.style.display =
+    "block";
+
+
+  classTitle.textContent =
+    className.toUpperCase();
+
+
+  title.textContent =
+    subjectName;
+
+
+  /* SHOW LOADING */
+
+  list.innerHTML = `
+
+    <div class="material-box loading-box">
+
+      <div class="loading-icon">
+        ⏳
       </div>
 
-      <div id="liveMaterials"></div>
-    </section>
+      <h3>
+        Loading ${escapeHTML(subjectName)}...
+      </h3>
 
-    <section id="youtube" class="youtube-banner">
-      <div class="youtube-left">
-        <div class="play">▶</div>
-        <div><small>LEARN WITH EDUCATION POINT</small><h2>Watch our educational videos</h2><p>Explanations, revision and useful CBSE study content.</p></div>
+      <p>
+        ${escapeHTML(className)}
+        →
+        ${escapeHTML(subjectName)}
+      </p>
+
+    </div>
+
+  `;
+
+
+  /* SCROLL */
+
+  setTimeout(
+    () => {
+
+      section.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+      });
+
+    },
+    50
+  );
+
+
+  /*
+   * Make sure classes/subjects are loaded.
+   */
+
+  if (
+    allClasses.length === 0
+  ) {
+
+    await loadClasses();
+
+  }
+
+
+  if (
+    allSubjects.length === 0
+  ) {
+
+    await loadSubjects();
+
+  }
+
+
+  /* GET IDS */
+
+  const classId =
+    getClassId(className);
+
+
+  if (!classId) {
+
+    list.innerHTML = `
+
+      <div class="material-box error-box">
+
+        <div class="empty-icon">
+          🔍
+        </div>
+
+        <h3>
+          Class nahi mili
+        </h3>
+
+        <p>
+          ${escapeHTML(className)}
+        </p>
+
       </div>
-      <a href="https://www.youtube.com/@educationpoint7355" target="_blank" rel="noopener">Visit YouTube ↗</a>
-    </section>
 
-    <section id="about" class="about">
-      <div><small>ABOUT EDUCATION POINT</small><h2>Made for students.<br>Built for easy learning.</h2></div>
-      <p>Education Point provides CBSE study resources for Classes 9–12 in one simple and student-friendly website.<br><br>Notes, PDFs, question papers and educational videos will be added regularly.</p>
-    </section>
-  </main>
+    `;
 
-  <footer>
-    <div><b>🎓 EDUCATION POINT</b><small>CBSE Classes 9–12</small></div>
-    <div><a href="#classes">Classes</a><a href="#class9">Subjects</a></div>
-    <div><a href="#resources">Resources</a><a href="#youtube">YouTube</a></div>
-    <p>© 2026 Education Point • Made for students ❤️</p>
-  </footer>
+    return;
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="script.js"></script>
+  }
+
+
+  const subjectId =
+    getSubjectId(
+      subjectName,
+      classId
+    );
+
+
+  if (!subjectId) {
+
+    list.innerHTML = `
+
+      <div class="material-box empty-box">
+
+        <div class="empty-icon">
+          📚
+        </div>
+
+        <h3>
+          ${escapeHTML(subjectName)}
+          available nahi hai
+        </h3>
+
+        <p>
+          ${escapeHTML(className)}
+          →
+          ${escapeHTML(subjectName)}
+        </p>
+
+      </div>
+
+    `;
+
+    return;
+
+  }
+
+
+  /*
+   * IMPORTANT:
+   *
+   * Filter already loaded materials by IDs.
+   *
+   * This avoids the old nested-table query problem.
+   */
+
+  const matchingMaterials =
+    allMaterials.filter(
+      material =>
+        Number(material.class_id) ===
+          Number(classId) &&
+
+        Number(material.subject_id) ===
+          Number(subjectId)
+    );
+
+
+  if (
+    matchingMaterials.length === 0
+  ) {
+
+    list.innerHTML = `
+
+      <div class="material-box empty-box">
+
+        <div class="empty-icon">
+          📭
+        </div>
+
+        <h3>
+          Abhi materials available nahi hain
+        </h3>
+
+        <p>
+          ${escapeHTML(className)}
+          →
+          ${escapeHTML(subjectName)}
+        </p>
+
+        <p>
+          Agar tumne is subject ka PDF upload
+          kiya hai, to check karo ki admin panel
+          mein correct class aur subject select hua tha.
+        </p>
+
+      </div>
+
+    `;
+
+    return;
+
+  }
+
+
+  /* DISPLAY */
+
+  list.innerHTML = "";
+
+
+  matchingMaterials.forEach(
+    material => {
+
+      list.appendChild(
+        createMaterialCard(material)
+      );
+
+    }
+  );
+
+}
+
+
+/* =========================================================
+   FILTER MATERIALS
+========================================================= */
+
+function applyFilters() {
+
+  const search =
+    document
+      .getElementById(
+        "materialSearch"
+      )
+      ?.value
+      .toLowerCase()
+      .trim() || "";
+
+
+  const selectedClass =
+    document
+      .getElementById(
+        "classFilter"
+      )
+      ?.value || "";
+
+
+  const selectedSubject =
+    document
+      .getElementById(
+        "subjectFilter"
+      )
+      ?.value || "";
+
+
+  const cards =
+    document.querySelectorAll(
+      "#liveMaterials .material-box"
+    );
+
+
+  let visible =
+    0;
+
+
+  cards.forEach(
+    card => {
+
+      const text =
+        card.dataset.search ||
+        card.textContent.toLowerCase();
+
+
+      const cardClass =
+        card.dataset.class || "";
+
+
+      const cardSubject =
+        card.dataset.subject || "";
+
+
+      const searchMatch =
+        !search ||
+        text.includes(search);
+
+
+      const classMatch =
+        !selectedClass ||
+        cardClass === selectedClass;
+
+
+      const subjectMatch =
+        !selectedSubject ||
+        cardSubject === selectedSubject;
+
+
+      const show =
+        searchMatch &&
+        classMatch &&
+        subjectMatch;
+
+
+      card.style.display =
+        show ? "" : "none";
+
+
+      if (show) {
+        visible++;
+      }
+
+    }
+  );
+
+
+  let noResults =
+    document.getElementById(
+      "filterNoResults"
+    );
+
+
+  if (
+    cards.length > 0 &&
+    visible === 0
+  ) {
+
+    if (!noResults) {
+
+      noResults =
+        document.createElement(
+          "div"
+        );
+
+      noResults.id =
+        "filterNoResults";
+
+      noResults.className =
+        "material-box empty-box";
+
+      noResults.innerHTML = `
+
+        <div class="empty-icon">
+          🔍
+        </div>
+
+        <h3>
+          No materials found
+        </h3>
+
+        <p>
+          Search ya filter change karke try karo.
+        </p>
+
+      `;
+
+      document
+        .getElementById(
+          "liveMaterials"
+        )
+        ?.appendChild(
+          noResults
+        );
+
+    }
+
+  } else {
+
+    noResults?.remove();
+
+  }
+
+}
+
+
+/* =========================================================
+   FILTER EVENTS
+========================================================= */
+
+function setupFilters() {
+
+  document
+    .getElementById(
+      "materialSearch"
+    )
+    ?.addEventListener(
+      "input",
+      applyFilters
+    );
+
+
+  document
+    .getElementById(
+      "classFilter"
+    )
+    ?.addEventListener(
+      "change",
+      applyFilters
+    );
+
+
+  document
+    .getElementById(
+      "subjectFilter"
+    )
+    ?.addEventListener(
+      "change",
+      applyFilters
+    );
+
+}
+
+
+/* =========================================================
+   SUBJECT CARD KEYBOARD
+========================================================= */
+
+function setupSubjectCards() {
+
+  document
+    .querySelectorAll(
+      ".subject-card"
+    )
+    .forEach(
+      card => {
+
+        card.setAttribute(
+          "tabindex",
+          "0"
+        );
+
+
+        card.addEventListener(
+          "keydown",
+          function(event) {
+
+            if (
+              event.key === "Enter" ||
+              event.key === " "
+            ) {
+
+              event.preventDefault();
+
+              card.click();
+
+            }
+
+          }
+        );
+
+      }
+    );
+
+}
+
+
+/* =========================================================
+   INITIALIZE
+========================================================= */
+
+document.addEventListener(
+  "DOMContentLoaded",
+  async function() {
+
+    console.log(
+      "🎓 Education Point starting..."
+    );
+
+
+    setupDarkMode();
+
+    setupFilters();
+
+    setupSubjectCards();
+
+
+    /*
+     * Load classes and subjects FIRST.
+     * Then load ALL materials.
+     */
+
+    await loadClasses();
+
+    await loadSubjects();
+
+    await loadAllMaterials();
+
+
+    console.log(
+      "✅ Education Point ready",
+      {
+        classes: allClasses.length,
+        subjects: allSubjects.length,
+        materials: allMaterials.length
+      }
+    );
+
+  }
+);
+
+
+/* =========================================================
+   GLOBAL FUNCTION
+========================================================= */
+
+window.showSubjectMaterials =
+  showSubjectMaterials;
+
+</script>
+
 </body>
 </html>
