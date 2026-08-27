@@ -1,1190 +1,2768 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Education Point - Admin Panel</title>
+  <title>Education Point | Admin Panel</title>
+
+  <meta
+    name="description"
+    content="Education Point private administration panel."
+  >
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
+    /* =========================================
+       RESET
+    ========================================= */
+
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
     }
 
-    body {
-      font-family: Arial, sans-serif;
-      background: #f4f7fb;
-      color: #14213d;
-      padding: 30px 15px;
+    :root {
+      --primary: #2563eb;
+      --primary-dark: #1d4ed8;
+      --purple: #7c3aed;
+      --success: #16a34a;
+      --danger: #dc2626;
+      --warning: #f59e0b;
+
+      --bg: #f5f7fb;
+      --card: #ffffff;
+      --text: #111827;
+      --muted: #64748b;
+      --border: #e5e7eb;
+
+      --shadow:
+        0 10px 35px rgba(15, 23, 42, 0.07);
+
+      --radius: 20px;
     }
+
+
+    /* =========================================
+       BODY
+    ========================================= */
+
+    body {
+      min-height: 100vh;
+
+      font-family:
+        Inter,
+        ui-sans-serif,
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+
+      background:
+        radial-gradient(
+          circle at top left,
+          rgba(37, 99, 235, .08),
+          transparent 32%
+        ),
+        var(--bg);
+
+      color: var(--text);
+      line-height: 1.5;
+    }
+
+
+    /* =========================================
+       TOP HEADER
+    ========================================= */
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+
+      background:
+        rgba(255, 255, 255, .92);
+
+      backdrop-filter: blur(14px);
+
+      border-bottom:
+        1px solid rgba(229, 231, 235, .9);
+    }
+
+    .topbar-inner {
+      max-width: 1150px;
+      margin: auto;
+
+      padding: 15px 20px;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      gap: 20px;
+    }
+
+
+    /* =========================================
+       BRAND
+    ========================================= */
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-logo {
+      width: 46px;
+      height: 46px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      border-radius: 14px;
+
+      color: white;
+      font-size: 16px;
+      font-weight: 900;
+
+      background:
+        linear-gradient(
+          135deg,
+          var(--primary),
+          var(--purple)
+        );
+
+      box-shadow:
+        0 8px 20px rgba(37, 99, 235, .25);
+    }
+
+    .brand-text {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .brand-text strong {
+      font-size: 16px;
+      letter-spacing: .2px;
+    }
+
+    .brand-text span {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+
+    /* =========================================
+       ADMIN BADGE
+    ========================================= */
+
+    .admin-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+
+      padding: 8px 12px;
+
+      border-radius: 999px;
+
+      background: #eff6ff;
+      color: #1d4ed8;
+
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+
+    /* =========================================
+       PAGE
+    ========================================= */
 
     .container {
-      max-width: 900px;
-      margin: auto;
+      width: min(1150px, calc(100% - 30px));
+      margin: 0 auto;
+      padding: 35px 0 60px;
     }
 
-    .header {
-      background: white;
-      border-radius: 20px;
-      padding: 25px;
+
+    /* =========================================
+       PAGE HERO
+    ========================================= */
+
+    .page-hero {
+      position: relative;
+      overflow: hidden;
+
+      padding: 34px;
+
+      border-radius: 26px;
+
+      color: white;
+
+      background:
+        linear-gradient(
+          135deg,
+          #1d4ed8,
+          #4f46e5 55%,
+          #7c3aed
+        );
+
+      box-shadow:
+        0 20px 50px rgba(37, 99, 235, .20);
+
       margin-bottom: 25px;
-      box-shadow: 0 8px 25px rgba(0,0,0,.06);
     }
 
-    .header h1 {
-      font-size: 28px;
-      margin-bottom: 5px;
+    .page-hero::after {
+      content: "";
+
+      position: absolute;
+
+      width: 220px;
+      height: 220px;
+
+      right: -70px;
+      top: -90px;
+
+      border-radius: 50%;
+
+      background:
+        rgba(255,255,255,.10);
     }
 
-    .header p {
-      color: #718096;
+    .page-hero-content {
+      position: relative;
+      z-index: 2;
     }
+
+    .page-hero small {
+      display: block;
+
+      margin-bottom: 8px;
+
+      opacity: .82;
+
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+    }
+
+    .page-hero h1 {
+      font-size: clamp(27px, 4vw, 38px);
+      line-height: 1.15;
+      margin-bottom: 9px;
+    }
+
+    .page-hero p {
+      max-width: 650px;
+
+      color: rgba(255,255,255,.82);
+
+      font-size: 14px;
+    }
+
+
+    /* =========================================
+       LOGOUT
+    ========================================= */
+
+    .logout-btn {
+      position: relative;
+      z-index: 3;
+
+      float: right;
+
+      width: auto;
+
+      margin: 0;
+
+      padding: 10px 16px;
+
+      border: 1px solid rgba(255,255,255,.25);
+      border-radius: 10px;
+
+      background:
+        rgba(255,255,255,.12);
+
+      color: white;
+
+      font-size: 13px;
+      font-weight: 800;
+
+      cursor: pointer;
+
+      transition: .2s ease;
+    }
+
+    .logout-btn:hover {
+      background:
+        rgba(255,255,255,.22);
+
+      transform: translateY(-1px);
+    }
+
+
+    /* =========================================
+       GRID
+    ========================================= */
+
+    .dashboard-grid {
+      display: grid;
+
+      grid-template-columns:
+        minmax(0, 1fr)
+        minmax(300px, .72fr);
+
+      gap: 22px;
+
+      align-items: start;
+    }
+
+
+    /* =========================================
+       CARD
+    ========================================= */
 
     .card {
-      background: white;
-      border-radius: 20px;
-      padding: 28px;
-      box-shadow: 0 8px 25px rgba(0,0,0,.06);
-      margin-bottom: 25px;
+      background: var(--card);
+
+      border:
+        1px solid rgba(229, 231, 235, .9);
+
+      border-radius: var(--radius);
+
+      padding: 25px;
+
+      box-shadow: var(--shadow);
     }
 
-    .card h2 {
+    .card-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 13px;
+
       margin-bottom: 22px;
+    }
+
+    .card-icon {
+      width: 44px;
+      height: 44px;
+
+      flex-shrink: 0;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      border-radius: 13px;
+
+      background: #eff6ff;
+
+      font-size: 21px;
+    }
+
+    .card-header h2 {
+      font-size: 20px;
+      line-height: 1.2;
+
+      margin-bottom: 4px;
+    }
+
+    .card-header p {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+
+    /* =========================================
+       FORM
+    ========================================= */
+
+    .form-group {
+      margin-bottom: 17px;
     }
 
     label {
       display: block;
-      font-weight: bold;
+
       margin-bottom: 7px;
-      margin-top: 17px;
+
+      color: #334155;
+
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .required {
+      color: var(--danger);
     }
 
     input,
     select {
       width: 100%;
-      padding: 13px;
-      border: 1px solid #d9e0eb;
-      border-radius: 10px;
-      font-size: 15px;
+
+      min-height: 46px;
+
+      padding: 11px 13px;
+
+      border:
+        1px solid #dbe1ea;
+
+      border-radius: 11px;
+
+      background: white;
+
+      color: var(--text);
+
+      font-family: inherit;
+      font-size: 14px;
+
       outline: none;
+
+      transition:
+        border-color .2s ease,
+        box-shadow .2s ease;
+    }
+
+    input::placeholder {
+      color: #94a3b8;
     }
 
     input:focus,
     select:focus {
-      border-color: #2563eb;
-      box-shadow: 0 0 0 3px rgba(37,99,235,.1);
+      border-color: var(--primary);
+
+      box-shadow:
+        0 0 0 4px rgba(37,99,235,.09);
     }
 
-    button {
-      width: 100%;
-      margin-top: 25px;
-      padding: 14px;
-      border: none;
-      border-radius: 10px;
-      background: #2563eb;
-      color: white;
-      font-size: 16px;
-      font-weight: bold;
+    input[type="file"] {
+      padding: 9px;
       cursor: pointer;
     }
 
-    button:hover {
-      background: #1d4ed8;
+    input[type="file"]::file-selector-button {
+      border: 0;
+
+      padding: 8px 11px;
+
+      margin-right: 10px;
+
+      border-radius: 8px;
+
+      background: #eff6ff;
+      color: var(--primary);
+
+      font-weight: 700;
+
+      cursor: pointer;
     }
 
-    button:disabled {
-      background: #94a3b8;
-      cursor: not-allowed;
+    .help-text {
+      margin-top: 7px;
+
+      color: var(--muted);
+
+      font-size: 12px;
     }
+
+
+    /* =========================================
+       UPLOAD BUTTON
+    ========================================= */
+
+    .upload-btn {
+      width: 100%;
+
+      min-height: 48px;
+
+      margin-top: 7px;
+
+      border: 0;
+      border-radius: 12px;
+
+      background:
+        linear-gradient(
+          135deg,
+          var(--primary),
+          var(--purple)
+        );
+
+      color: white;
+
+      font-family: inherit;
+
+      font-size: 14px;
+      font-weight: 800;
+
+      cursor: pointer;
+
+      box-shadow:
+        0 10px 22px rgba(37,99,235,.20);
+
+      transition:
+        transform .2s ease,
+        box-shadow .2s ease;
+    }
+
+    .upload-btn:hover {
+      transform: translateY(-2px);
+
+      box-shadow:
+        0 14px 28px rgba(37,99,235,.25);
+    }
+
+    .upload-btn:disabled {
+      opacity: .65;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+
+    /* =========================================
+       STATUS
+    ========================================= */
 
     .status {
-      margin-top: 18px;
+      display: none;
+
+      margin-top: 16px;
+
+      padding: 12px 14px;
+
+      border-radius: 11px;
+
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .status.success {
+      display: block;
+
+      background: #dcfce7;
+      color: #166534;
+
+      border: 1px solid #bbf7d0;
+    }
+
+    .status.error {
+      display: block;
+
+      background: #fee2e2;
+      color: #991b1b;
+
+      border: 1px solid #fecaca;
+    }
+
+
+    /* =========================================
+       QUICK INFO
+    ========================================= */
+
+    .info-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .info-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 11px;
+
       padding: 13px;
+
+      border-radius: 13px;
+
+      background: #f8fafc;
+
+      border: 1px solid #eef2f7;
+    }
+
+    .info-item-icon {
+      width: 32px;
+      height: 32px;
+
+      flex-shrink: 0;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      border-radius: 9px;
+
+      background: white;
+
+      box-shadow:
+        0 3px 10px rgba(15,23,42,.05);
+    }
+
+    .info-item strong {
+      display: block;
+
+      margin-bottom: 2px;
+
+      font-size: 13px;
+    }
+
+    .info-item span {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+
+    /* =========================================
+       MANAGE SECTION
+    ========================================= */
+
+    .manage-card {
+      margin-top: 22px;
+    }
+
+    .manage-header {
+      display: flex;
+
+      justify-content: space-between;
+      align-items: center;
+
+      gap: 15px;
+
+      margin-bottom: 20px;
+    }
+
+    .refresh-btn {
+      width: auto;
+
+      min-height: auto;
+
+      margin: 0;
+
+      padding: 10px 14px;
+
+      border: 1px solid #dbe4f0;
       border-radius: 10px;
+
+      background: white;
+      color: #334155;
+
+      font-family: inherit;
+
+      font-size: 12px;
+      font-weight: 800;
+
+      cursor: pointer;
+
+      transition: .2s ease;
+    }
+
+    .refresh-btn:hover {
+      border-color: #93c5fd;
+      color: var(--primary);
+      background: #f8fbff;
+    }
+
+
+    /* =========================================
+       MATERIAL LIST
+    ========================================= */
+
+    .material-list {
+      display: grid;
+      gap: 13px;
+    }
+
+    .material-item {
+      padding: 17px;
+
+      border:
+        1px solid #e8edf3;
+
+      border-radius: 15px;
+
+      background:
+        linear-gradient(
+          145deg,
+          #ffffff,
+          #fafcff
+        );
+
+      transition:
+        transform .2s ease,
+        box-shadow .2s ease,
+        border-color .2s ease;
+    }
+
+    .material-item:hover {
+      transform: translateY(-2px);
+
+      border-color: #dbeafe;
+
+      box-shadow:
+        0 10px 25px rgba(15,23,42,.06);
+    }
+
+    .material-top {
+      display: flex;
+
+      justify-content: space-between;
+      align-items: flex-start;
+
+      gap: 15px;
+    }
+
+    .material-content {
+      min-width: 0;
+    }
+
+    .material-meta {
+      margin-bottom: 6px;
+
+      color: var(--primary);
+
+      font-size: 11px;
+      font-weight: 800;
+
+      text-transform: uppercase;
+
+      letter-spacing: .3px;
+    }
+
+    .material-title {
+      color: #111827;
+
+      font-size: 16px;
+      font-weight: 850;
+
+      word-break: break-word;
+    }
+
+    .material-chapter {
+      margin-top: 5px;
+
+      color: var(--muted);
+
+      font-size: 12px;
+    }
+
+    .material-actions {
+      display: flex;
+
+      flex-wrap: wrap;
+
+      justify-content: flex-end;
+
+      gap: 7px;
+
+      flex-shrink: 0;
+    }
+
+    .action-btn {
+      display: inline-flex;
+
+      align-items: center;
+      justify-content: center;
+
+      min-height: 34px;
+
+      padding: 7px 11px;
+
+      border-radius: 8px;
+
+      border: 0;
+
+      text-decoration: none;
+
+      font-family: inherit;
+
+      font-size: 11px;
+      font-weight: 800;
+
+      cursor: pointer;
+
+      transition: .2s ease;
+    }
+
+    .open-btn {
+      background: #eff6ff;
+      color: #1d4ed8;
+    }
+
+    .open-btn:hover {
+      background: #dbeafe;
+    }
+
+    .edit-btn {
+      background: #fff7ed;
+      color: #c2410c;
+    }
+
+    .edit-btn:hover {
+      background: #ffedd5;
+    }
+
+    .delete-btn {
+      background: #fef2f2;
+      color: #b91c1c;
+    }
+
+    .delete-btn:hover {
+      background: #fee2e2;
+    }
+
+
+    /* =========================================
+       EMPTY / LOADING
+    ========================================= */
+
+    .empty-state {
+      padding: 30px 20px;
+
+      text-align: center;
+
+      border:
+        1px dashed #cbd5e1;
+
+      border-radius: 14px;
+
+      background: #f8fafc;
+
+      color: var(--muted);
+    }
+
+    .empty-state .emoji {
+      font-size: 30px;
+      margin-bottom: 8px;
+    }
+
+    .empty-state strong {
+      display: block;
+
+      margin-bottom: 3px;
+
+      color: #334155;
+
+      font-size: 14px;
+    }
+
+    .empty-state span {
+      font-size: 12px;
+    }
+
+
+    /* =========================================
+       FOOTER
+    ========================================= */
+
+    footer {
+      max-width: 1150px;
+
+      margin: 0 auto;
+
+      padding: 0 20px 30px;
+
+      text-align: center;
+
+      color: #94a3b8;
+
+      font-size: 12px;
+    }
+
+
+    /* =========================================
+       RESPONSIVE
+    ========================================= */
+
+    @media (max-width: 850px) {
+
+      .dashboard-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .page-hero {
+        padding: 28px;
+      }
+
+    }
+
+
+    @media (max-width: 600px) {
+
+      .container {
+        width: min(100% - 20px, 1150px);
+
+        padding-top: 20px;
+      }
+
+      .topbar-inner {
+        padding:
+          12px 10px;
+      }
+
+      .admin-badge {
+        display: none;
+      }
+
+      .page-hero {
+        padding: 23px;
+
+        border-radius: 20px;
+      }
+
+      .page-hero h1 {
+        font-size: 27px;
+      }
+
+      .card {
+        padding: 19px;
+
+        border-radius: 17px;
+      }
+
+      .manage-header {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .refresh-btn {
+        width: 100%;
+      }
+
+      .material-top {
+        flex-direction: column;
+      }
+
+      .material-actions {
+        width: 100%;
+
+        justify-content: flex-start;
+      }
+
+      .action-btn {
+        flex: 1;
+      }
+
+      .logout-btn {
+        float: none;
+
+        position: absolute;
+
+        right: 18px;
+        top: 18px;
+      }
+
+    }
+
+
+    /* =========================================
+       ACCESS LOADING
+    ========================================= */
+
+    #app {
       display: none;
     }
 
-    .success {
-      display: block;
-      background: #dcfce7;
-      color: #166534;
+    #accessLoading {
+      min-height: 100vh;
+
+      display: flex;
+
+      align-items: center;
+      justify-content: center;
+
+      padding: 20px;
+
+      text-align: center;
     }
 
-    .error {
-      display: block;
-      background: #fee2e2;
-      color: #991b1b;
+    .loading-box {
+      width: min(400px, 100%);
+
+      padding: 30px;
+
+      background: white;
+
+      border-radius: 20px;
+
+      box-shadow: var(--shadow);
     }
 
-    .logout {
-      width: auto;
-      margin: 0;
-      padding: 10px 18px;
-      background: #ef4444;
-      float: right;
+    .loading-icon {
+      font-size: 35px;
+
+      margin-bottom: 10px;
     }
 
-    .logout:hover {
-      background: #dc2626;
+    .loading-box h2 {
+      font-size: 18px;
+      margin-bottom: 5px;
     }
 
-    .info {
-      margin-top: 12px;
-      color: #64748b;
+    .loading-box p {
+      color: var(--muted);
       font-size: 13px;
     }
   </style>
 </head>
 
+
 <body>
-  <div id="loginScreen" style="
-  display:none;
-  max-width:420px;
-  margin:80px auto;
-  background:white;
-  padding:30px;
-  border-radius:20px;
-  box-shadow:0 10px 35px rgba(0,0,0,.08);
-">
 
-  <h2>🔐 Admin Login</h2>
+  <!-- =========================================
+       ACCESS CHECK
+  ========================================= -->
 
-  <p style="color:#64748b;margin:8px 0 20px;">
-    Education Point Admin Panel
-  </p>
+  <div id="accessLoading">
 
-  <input
-    type="email"
-    id="loginEmail"
-    placeholder="Admin email"
-    style="
-      width:100%;
-      padding:13px;
-      margin-bottom:12px;
-      border:1px solid #d9e0eb;
-      border-radius:10px;
-    "
-  >
+    <div class="loading-box">
 
-  <input
-    type="password"
-    id="loginPassword"
-    placeholder="Password"
-    style="
-      width:100%;
-      padding:13px;
-      margin-bottom:12px;
-      border:1px solid #d9e0eb;
-      border-radius:10px;
-    "
-  >
+      <div class="loading-icon">
+        🔐
+      </div>
 
-  <button
-    onclick="loginAdmin()"
-    style="margin-top:5px;"
-  >
-    🔑 Login
-  </button>
+      <h2>
+        Checking admin access...
+      </h2>
 
-  <div
-    id="loginStatus"
-    class="status"
-  ></div>
+      <p>
+        Please wait a moment.
+      </p>
 
-</div>
+    </div>
 
-<div id="adminApp" style="display:none;">
-
-  <div class="container">
-
-  <div class="header">
-    <button class="logout" onclick="logout()">Logout</button>
-
-    <h1>🎓 Education Point</h1>
-    <p>Private Admin Panel</p>
-
-    <div style="clear:both"></div>
   </div>
 
 
-  <div class="card">
+  <!-- =========================================
+       ADMIN APP
+  ========================================= -->
 
-    <h2>📚 Upload Study Material</h2>
+  <div id="app">
 
-    <!-- CLASS -->
+    <!-- TOP BAR -->
 
-    <label for="classSelect">Class</label>
+    <header class="topbar">
 
-    <select id="classSelect">
-      <option value="">Select Class</option>
-    </select>
+      <div class="topbar-inner">
 
+        <div class="brand">
 
-    <!-- SUBJECT -->
-
-    <label for="subjectSelect">Subject</label>
-
-    <select id="subjectSelect" disabled>
-      <option value="">Select Subject</option>
-    </select>
-
-
-    <!-- TITLE -->
-
-    <label for="title">Material Title</label>
-
-    <input
-      type="text"
-      id="title"
-      placeholder="Example: Chapter 1 Notes"
-    >
-
-
-    <!-- CHAPTER -->
-
-    <label for="chapter">Chapter</label>
-
-    <input
-      type="text"
-      id="chapter"
-      placeholder="Example: Chemical Reactions"
-    >
-
-
-    <!-- PDF -->
-
-    <label for="pdfFile">PDF File</label>
-
-    <input
-      type="file"
-      id="pdfFile"
-      accept="application/pdf"
-    >
-
-    <p class="info">
-      Only PDF files are allowed.
-    </p>
-
-
-    <!-- UPLOAD -->
-
-    <button id="uploadBtn" onclick="uploadMaterial()">
-      📤 Upload Material
-    </button>
-
-
-    <div id="status" class="status"></div>
-
-  </div>
-
-</div>
-
-
-<script>
-
-/* =========================================
-   SUPABASE CONFIG
-   ========================================= */
-
-const SUPABASE_URL = "https://zpvqgrqgxckzxkoygeqo.supabase.co";
-
-const SUPABASE_KEY = "sb_publishable_Fm2B3h3_qyVMKcGc_CABcA_FU0ptpud";
-
-const supabaseClient = window.supabase.createClient(
-  SUPABASE_URL,
-  SUPABASE_KEY
-);
-
-
-/* =========================================
-   CHECK LOGIN
-   ========================================= */
-
-async function checkLogin() {
-
-  const loginScreen =
-    document.getElementById("loginScreen");
-
-  const adminApp =
-    document.getElementById("adminApp");
-
-  const {
-    data: { session },
-    error
-  } = await supabaseClient.auth.getSession();
-
-  if (error || !session) {
-
-    adminApp.style.display = "none";
-    loginScreen.style.display = "block";
-
-    return;
-  }
-
-  loginScreen.style.display = "none";
-  adminApp.style.display = "block";
-
-  loadClasses();
-  loadAdminMaterials();
-}
-  async function loginAdmin() {
-
-  const email =
-    document.getElementById("loginEmail").value.trim();
-
-  const password =
-    document.getElementById("loginPassword").value;
-
-  const status =
-    document.getElementById("loginStatus");
-
-  if (!email || !password) {
-
-    status.textContent =
-      "Email aur password dono enter karo.";
-
-    status.className =
-      "status error";
-
-    return;
-  }
-
-  status.textContent = "⏳ Logging in...";
-  status.className = "status";
-
-  const { error } =
-    await supabaseClient.auth.signInWithPassword({
-      email: email,
-      password: password
-    });
-
-  if (error) {
-
-    status.textContent =
-      "❌ " + error.message;
-
-    status.className =
-      "status error";
-
-    return;
-  }
-
-  status.textContent =
-    "✅ Login successful!";
-
-  status.className =
-    "status success";
-
-  checkLogin();
-}
-/* =========================================
-   LOAD CLASSES
-   ========================================= */
-
-async function loadClasses() {
-
-  const select = document.getElementById("classSelect");
-
-  const { data, error } = await supabaseClient
-    .from("classes")
-    .select("*")
-    .order("id");
-
-  if (error) {
-    showStatus(
-      "Class load nahi ho rahi: " + error.message,
-      "error"
-    );
-    return;
-  }
-
-  select.innerHTML =
-    '<option value="">Select Class</option>';
-
-  data.forEach(item => {
-
-    const option = document.createElement("option");
-
-    option.value = item.id;
-
-    option.textContent =
-      item.name || item.class_name || item.title || ("Class " + item.id);
-
-    select.appendChild(option);
-
-  });
-}
-
-
-/* =========================================
-   LOAD SUBJECTS
-   ========================================= */
-
-document
-  .getElementById("classSelect")
-  .addEventListener("change", async function () {
-
-    const classId = this.value;
-
-    const subjectSelect =
-      document.getElementById("subjectSelect");
-
-    subjectSelect.innerHTML =
-      '<option value="">Loading subjects...</option>';
-
-    subjectSelect.disabled = true;
-
-    if (!classId) {
-      subjectSelect.innerHTML =
-        '<option value="">Select Subject</option>';
-      return;
-    }
-
-
-    const { data, error } = await supabaseClient
-      .from("subjects")
-      .select("*")
-      .eq("class_id", classId)
-      .order("id");
-
-
-    if (error) {
-
-      showStatus(
-        "Subject load nahi ho raha: " + error.message,
-        "error"
-      );
-
-      subjectSelect.innerHTML =
-        '<option value="">Select Subject</option>';
-
-      return;
-    }
-
-
-    subjectSelect.innerHTML =
-      '<option value="">Select Subject</option>';
-
-
-    data.forEach(item => {
-
-      const option = document.createElement("option");
-
-      option.value = item.id;
-
-      option.textContent =
-        item.name ||
-        item.subject_name ||
-        item.title ||
-        ("Subject " + item.id);
-
-      subjectSelect.appendChild(option);
-
-    });
-
-
-    subjectSelect.disabled = false;
-
-  });
-
-
-/* =========================================
-   UPLOAD MATERIAL
-   ========================================= */
-
-async function uploadMaterial() {
-
-  const classId =
-    document.getElementById("classSelect").value;
-
-  const subjectId =
-    document.getElementById("subjectSelect").value;
-
-  const title =
-    document.getElementById("title").value.trim();
-
-  const chapter =
-    document.getElementById("chapter").value.trim();
-
-  const file =
-    document.getElementById("pdfFile").files[0];
-
-  const uploadBtn =
-    document.getElementById("uploadBtn");
-
-
-  /* VALIDATION */
-
-  if (!classId) {
-    showStatus("Please select a class.", "error");
-    return;
-  }
-
-  if (!subjectId) {
-    showStatus("Please select a subject.", "error");
-    return;
-  }
-
-  if (!title) {
-    showStatus("Please enter material title.", "error");
-    return;
-  }
-
-  if (!chapter) {
-    showStatus("Please enter chapter.", "error");
-    return;
-  }
-
-  if (!file) {
-    showStatus("Please select a PDF file.", "error");
-    return;
-  }
-
-
-  if (file.type !== "application/pdf") {
-    showStatus("Only PDF files are allowed.", "error");
-    return;
-  }
-
-
-  uploadBtn.disabled = true;
-  uploadBtn.textContent = "Uploading...";
-
-
-  try {
-
-    /* =====================================
-       CREATE UNIQUE FILE NAME
-       ===================================== */
-
-    const safeName =
-      file.name
-        .replace(/[^a-zA-Z0-9.-]/g, "_");
-
-    const filePath =
-      Date.now() + "_" + safeName;
-
-
-    /* =====================================
-       UPLOAD PDF TO STORAGE
-       ===================================== */
-
-    const { error: uploadError } =
-      await supabaseClient.storage
-        .from("study-material")
-        .upload(filePath, file, {
-          contentType: "application/pdf",
-          upsert: false
-        });
-
-
-    if (uploadError) {
-      throw uploadError;
-    }
-
-
-    /* =====================================
-       GET PUBLIC URL
-       ===================================== */
-
-    const { data: publicData } =
-      supabaseClient.storage
-        .from("study-material")
-        .getPublicUrl(filePath);
-
-
-    const fileUrl =
-      publicData.publicUrl;
-
-
-    /* =====================================
-       SAVE MATERIAL IN DATABASE
-       ===================================== */
-
-    const { error: insertError } =
-      await supabaseClient
-        .from("materials")
-        .insert({
-
-          class_id: Number(classId),
-
-          subject_id: Number(subjectId),
-
-          title: title,
-
-          chapter: chapter,
-
-          material_type: "PDF",
-
-          file_url: fileUrl
-
-        });
-
-
-    if (insertError) {
-      throw insertError;
-    }
-
-
-    /* =====================================
-       SUCCESS
-       ===================================== */
-
-    showStatus(
-      "✅ PDF successfully uploaded!",
-      "success"
-    );
-
-
-    /* CLEAR FORM */
-
-    document.getElementById("title").value = "";
-
-    document.getElementById("chapter").value = "";
-
-    document.getElementById("pdfFile").value = "";
-
-
-  } catch (error) {
-
-    console.error(error);
-
-    showStatus(
-      "❌ Upload failed: " + error.message,
-      "error"
-    );
-
-  }
-
-
-  uploadBtn.disabled = false;
-
-  uploadBtn.textContent =
-    "📤 Upload Material";
-
-}
-
-
-/* =========================================
-   STATUS MESSAGE
-   ========================================= */
-
-function showStatus(message, type) {
-
-  const status =
-    document.getElementById("status");
-
-  status.textContent = message;
-
-  status.className =
-    "status " + type;
-
-}
-
-
-/* =========================================
-   LOGOUT
-   ========================================= */
-
-async function logout() {
-
-  await supabaseClient.auth.signOut();
-
-  window.location.href = "admin.html";
-
-}
-
-
-/* =========================================
-   START
-   ========================================= */
-
-checkLogin();
-
- /* =========================================
-   LOAD ADMIN MATERIALS
-========================================= */
-
-async function loadAdminMaterials() {
-
-  const container =
-    document.getElementById("adminMaterialsList");
-
-  if (!container) return;
-
-  container.innerHTML = `
-    <p style="color:#64748b;">
-      ⏳ Loading materials...
-    </p>
-  `;
-
-
-  const { data, error } =
-    await supabaseClient
-      .from("materials")
-      .select(`
-        id,
-        title,
-        chapter,
-        material_type,
-        file_url,
-        created_at,
-        classes(name),
-        subjects(name)
-      `)
-      .order("created_at", {
-        ascending: false
-      });
-
-
-  if (error) {
-
-    console.error(error);
-
-    container.innerHTML = `
-      <div style="
-        padding:15px;
-        border-radius:10px;
-        background:#fee2e2;
-        color:#991b1b;
-      ">
-        ❌ Materials load nahi ho pa rahe.
-        <br>
-        ${escapeAdminText(error.message)}
-      </div>
-    `;
-
-    return;
-  }
-
-
-  if (!data || data.length === 0) {
-
-    container.innerHTML = `
-      <div style="
-        padding:25px;
-        text-align:center;
-        color:#64748b;
-      ">
-        📚 Abhi koi uploaded material nahi hai.
-      </div>
-    `;
-
-    return;
-  }
-
-
-  container.innerHTML = "";
-
-
-  data.forEach(material => {
-
-    const card =
-      document.createElement("div");
-
-    card.style.cssText = `
-      border:1px solid #e5e7eb;
-      border-radius:15px;
-      padding:18px;
-      margin-bottom:14px;
-      background:#fff;
-    `;
-
-
-    const className =
-      material.classes?.name || "Unknown Class";
-
-    const subjectName =
-      material.subjects?.name || "Unknown Subject";
-
-
-    card.innerHTML = `
-
-      <div style="
-        display:flex;
-        justify-content:space-between;
-        gap:15px;
-        flex-wrap:wrap;
-      ">
-
-        <div style="min-width:0;">
-
-          <div style="
-            font-size:12px;
-            color:#2563eb;
-            font-weight:bold;
-            margin-bottom:6px;
-          ">
-            ${escapeAdminText(className)}
-            →
-            ${escapeAdminText(subjectName)}
+          <div class="brand-logo">
+            EP
           </div>
 
+          <div class="brand-text">
 
-          <h3 style="
-            margin:5px 0;
-            color:#111827;
-          ">
-            📄
-            ${escapeAdminText(
-              material.title || "Untitled PDF"
-            )}
-          </h3>
+            <strong>
+              EDUCATION POINT
+            </strong>
+
+            <span>
+              Administration Panel
+            </span>
+
+          </div>
+
+        </div>
 
 
-          <p style="
-            margin:5px 0;
-            color:#64748b;
-            font-size:14px;
-          ">
-            📖
-            ${escapeAdminText(
-              material.chapter || "No chapter"
-            )}
+        <div class="admin-badge">
+          🔒 Admin Access
+        </div>
+
+      </div>
+
+    </header>
+
+
+    <!-- MAIN -->
+
+    <main class="container">
+
+
+      <!-- HERO -->
+
+      <section class="page-hero">
+
+        <button
+          class="logout-btn"
+          type="button"
+          onclick="logout()"
+        >
+          Logout
+        </button>
+
+        <div class="page-hero-content">
+
+          <small>
+            PRIVATE ADMIN DASHBOARD
+          </small>
+
+          <h1>
+            Welcome to Education Point 👋
+          </h1>
+
+          <p>
+            Upload, manage and organize your CBSE study materials
+            from one simple dashboard.
           </p>
 
         </div>
 
+        <div style="clear:both"></div>
 
-        <div style="
-          display:flex;
-          gap:8px;
-          flex-wrap:wrap;
-          align-items:center;
-        ">
+      </section>
 
-          ${
-            material.file_url
-            ? `
-              <a
-                href="${escapeAdminText(
-                  material.file_url
-                )}"
-                target="_blank"
-                rel="noopener"
-                style="
-                  text-decoration:none;
-                  background:#2563eb;
-                  color:white;
-                  padding:9px 13px;
-                  border-radius:8px;
-                  font-weight:bold;
-                  font-size:13px;
-                "
-              >
-                📄 Open
-              </a>
-            `
-            : ""
-          }
 
+      <!-- DASHBOARD GRID -->
+
+      <div class="dashboard-grid">
+
+
+        <!-- UPLOAD CARD -->
+
+        <section class="card">
+
+          <div class="card-header">
+
+            <div class="card-icon">
+              📤
+            </div>
+
+            <div>
+
+              <h2>
+                Upload Study Material
+              </h2>
+
+              <p>
+                Add a new PDF for students.
+              </p>
+
+            </div>
+
+          </div>
+
+
+          <!-- CLASS -->
+
+          <div class="form-group">
+
+            <label for="classSelect">
+              Class <span class="required">*</span>
+            </label>
+
+            <select id="classSelect">
+
+              <option value="">
+                Select Class
+              </option>
+
+            </select>
+
+          </div>
+
+
+          <!-- SUBJECT -->
+
+          <div class="form-group">
+
+            <label for="subjectSelect">
+              Subject <span class="required">*</span>
+            </label>
+
+            <select
+              id="subjectSelect"
+              disabled
+            >
+
+              <option value="">
+                Select Subject
+              </option>
+
+            </select>
+
+          </div>
+
+
+          <!-- TITLE -->
+
+          <div class="form-group">
+
+            <label for="title">
+              Material Title <span class="required">*</span>
+            </label>
+
+            <input
+              type="text"
+              id="title"
+              placeholder="Example: Chapter 1 Notes"
+              maxlength="200"
+              autocomplete="off"
+            >
+
+          </div>
+
+
+          <!-- CHAPTER -->
+
+          <div class="form-group">
+
+            <label for="chapter">
+              Chapter <span class="required">*</span>
+            </label>
+
+            <input
+              type="text"
+              id="chapter"
+              placeholder="Example: Chemical Reactions"
+              maxlength="200"
+              autocomplete="off"
+            >
+
+          </div>
+
+
+          <!-- PDF -->
+
+          <div class="form-group">
+
+            <label for="pdfFile">
+              PDF File <span class="required">*</span>
+            </label>
+
+            <input
+              type="file"
+              id="pdfFile"
+              accept="application/pdf,.pdf"
+            >
+
+            <p class="help-text">
+              📄 Only PDF files are allowed.
+            </p>
+
+          </div>
+
+
+          <!-- UPLOAD -->
 
           <button
+            id="uploadBtn"
+            class="upload-btn"
             type="button"
-            onclick="editMaterial('${material.id}')"
-            style="
-              width:auto;
-              margin:0;
-              padding:9px 13px;
-              background:#f59e0b;
-              border-radius:8px;
-              font-size:13px;
-            "
+            onclick="uploadMaterial()"
           >
-            ✏️ Edit
+            📤 Upload Material
           </button>
 
 
+          <!-- STATUS -->
+
+          <div
+            id="status"
+            class="status"
+          ></div>
+
+        </section>
+
+
+        <!-- QUICK INFO -->
+
+        <aside class="card">
+
+          <div class="card-header">
+
+            <div class="card-icon">
+              💡
+            </div>
+
+            <div>
+
+              <h2>
+                Quick Guide
+              </h2>
+
+              <p>
+                Keep your materials organized.
+              </p>
+
+            </div>
+
+          </div>
+
+
+          <div class="info-list">
+
+            <div class="info-item">
+
+              <div class="info-item-icon">
+                🎓
+              </div>
+
+              <div>
+
+                <strong>
+                  Select Class
+                </strong>
+
+                <span>
+                  Choose Class 9, 10, 11 or 12.
+                </span>
+
+              </div>
+
+            </div>
+
+
+            <div class="info-item">
+
+              <div class="info-item-icon">
+                📚
+              </div>
+
+              <div>
+
+                <strong>
+                  Select Subject
+                </strong>
+
+                <span>
+                  Subjects automatically load for the selected class.
+                </span>
+
+              </div>
+
+            </div>
+
+
+            <div class="info-item">
+
+              <div class="info-item-icon">
+                📝
+              </div>
+
+              <div>
+
+                <strong>
+                  Add Details
+                </strong>
+
+                <span>
+                  Give the material a clear title and chapter name.
+                </span>
+
+              </div>
+
+            </div>
+
+
+            <div class="info-item">
+
+              <div class="info-item-icon">
+                📄
+              </div>
+
+              <div>
+
+                <strong>
+                  Upload PDF
+                </strong>
+
+                <span>
+                  Select the PDF and upload it for students.
+                </span>
+
+              </div>
+
+            </div>
+
+
+            <div class="info-item">
+
+              <div class="info-item-icon">
+                🔐
+              </div>
+
+              <div>
+
+                <strong>
+                  Admin Protected
+                </strong>
+
+                <span>
+                  Database permissions restrict write actions to the admin account.
+                </span>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </aside>
+
+      </div>
+
+
+      <!-- MANAGE MATERIALS -->
+
+      <section class="card manage-card">
+
+        <div class="manage-header">
+
+          <div class="card-header" style="margin:0;">
+
+            <div class="card-icon">
+              📚
+            </div>
+
+            <div>
+
+              <h2>
+                Manage Uploaded PDFs
+              </h2>
+
+              <p>
+                Open, edit or delete your uploaded study materials.
+              </p>
+
+            </div>
+
+          </div>
+
+
           <button
+            class="refresh-btn"
             type="button"
-            onclick="deleteMaterial('${material.id}')"
-            style="
-              width:auto;
-              margin:0;
-              padding:9px 13px;
-              background:#dc2626;
-              border-radius:8px;
-              font-size:13px;
-            "
+            onclick="loadAdminMaterials()"
           >
-            🗑️ Delete
+            🔄 Refresh
           </button>
 
         </div>
 
-      </div>
 
-    `;
+        <div id="adminMaterialsList">
 
+          <div class="empty-state">
 
-    container.appendChild(card);
+            <div class="emoji">
+              ⏳
+            </div>
 
-  });
+            <strong>
+              Loading materials...
+            </strong>
 
-}
+            <span>
+              Please wait.
+            </span>
 
+          </div>
 
-/* =========================================
-   ESCAPE ADMIN TEXT
-========================================= */
+        </div>
 
-function escapeAdminText(value) {
+      </section>
 
-  return String(value || "")
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#039;");
+    </main>
 
-}
 
+    <!-- FOOTER -->
 
-/* =========================================
-   EDIT MATERIAL
-========================================= */
+    <footer>
 
-async function editMaterial(id) {
+      🎓 Education Point • Private Admin Panel • 2026
 
-  const newTitle =
-    prompt(
-      "New material title:"
-    );
+    </footer>
 
-  if (newTitle === null) {
-    return;
-  }
+  </div>
 
 
-  const title =
-    newTitle.trim();
+  <!-- =========================================
+       JAVASCRIPT
+  ========================================= -->
 
+  <script>
 
-  if (!title) {
+    /* =========================================
+       SUPABASE CONFIG
+    ========================================= */
 
-    alert(
-      "Title empty nahi ho sakta."
-    );
+    const SUPABASE_URL =
+      "https://zpvqgrqgxckzxkoygeqo.supabase.co";
 
-    return;
-  }
+    const SUPABASE_KEY =
+      "sb_publishable_Fm2B3h3_qyVMKcGc_CABcA_FU0ptpud";
 
 
-  const newChapter =
-    prompt(
-      "New chapter name:"
-    );
+    const supabaseClient =
+      window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+      );
 
-  if (newChapter === null) {
-    return;
-  }
 
+    /* =========================================
+       ADMIN USER
+    ========================================= */
 
-  const chapter =
-    newChapter.trim();
+    const ADMIN_USER_ID =
+      "f114b18e-051b-4565-b608-7fb9ed5a3a47";
 
 
-  const { error } =
-    await supabaseClient
-      .from("materials")
-      .update({
-        title: title,
-        chapter: chapter
-      })
-      .eq("id", id);
+    /* =========================================
+       ELEMENTS
+    ========================================= */
 
+    const app =
+      document.getElementById("app");
 
-  if (error) {
+    const accessLoading =
+      document.getElementById("accessLoading");
 
-    console.error(error);
 
-    alert(
-      "❌ Edit failed: " +
-      error.message
-    );
+    /* =========================================
+       CHECK LOGIN + ADMIN
+    ========================================= */
 
-    return;
-  }
+    async function checkLogin() {
 
+      try {
 
-  alert(
-    "✅ Material updated successfully!"
-  );
+        const {
+          data: { user },
+          error
+        } =
+          await supabaseClient.auth.getUser();
 
 
-  loadAdminMaterials();
+        if (error || !user) {
 
-}
+          window.location.replace("admin.html");
 
+          return false;
 
-/* =========================================
-   DELETE MATERIAL
-========================================= */
+        }
 
-async function deleteMaterial(id) {
 
-  const confirmDelete =
-    confirm(
-      "⚠️ Kya tum is material ko delete karna chahte ho?"
-    );
+        /*
+         * Client-side admin check.
+         *
+         * Real database protection is handled
+         * by Supabase RLS policies.
+         */
 
+        if (user.id !== ADMIN_USER_ID) {
 
-  if (!confirmDelete) {
-    return;
-  }
+          await supabaseClient.auth.signOut();
 
-
-  /*
-   * First get the file URL.
-   */
-
-  const { data: material, error: fetchError } =
-    await supabaseClient
-      .from("materials")
-      .select("id, file_url")
-      .eq("id", id)
-      .single();
-
-
-  if (fetchError) {
-
-    alert(
-      "❌ Material find nahi hua: " +
-      fetchError.message
-    );
-
-    return;
-  }
-
-
-  /*
-   * Delete database record.
-   */
-
-  const { error: deleteError } =
-    await supabaseClient
-      .from("materials")
-      .delete()
-      .eq("id", id);
-
-
-  if (deleteError) {
-
-    alert(
-      "❌ Delete failed: " +
-      deleteError.message
-    );
-
-    return;
-  }
-
-
-  /*
-   * Delete PDF from Storage.
-   */
-
-  if (material.file_url) {
-
-    try {
-
-      const marker =
-        "/storage/v1/object/public/study-material/";
-
-      const index =
-        material.file_url.indexOf(marker);
-
-
-      if (index !== -1) {
-
-        const filePath =
-          decodeURIComponent(
-            material.file_url.substring(
-              index + marker.length
-            )
+          alert(
+            "❌ You are not authorized to access the admin panel."
           );
 
+          window.location.replace("admin.html");
 
-        await supabaseClient
-          .storage
-          .from("study-material")
-          .remove([filePath]);
+          return false;
+
+        }
+
+
+        accessLoading.style.display =
+          "none";
+
+        app.style.display =
+          "block";
+
+
+        await loadClasses();
+
+        await loadAdminMaterials();
+
+
+        return true;
+
+      } catch (error) {
+
+        console.error(
+          "Login check error:",
+          error
+        );
+
+        alert(
+          "Unable to verify admin access."
+        );
+
+        window.location.replace("admin.html");
+
+        return false;
 
       }
 
-    } catch (storageError) {
+    }
 
-      console.error(
-        "Storage delete error:",
-        storageError
+
+    /* =========================================
+       LOAD CLASSES
+    ========================================= */
+
+    async function loadClasses() {
+
+      const select =
+        document.getElementById(
+          "classSelect"
+        );
+
+
+      if (!select) return;
+
+
+      const {
+        data,
+        error
+      } =
+        await supabaseClient
+          .from("classes")
+          .select("*")
+          .order("id");
+
+
+      if (error) {
+
+        showStatus(
+          "Class load nahi ho rahi: " +
+          error.message,
+          "error"
+        );
+
+        return;
+
+      }
+
+
+      select.innerHTML =
+        '<option value="">Select Class</option>';
+
+
+      data.forEach(item => {
+
+        const option =
+          document.createElement("option");
+
+
+        option.value =
+          item.id;
+
+
+        option.textContent =
+          item.name ||
+          item.class_name ||
+          item.title ||
+          ("Class " + item.id);
+
+
+        select.appendChild(option);
+
+      });
+
+    }
+
+
+    /* =========================================
+       LOAD SUBJECTS
+    ========================================= */
+
+    document
+      .getElementById("classSelect")
+      .addEventListener(
+        "change",
+        async function () {
+
+          const classId =
+            this.value;
+
+
+          const subjectSelect =
+            document.getElementById(
+              "subjectSelect"
+            );
+
+
+          subjectSelect.innerHTML =
+            '<option value="">Loading subjects...</option>';
+
+
+          subjectSelect.disabled =
+            true;
+
+
+          if (!classId) {
+
+            subjectSelect.innerHTML =
+              '<option value="">Select Subject</option>';
+
+            return;
+
+          }
+
+
+          const {
+            data,
+            error
+          } =
+            await supabaseClient
+              .from("subjects")
+              .select("*")
+              .eq("class_id", classId)
+              .order("id");
+
+
+          if (error) {
+
+            showStatus(
+              "Subject load nahi ho raha: " +
+              error.message,
+              "error"
+            );
+
+
+            subjectSelect.innerHTML =
+              '<option value="">Select Subject</option>';
+
+            return;
+
+          }
+
+
+          subjectSelect.innerHTML =
+            '<option value="">Select Subject</option>';
+
+
+          data.forEach(item => {
+
+            const option =
+              document.createElement("option");
+
+
+            option.value =
+              item.id;
+
+
+            option.textContent =
+              item.name ||
+              item.subject_name ||
+              item.title ||
+              ("Subject " + item.id);
+
+
+            subjectSelect.appendChild(
+              option
+            );
+
+          });
+
+
+          subjectSelect.disabled =
+            false;
+
+        }
+      );
+
+
+    /* =========================================
+       UPLOAD MATERIAL
+    ========================================= */
+
+    async function uploadMaterial() {
+
+      const classId =
+        document.getElementById(
+          "classSelect"
+        ).value;
+
+
+      const subjectId =
+        document.getElementById(
+          "subjectSelect"
+        ).value;
+
+
+      const title =
+        document.getElementById(
+          "title"
+        ).value.trim();
+
+
+      const chapter =
+        document.getElementById(
+          "chapter"
+        ).value.trim();
+
+
+      const file =
+        document.getElementById(
+          "pdfFile"
+        ).files[0];
+
+
+      const uploadBtn =
+        document.getElementById(
+          "uploadBtn"
+        );
+
+
+      /* VALIDATION */
+
+      if (!classId) {
+
+        showStatus(
+          "Please select a class.",
+          "error"
+        );
+
+        return;
+
+      }
+
+
+      if (!subjectId) {
+
+        showStatus(
+          "Please select a subject.",
+          "error"
+        );
+
+        return;
+
+      }
+
+
+      if (!title) {
+
+        showStatus(
+          "Please enter material title.",
+          "error"
+        );
+
+        return;
+
+      }
+
+
+      if (!chapter) {
+
+        showStatus(
+          "Please enter chapter.",
+          "error"
+        );
+
+        return;
+
+      }
+
+
+      if (!file) {
+
+        showStatus(
+          "Please select a PDF file.",
+          "error"
+        );
+
+        return;
+
+      }
+
+
+      if (
+        file.type !==
+        "application/pdf"
+      ) {
+
+        showStatus(
+          "Only PDF files are allowed.",
+          "error"
+        );
+
+        return;
+
+      }
+
+
+      uploadBtn.disabled =
+        true;
+
+      uploadBtn.textContent =
+        "⏳ Uploading...";
+
+
+      try {
+
+        /* =====================================
+           CREATE SAFE UNIQUE FILE NAME
+        ===================================== */
+
+        const safeName =
+          file.name
+            .replace(
+              /[^a-zA-Z0-9.-]/g,
+              "_"
+            );
+
+
+        const filePath =
+          Date.now() +
+          "_" +
+          safeName;
+
+
+        /* =====================================
+           UPLOAD PDF
+        ===================================== */
+
+        const {
+          error: uploadError
+        } =
+          await supabaseClient.storage
+            .from("study-material")
+            .upload(
+              filePath,
+              file,
+              {
+                contentType:
+                  "application/pdf",
+
+                upsert:
+                  false
+              }
+            );
+
+
+        if (uploadError) {
+
+          throw uploadError;
+
+        }
+
+
+        /* =====================================
+           GET PUBLIC URL
+        ===================================== */
+
+        const {
+          data: publicData
+        } =
+          supabaseClient.storage
+            .from("study-material")
+            .getPublicUrl(
+              filePath
+            );
+
+
+        const fileUrl =
+          publicData.publicUrl;
+
+
+        /* =====================================
+           SAVE DATABASE RECORD
+        ===================================== */
+
+        const {
+          error: insertError
+        } =
+          await supabaseClient
+            .from("materials")
+            .insert({
+
+              class_id:
+                Number(classId),
+
+              subject_id:
+                Number(subjectId),
+
+              title:
+                title,
+
+              chapter:
+                chapter,
+
+              material_type:
+                "PDF",
+
+              file_url:
+                fileUrl
+
+            });
+
+
+        if (insertError) {
+
+          /*
+           * Database insert failed after
+           * storage upload.
+           *
+           * Try to remove the uploaded file
+           * so an orphan PDF is not left behind.
+           */
+
+          try {
+
+            await supabaseClient
+              .storage
+              .from("study-material")
+              .remove([
+                filePath
+              ]);
+
+          } catch (cleanupError) {
+
+            console.error(
+              "Storage cleanup error:",
+              cleanupError
+            );
+
+          }
+
+
+          throw insertError;
+
+        }
+
+
+        /* =====================================
+           SUCCESS
+        ===================================== */
+
+        showStatus(
+          "✅ PDF successfully uploaded!",
+          "success"
+        );
+
+
+        /* CLEAR FORM */
+
+        document.getElementById(
+          "title"
+        ).value = "";
+
+
+        document.getElementById(
+          "chapter"
+        ).value = "";
+
+
+        document.getElementById(
+          "pdfFile"
+        ).value = "";
+
+
+        /*
+         * Refresh admin materials
+         */
+
+        await loadAdminMaterials();
+
+
+      } catch (error) {
+
+        console.error(
+          "Upload error:",
+          error
+        );
+
+
+        showStatus(
+          "❌ Upload failed: " +
+          error.message,
+          "error"
+        );
+
+      }
+
+
+      uploadBtn.disabled =
+        false;
+
+
+      uploadBtn.textContent =
+        "📤 Upload Material";
+
+    }
+
+
+    /* =========================================
+       STATUS MESSAGE
+    ========================================= */
+
+    function showStatus(
+      message,
+      type
+    ) {
+
+      const status =
+        document.getElementById(
+          "status"
+        );
+
+
+      status.textContent =
+        message;
+
+
+      status.className =
+        "status " +
+        type;
+
+    }
+
+
+    /* =========================================
+       LOGOUT
+    ========================================= */
+
+    async function logout() {
+
+      try {
+
+        await supabaseClient.auth.signOut();
+
+      } finally {
+
+        window.location.replace(
+          "admin.html"
+        );
+
+      }
+
+    }
+
+
+    /* =========================================
+       LOAD ADMIN MATERIALS
+    ========================================= */
+
+    async function loadAdminMaterials() {
+
+      const container =
+        document.getElementById(
+          "adminMaterialsList"
+        );
+
+
+      if (!container) return;
+
+
+      container.innerHTML = `
+
+        <div class="empty-state">
+
+          <div class="emoji">
+            ⏳
+          </div>
+
+          <strong>
+            Loading materials...
+          </strong>
+
+          <span>
+            Please wait.
+          </span>
+
+        </div>
+
+      `;
+
+
+      const {
+        data,
+        error
+      } =
+        await supabaseClient
+          .from("materials")
+          .select(`
+            id,
+            title,
+            chapter,
+            material_type,
+            file_url,
+            created_at,
+            classes(name),
+            subjects(name)
+          `)
+          .order(
+            "created_at",
+            {
+              ascending: false
+            }
+          );
+
+
+      if (error) {
+
+        console.error(
+          "Materials load error:",
+          error
+        );
+
+
+        container.innerHTML = `
+
+          <div class="empty-state">
+
+            <div class="emoji">
+              ❌
+            </div>
+
+            <strong>
+              Materials load nahi ho pa rahe.
+            </strong>
+
+            <span>
+              ${escapeAdminText(
+                error.message
+              )}
+            </span>
+
+          </div>
+
+        `;
+
+        return;
+
+      }
+
+
+      if (
+        !data ||
+        data.length === 0
+      ) {
+
+        container.innerHTML = `
+
+          <div class="empty-state">
+
+            <div class="emoji">
+              📚
+            </div>
+
+            <strong>
+              No materials yet
+            </strong>
+
+            <span>
+              Uploaded PDFs yahan दिखाई देंगे.
+            </span>
+
+          </div>
+
+        `;
+
+        return;
+
+      }
+
+
+      const list =
+        document.createElement(
+          "div"
+        );
+
+
+      list.className =
+        "material-list";
+
+
+      data.forEach(
+        material => {
+
+          const card =
+            document.createElement(
+              "div"
+            );
+
+
+          card.className =
+            "material-item";
+
+
+          const className =
+            material.classes?.name ||
+            "Unknown Class";
+
+
+          const subjectName =
+            material.subjects?.name ||
+            "Unknown Subject";
+
+
+          card.innerHTML = `
+
+            <div class="material-top">
+
+              <div class="material-content">
+
+                <div class="material-meta">
+
+                  🎓
+                  ${escapeAdminText(
+                    className
+                  )}
+
+                  →
+                  
+                  📚
+                  ${escapeAdminText(
+                    subjectName
+                  )}
+
+                </div>
+
+
+                <div class="material-title">
+
+                  📄
+                  ${escapeAdminText(
+                    material.title ||
+                    "Untitled PDF"
+                  )}
+
+                </div>
+
+
+                <div class="material-chapter">
+
+                  📖
+                  ${escapeAdminText(
+                    material.chapter ||
+                    "No chapter"
+                  )}
+
+                </div>
+
+              </div>
+
+
+              <div class="material-actions">
+
+                ${
+                  material.file_url
+                  ? `
+                    <a
+                      class="action-btn open-btn"
+                      href="${escapeAdminText(
+                        material.file_url
+                      )}"
+                      target="_blank"
+                      rel="noopener"
+                    >
+                      📄 Open
+                    </a>
+                  `
+                  : ""
+                }
+
+
+                <button
+                  type="button"
+                  class="action-btn edit-btn"
+                  onclick="editMaterial('${escapeJs(
+                    material.id
+                  )}')"
+                >
+                  ✏️ Edit
+                </button>
+
+
+                <button
+                  type="button"
+                  class="action-btn delete-btn"
+                  onclick="deleteMaterial('${escapeJs(
+                    material.id
+                  )}')"
+                >
+                  🗑️ Delete
+                </button>
+
+              </div>
+
+            </div>
+
+          `;
+
+
+          list.appendChild(
+            card
+          );
+
+        }
+      );
+
+
+      container.innerHTML =
+        "";
+
+      container.appendChild(
+        list
       );
 
     }
 
-  }
+
+    /* =========================================
+       ESCAPE HTML
+    ========================================= */
+
+    function escapeAdminText(
+      value
+    ) {
+
+      return String(
+        value ?? ""
+      )
+
+        .replace(
+          /&/g,
+          "&amp;"
+        )
+
+        .replace(
+          /</g,
+          "&lt;"
+        )
+
+        .replace(
+          />/g,
+          "&gt;"
+        )
+
+        .replace(
+          /"/g,
+          "&quot;"
+        )
+
+        .replace(
+          /'/g,
+          "&#039;"
+        );
+
+    }
 
 
-  alert(
-    "✅ Material deleted successfully!"
-  );
+    /* =========================================
+       ESCAPE JAVASCRIPT STRING
+    ========================================= */
+
+    function escapeJs(
+      value
+    ) {
+
+      return String(
+        value ?? ""
+      )
+        .replace(
+          /\\/g,
+          "\\\\"
+        )
+        .replace(
+          /'/g,
+          "\\'"
+        )
+        .replace(
+          /"/g,
+          '\\"'
+        );
+
+    }
 
 
-  loadAdminMaterials();
+    /* =========================================
+       EDIT MATERIAL
+    ========================================= */
 
-} 
-</script>
+    async function editMaterial(
+      id
+    ) {
+
+      const newTitle =
+        prompt(
+          "New material title:"
+        );
+
+
+      if (
+        newTitle === null
+      ) {
+
+        return;
+
+      }
+
+
+      const title =
+        newTitle.trim();
+
+
+      if (!title) {
+
+        alert(
+          "Title empty nahi ho sakta."
+        );
+
+        return;
+
+      }
+
+
+      const newChapter =
+        prompt(
+          "New chapter name:"
+        );
+
+
+      if (
+        newChapter === null
+      ) {
+
+        return;
+
+      }
+
+
+      const chapter =
+        newChapter.trim();
+
+
+      if (!chapter) {
+
+        alert(
+          "Chapter empty nahi ho sakta."
+        );
+
+        return;
+
+      }
+
+
+      const {
+        error
+      } =
+        await supabaseClient
+          .from("materials")
+          .update({
+
+            title:
+              title,
+
+            chapter:
+              chapter
+
+          })
+          .eq(
+            "id",
+            id
+          );
+
+
+      if (error) {
+
+        console.error(
+          "Edit error:",
+          error
+        );
+
+
+        alert(
+          "❌ Edit failed: " +
+          error.message
+        );
+
+        return;
+
+      }
+
+
+      alert(
+        "✅ Material updated successfully!"
+      );
+
+
+      await loadAdminMaterials();
+
+    }
+
+
+    /* =========================================
+       DELETE MATERIAL
+    ========================================= */
+
+    async function deleteMaterial(
+      id
+    ) {
+
+      const confirmDelete =
+        confirm(
+          "⚠️ Kya tum is material ko delete karna chahte ho?"
+        );
+
+
+      if (!confirmDelete) {
+
+        return;
+
+      }
+
+
+      /*
+       * First get file URL.
+       */
+
+      const {
+        data: material,
+        error: fetchError
+      } =
+        await supabaseClient
+          .from("materials")
+          .select(
+            "id, file_url"
+          )
+          .eq(
+            "id",
+            id
+          )
+          .single();
+
+
+      if (fetchError) {
+
+        alert(
+          "❌ Material find nahi hua: " +
+          fetchError.message
+        );
+
+        return;
+
+      }
+
+
+      /*
+       * Delete database record.
+       */
+
+      const {
+        error: deleteError
+      } =
+        await supabaseClient
+          .from("materials")
+          .delete()
+          .eq(
+            "id",
+            id
+          );
+
+
+      if (deleteError) {
+
+        alert(
+          "❌ Delete failed: " +
+          deleteError.message
+        );
+
+        return;
+
+      }
+
+
+      /*
+       * Delete PDF from Storage.
+       */
+
+      if (
+        material.file_url
+      ) {
+
+        try {
+
+          const marker =
+            "/storage/v1/object/public/study-material/";
+
+
+          const index =
+            material.file_url.indexOf(
+              marker
+            );
+
+
+          if (
+            index !== -1
+          ) {
+
+            const filePath =
+              decodeURIComponent(
+                material.file_url.substring(
+                  index +
+                  marker.length
+                )
+              );
+
+
+            const {
+              error:
+                storageError
+            } =
+              await supabaseClient
+                .storage
+                .from(
+                  "study-material"
+                )
+                .remove([
+                  filePath
+                ]);
+
+
+            if (storageError) {
+
+              console.error(
+                "Storage delete error:",
+                storageError
+              );
+
+            }
+
+          }
+
+        } catch (
+          storageError
+        ) {
+
+          console.error(
+            "Storage delete error:",
+            storageError
+          );
+
+        }
+
+      }
+
+
+      alert(
+        "✅ Material deleted successfully!"
+      );
+
+
+      await loadAdminMaterials();
+
+    }
+
+
+    /* =========================================
+       START
+    ========================================= */
+
+    checkLogin();
+
+  </script>
 
 </body>
 </html>
-<!-- =========================================
-     MANAGE UPLOADED MATERIALS
-========================================= -->
-
-<div class="card" style="margin-top:25px;">
-
-  <div style="
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    gap:15px;
-    margin-bottom:20px;
-    flex-wrap:wrap;
-  ">
-
-    <div>
-      <h2 style="margin-bottom:5px;">
-        📚 
-      </h2>
-
-      <p style="color:#64748b;font-size:14px;">
-        Edit, open or delete your uploaded study materials.
-      </p>
-    </div>
-
-    <button
-      type="button"
-      onclick="loadAdminMaterials()"
-      style="
-        width:auto;
-        margin:0;
-        padding:10px 16px;
-      "
-    >
-      🔄 Refresh
-    </button>
-
-  </div>
-
-
-  <div id="adminMaterialsList">
-
-    <p style="color:#64748b;">
-      ⏳ Loading materials...
-    </p>
-
-  </div>
-
-</div>
+```
