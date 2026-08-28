@@ -2800,7 +2800,70 @@
     ========================================= */
 
     checkLogin();
+async function loadDashboardStats() {
 
+  try {
+
+    // Total materials
+    const { count: materialCount, error: materialError } =
+      await supabaseClient
+        .from("materials")
+        .select("*", { count: "exact", head: true });
+
+    if (materialError) throw materialError;
+
+    // Total classes
+    const { count: classCount, error: classError } =
+      await supabaseClient
+        .from("classes")
+        .select("*", { count: "exact", head: true });
+
+    if (classError) throw classError;
+
+    // Total subjects
+    const { count: subjectCount, error: subjectError } =
+      await supabaseClient
+        .from("subjects")
+        .select("*", { count: "exact", head: true });
+
+    if (subjectError) throw subjectError;
+
+
+    // Show numbers
+    const totalMaterials =
+      document.getElementById("totalMaterials");
+
+    const totalClasses =
+      document.getElementById("totalClasses");
+
+    const totalSubjects =
+      document.getElementById("totalSubjects");
+
+
+    if (totalMaterials) {
+      totalMaterials.textContent = materialCount || 0;
+    }
+
+    if (totalClasses) {
+      totalClasses.textContent = classCount || 0;
+    }
+
+    if (totalSubjects) {
+      totalSubjects.textContent = subjectCount || 0;
+    }
+
+  } catch (error) {
+
+    console.error(
+      "Dashboard stats error:",
+      error
+    );
+
+  }
+
+}
+
+loadDashboardStats();
   </script>
 
 </body>
