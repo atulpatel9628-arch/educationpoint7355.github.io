@@ -1617,79 +1617,125 @@
 
     async function checkLogin() {
 
-      try {
+  const loading =
+    document.getElementById("accessLoading");
 
-        const {
-          data: { user },
-          error
-        } =
-          await supabaseClient.auth.getUser();
+  const loginScreen =
+    document.getElementById("loginScreen");
 
-
-        if (error || !user) {
-
-          window.location.replace("admin.html");
-
-          return false;
-
-        }
+  const adminApp =
+    document.getElementById("adminApp");
 
 
-        /*
-         * Client-side admin check.
-         *
-         * Real database protection is handled
-         * by Supabase RLS policies.
-         */
+  // Login screen initially hidden
+  if (loginScreen) {
+    loginScreen.style.display = "none";
+  }
 
-        if (user.id !== ADMIN_USER_ID) {
-
-          await supabaseClient.auth.signOut();
-
-          alert(
-            "❌ You are not authorized to access the admin panel."
-          );
-
-          window.location.replace("admin.html");
-
-          return false;
-
-        }
+  if (adminApp) {
+    adminApp.style.display = "none";
+  }
 
 
-        accessLoading.style.display =
-          "none";
+  try {
 
-        app.style.display =
-          "block";
+    // Give Supabase a maximum of 8 seconds
+    const sessionResult = await Promise.race([
+
+      supabaseClient.auth.getSession(),
+
+      new Promise((_, reject) =>
+        setTimeout(
+          () => reject(new Error("Session check timeout")),
+          8000
+        )
+      )
+
+    ]);
 
 
-        await loadClasses();
+    const {
+      data: { session },
+      error
+    } = sessionResult;
 
-        await loadAdminMaterials();
 
-
-        return true;
-
-      } catch (error) {
-
-        console.error(
-          "Login check error:",
-          error
-        );
-
-        alert(
-          "Unable to verify admin access."
-        );
-
-        window.location.replace("admin.html");
-
-        return false;
-
-      }
-
+    // Always hide loading screen
+    if (loading) {
+      loading.style.display = "none";
     }
 
+
+    // No valid session
+    if (error || !session) {
+
+      if (adminApp) {
+        adminApp.style.display = "none";
+      }
+
+      if (loginScreen) {
+        loginScreen.style.display = "block";
+      }
+
+      return;
+    }
+
+
+    // Valid session → open admin panel
+    if (loginScreen) {
+      loginScreen.style.display = "none";
+    }
+
+    if (adminApp) {
+      adminApp.style.display = "block";
+    }
+
+
+    // Load admin data
+    await loadClasses();
+    await loadAdminMaterials();
+
+
+    // Load dashboard stats if available
+    if (typeof loadDashboardStats === "function") {
+      await loadDashboardStats();
+    }
+
+
+    // Load recent uploads if available
+    if (typeof loadRecentUploads === "function") {
+      await loadRecentUploads();
+    }
+
+
+  } catch (error) {
+
+    console.error(
+      "Admin access check error:",
+      error
+    );
+
+
+    // IMPORTANT:
+    // Even if session check fails,
+    // don't leave user stuck on loading screen.
+
+    if (loading) {
+      loading.style.display = "none";
+    }
+
+    if (adminApp) {
+      adminApp.style.display = "none";
+    }
+
+    if (loginScreen) {
+      loginScreen.style.display = "block";
+    }
+
+  }
+
+}
+   
 
     /* =========================================
        LOAD CLASSES
