@@ -2911,6 +2911,152 @@ async function loadDashboardStats() {
 }
 
 loadDashboardStats();
+ async function loadRecentUploads() {
+
+  const container =
+    document.getElementById("recentUploads");
+
+  if (!container) return;
+
+  container.innerHTML = `
+    <p style="color:#64748b;">
+      ⏳ Loading recent uploads...
+    </p>
+  `;
+
+  const { data, error } =
+    await supabaseClient
+      .from("materials")
+      .select(`
+        id,
+        title,
+        chapter,
+        material_type,
+        file_url,
+        created_at,
+        classes(name),
+        subjects(name)
+      `)
+      .order("created_at", {
+        ascending: false
+      })
+      .limit(5);
+
+  if (error) {
+
+    console.error("Recent uploads error:", error);
+
+    container.innerHTML = `
+      <p style="color:#dc2626;">
+        ❌ Recent uploads load nahi ho pa rahe.
+      </p>
+    `;
+
+    return;
+  }
+
+  if (!data || data.length === 0) {
+
+    container.innerHTML = `
+      <p style="color:#64748b;">
+        📚 Abhi koi material uploaded nahi hai.
+      </p>
+    `;
+
+    return;
+  }
+
+  container.innerHTML = "";
+
+  data.forEach(material => {
+
+    const className =
+      material.classes?.name || "Unknown Class";
+
+    const subjectName =
+      material.subjects?.name || "Unknown Subject";
+
+    const item =
+      document.createElement("div");
+
+    item.style.cssText = `
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:15px;
+      padding:15px;
+      margin-bottom:10px;
+      border:1px solid #e5e7eb;
+      border-radius:12px;
+      background:#f8fafc;
+    `;
+
+    item.innerHTML = `
+
+      <div style="min-width:0;">
+
+        <div style="
+          color:#2563eb;
+          font-size:12px;
+          font-weight:bold;
+          margin-bottom:5px;
+        ">
+          🎓 ${escapeAdminText(className)}
+          → 
+          📚 ${escapeAdminText(subjectName)}
+        </div>
+
+        <strong style="
+          display:block;
+          color:#111827;
+          margin-bottom:4px;
+        ">
+          📄 ${escapeAdminText(
+            material.title || "Untitled Material"
+          )}
+        </strong>
+
+        <small style="color:#64748b;">
+          📖 ${escapeAdminText(
+            material.chapter || "No chapter"
+          )}
+        </small>
+
+      </div>
+
+      ${
+        material.file_url
+        ? `
+          <a
+            href="${escapeAdminText(material.file_url)}"
+            target="_blank"
+            rel="noopener"
+            style="
+              flex-shrink:0;
+              text-decoration:none;
+              background:#2563eb;
+              color:white;
+              padding:9px 13px;
+              border-radius:8px;
+              font-weight:bold;
+              font-size:13px;
+            "
+          >
+            Open
+          </a>
+        `
+        : ""
+      }
+
+    `;
+
+    container.appendChild(item);
+
+  });
+
+}
+
+loadRecentUploads();   
   </script>
 
 </body>
