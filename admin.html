@@ -1164,6 +1164,53 @@
 
   </div>
 </div>
+      <div class="card" style="margin-top:25px;">
+
+  <div style="
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:15px;
+    margin-bottom:20px;
+    flex-wrap:wrap;
+  ">
+
+    <div>
+      <h2 style="margin-bottom:5px;">
+        🕒 Recent Uploads
+      </h2>
+
+      <p style="
+        color:#64748b;
+        font-size:14px;
+      ">
+        Your latest uploaded study materials.
+      </p>
+    </div>
+
+    <button
+      type="button"
+      onclick="loadRecentUploads()"
+      style="
+        width:auto;
+        margin:0;
+        padding:10px 16px;
+      "
+    >
+      🔄 Refresh
+    </button>
+
+  </div>
+
+  <div id="recentUploads">
+
+    <p style="color:#64748b;">
+      ⏳ Loading recent uploads...
+    </p>
+
+  </div>
+
+</div>  
         <section class="card">
 
           <div class="card-header">
