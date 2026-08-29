@@ -2326,7 +2326,7 @@ footer a:hover {
     id="resourceNotes"
     role="button"
     tabindex="0"
-    onclick="activateResource('notes')"
+onclick="document.getElementById('materialSearch').value='note'; document.getElementById('live-materials').scrollIntoView({behavior:'smooth'}); document.getElementById('materialSearch').dispatchEvent(new Event('input'));"
     onkeydown="if(event.key==='Enter'||event.key===' ') activateResource('notes')"
   >
     <div>📚</div>
