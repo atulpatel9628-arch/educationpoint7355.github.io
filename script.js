@@ -1058,3 +1058,69 @@ window.loadLiveMaterials =
 window.applyFilters =
   applyFilters;
 ```
+window.showSubjectMaterials =
+  showSubjectMaterials;
+
+window.loadLiveMaterials =
+  loadLiveMaterials;
+
+window.applyFilters =
+  applyFilters;
+/* =========================================================
+   EVERYTHING YOU NEED — RESOURCE CARDS
+   ========================================================= */
+
+function activateResource(type) {
+
+  const liveSection =
+    document.getElementById("live-materials");
+
+  const searchInput =
+    document.getElementById("materialSearch");
+
+  const classFilter =
+    document.getElementById("classFilter");
+
+  const subjectFilter =
+    document.getElementById("subjectFilter");
+
+  if (!liveSection) {
+    console.error("Live materials section not found.");
+    return;
+  }
+
+  // Clear class and subject filters
+  if (classFilter) {
+    classFilter.value = "";
+  }
+
+  if (subjectFilter) {
+    subjectFilter.value = "";
+  }
+
+  // Set search according to selected resource
+  const searches = {
+    notes: "note",
+    questions: "question",
+    pdfs: "pdf",
+    important: "important"
+  };
+
+  if (searchInput) {
+    searchInput.value =
+      searches[type] || "";
+  }
+
+  // Apply existing filter system
+  applyFilters();
+
+  // Scroll to study materials
+  liveSection.scrollIntoView({
+    behavior: "smooth",
+    block: "start"
+  });
+}
+
+/* Make function available to index.html */
+window.activateResource =
+  activateResource;
