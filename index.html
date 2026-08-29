@@ -2321,42 +2321,63 @@ footer a:hover {
 
   <div class="resource-grid">
 
-    <article class="resource-card">
-      <div>📚</div>
-      <strong>Chapter Notes</strong>
-      <p>
-        Simple notes organized by class and subject.
-      </p>
-    </article>
+  <article
+    class="resource-card"
+    id="resourceNotes"
+    role="button"
+    tabindex="0"
+    onclick="activateResource('notes')"
+    onkeydown="if(event.key==='Enter'||event.key===' ') activateResource('notes')"
+  >
+    <div>📚</div>
+    <strong>Chapter Notes</strong>
+    <p>Simple notes organized by class and subject.</p>
+    <span class="resource-action">Explore Notes →</span>
+  </article>
 
+  <article
+    class="resource-card"
+    id="resourceQuestions"
+    role="button"
+    tabindex="0"
+    onclick="activateResource('questions')"
+    onkeydown="if(event.key==='Enter'||event.key===' ') activateResource('questions')"
+  >
+    <div>📝</div>
+    <strong>Question Papers</strong>
+    <p>Practice papers and important questions.</p>
+    <span class="resource-action">View Questions →</span>
+  </article>
 
-    <article class="resource-card">
-      <div>📝</div>
-      <strong>Question Papers</strong>
-      <p>
-        Practice papers and important questions.
-      </p>
-    </article>
+  <article
+    class="resource-card"
+    id="resourcePDFs"
+    role="button"
+    tabindex="0"
+    onclick="activateResource('pdfs')"
+    onkeydown="if(event.key==='Enter'||event.key===' ') activateResource('pdfs')"
+  >
+    <div>📥</div>
+    <strong>PDF Downloads</strong>
+    <p>Easy access to study PDFs and worksheets.</p>
+    <span class="resource-action">View PDFs →</span>
+  </article>
 
+  <article
+    class="resource-card"
+    id="resourceImportant"
+    role="button"
+    tabindex="0"
+    onclick="activateResource('important')"
+    onkeydown="if(event.key==='Enter'||event.key===' ') activateResource('important')"
+  >
+    <div>🎯</div>
+    <strong>Important Questions</strong>
+    <p>Focused revision material for exams.</p>
+    <span class="resource-action">Revise Now →</span>
+  </article>
 
-    <article class="resource-card">
-      <div>📥</div>
-      <strong>PDF Downloads</strong>
-      <p>
-        Easy access to study PDFs and worksheets.
-      </p>
-    </article>
-
-
-    <article class="resource-card">
-      <div>🎯</div>
-      <strong>Important Questions</strong>
-      <p>
-        Focused revision material for exams.
-      </p>
-    </article>
-
-  </div>
+</div>
 
 </section>
 
