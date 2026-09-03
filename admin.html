@@ -4034,6 +4034,19 @@ loadSavedTheme();
 showLogin();
 
 checkLogin();
+  document.getElementById("materialType").addEventListener("change", function () {
+
+  const questionPaperFields =
+    document.getElementById("questionPaperFields");
+
+  if (this.value === "Question Paper") {
+    questionPaperFields.style.display = "block";
+  } else {
+    questionPaperFields.style.display = "none";
+  }
+
+});
+
 
 </script>
 
