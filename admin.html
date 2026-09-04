@@ -2845,7 +2845,9 @@ if (materialType === "Question Paper" && previewImage) {
 
     showStatus(
       status,
-      "✅ PDF successfully uploaded!",
+      materialType === "Question Paper"
+  ? "✅ Question Paper successfully uploaded!"
+  : "✅ Material successfully uploaded!",
       "success"
     );
 
@@ -2855,6 +2857,8 @@ if (materialType === "Question Paper" && previewImage) {
         "uploadForm"
       )
       .reset();
+    document.getElementById("questionPaperFields").style.display = "none";
+document.getElementById("materialType").value = "PDF";
 
 
     document
