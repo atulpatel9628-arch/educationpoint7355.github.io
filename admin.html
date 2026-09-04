@@ -2517,16 +2517,17 @@ async function uploadMaterial(
     ).value.trim();
 
 
-  const file =
-    document.getElementById(
-      "pdfFile"
-    ).files[0];
+const file =
+  document.getElementById("pdfFile").files[0];
 
+const previewImage =
+  document.getElementById("previewImage").files[0];
 
-  const uploadBtn =
-    document.getElementById(
-      "uploadBtn"
-    );
+const materialType =
+  document.getElementById("materialType").value;
+
+const uploadBtn =
+  document.getElementById("uploadBtn");
 
 
   const status =
