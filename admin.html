@@ -2742,7 +2742,41 @@ const uploadBtn =
 
     const fileUrl =
       publicData.publicUrl;
+let previewUrl = null;
 
+if (materialType === "Question Paper" && previewImage) {
+
+  if (!previewImage.type.startsWith("image/")) {
+    throw new Error("Preview file must be an image.");
+  }
+
+  const safePreviewName =
+    previewImage.name
+      .replace(/[^a-zA-Z0-9.-]/g, "_");
+
+  const previewPath =
+    "previews/" + Date.now() + "_" + safePreviewName;
+
+  const { error: previewUploadError } =
+    await supabaseClient.storage
+      .from("study-material")
+      .upload(previewPath, previewImage, {
+        contentType: previewImage.type,
+        upsert: false
+      });
+
+  if (previewUploadError) {
+    throw previewUploadError;
+  }
+
+  const { data: previewPublicData } =
+    supabaseClient.storage
+      .from("study-material")
+      .getPublicUrl(previewPath);
+
+  previewUrl =
+    previewPublicData.publicUrl;
+}
 
     /* -------------------------------------------
        DATABASE INSERT
