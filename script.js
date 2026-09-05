@@ -1084,45 +1084,51 @@ window.applyFilters =
    EVERYTHING YOU NEED — RESOURCE CARDS
    ========================================================= */
 
-<!-- RESOURCES -->
-<section id="resources" class="section">
-  <div class="heading">
-    <span>02</span>
-    <div>
-      <small>STUDY RESOURCES</small>
-      <h2>Everything You Need</h2>
-    </div>
-  </div>
+function activateResource(type) {
+  const liveSection =
+    document.getElementById("live-materials");
 
-  <div class="resource-grid">
+  const searchInput =
+    document.getElementById("materialSearch");
 
-    <article onclick="activateResource('notes')" style="cursor:pointer;">
-      <div>📚</div>
-      <strong>Chapter Notes</strong>
-      <p>Simple notes organized by class and subject.</p>
-      <span>View Notes →</span>
-    </article>
+  const classFilter =
+    document.getElementById("classFilter");
 
-    <article onclick="activateResource('questions')" style="cursor:pointer;">
-      <div>📝</div>
-      <strong>Question Papers</strong>
-      <p>Practice papers and important questions.</p>
-      <span>View Questions →</span>
-    </article>
+  const subjectFilter =
+    document.getElementById("subjectFilter");
 
-    <article onclick="activateResource('pdfs')" style="cursor:pointer;">
-      <div>📥</div>
-      <strong>PDF Downloads</strong>
-      <p>Easy access to study PDFs and worksheets.</p>
-      <span>View PDFs →</span>
-    </article>
+  if (!liveSection) {
+    console.error("Live materials section not found.");
+    return;
+  }
 
-    <article onclick="activateResource('important')" style="cursor:pointer;">
-      <div>🎯</div>
-      <strong>Important Questions</strong>
-      <p>Focused revision material for exams.</p>
-      <span>View Questions →</span>
-    </article>
+  if (classFilter) {
+    classFilter.value = "";
+  }
 
-  </div>
-</section>
+  if (subjectFilter) {
+    subjectFilter.value = "";
+  }
+
+  const searches = {
+    notes: "note",
+    questions: "question",
+    pdfs: "pdf",
+    important: "important"
+  };
+
+  if (searchInput) {
+    searchInput.value =
+      searches[type] || "";
+  }
+
+  applyFilters();
+
+  liveSection.scrollIntoView({
+    behavior: "smooth",
+    block: "start"
+  });
+}
+
+window.activateResource =
+  activateResource;
