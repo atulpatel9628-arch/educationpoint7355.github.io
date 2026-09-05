@@ -196,7 +196,19 @@ function createMaterialCard(material) {
         : ""
     }
 
-
+    ${
+      material.material_type === "Question Paper" &&
+      material.preview_url
+        ? `
+          <img
+            src="${escapeText(material.preview_url)}"
+            alt="Question Paper Preview"
+            style="width:100%; max-height:300px; object-fit:contain; border-radius:12px; margin:12px 0; cursor:pointer;"
+            onclick="window.open('${escapeText(material.preview_url)}', '_blank')"
+          >
+        `
+        : ""
+    }
     <div class="material-buttons">
 
       ${
@@ -628,6 +640,7 @@ async function showSubjectMaterials(
       chapter,
       material_type,
       file_url,
+      preview_url,
       youtube_url,
       description,
       created_at,
