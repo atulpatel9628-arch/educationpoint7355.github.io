@@ -2295,96 +2295,47 @@ footer a:hover {
      RESOURCES
 ======================================================= -->
 
-<section
-  id="resources"
-  class="section"
->
-
+<section id="resources" class="section">
   <div class="heading">
-
     <span>02</span>
-
     <div>
-
-      <small>
-        STUDY RESOURCES
-      </small>
-
-      <h2>
-        Everything You Need
-      </h2>
-
+      <small>STUDY RESOURCES</small>
+      <h2>Everything You Need</h2>
     </div>
-
   </div>
-
 
   <div class="resource-grid">
 
-  <article
-    class="resource-card"
-    id="resourceNotes"
-    role="button"
-    tabindex="0"
-onclick="document.getElementById('materialSearch').value='note'; document.getElementById('live-materials').scrollIntoView({behavior:'smooth'}); document.getElementById('materialSearch').dispatchEvent(new Event('input'));"
-    onkeydown="if(event.key==='Enter'||event.key===' ') activateResource('notes')"
-  >
-    <div>📚</div>
-    <strong>Chapter Notes</strong>
-    <p>Simple notes organized by class and subject.</p>
-    <span class="resource-action">Explore Notes →</span>
-  </article>
+    <article onclick="activateResource('notes')" style="cursor:pointer;">
+      <div>📚</div>
+      <strong>Chapter Notes</strong>
+      <p>Simple notes organized by class and subject.</p>
+      <span>View Notes →</span>
+    </article>
 
-  <article
-    class="resource-card"
-    id="resourceQuestions"
-    role="button"
-    tabindex="0"
-    onclick="activateResource('questions')"
-    onkeydown="if(event.key==='Enter'||event.key===' ') activateResource('questions')"
-  >
-  <article
-  onclick="activateResource('questions')"
-  style="cursor:pointer;"
->
-  <div>📝</div>
-  <strong>Question Papers</strong>
-  <p>Practice papers and important questions.</p>
-  <span>View Questions →</span>
-</article>
+    <article onclick="activateResource('questions')" style="cursor:pointer;">
+      <div>📝</div>
+      <strong>Question Papers</strong>
+      <p>Practice papers and important questions.</p>
+      <span>View Questions →</span>
+    </article>
 
-  <article
-    class="resource-card"
-    id="resourcePDFs"
-    role="button"
-    tabindex="0"
-    onclick="activateResource('pdfs')"
-    onkeydown="if(event.key==='Enter'||event.key===' ') activateResource('pdfs')"
-  >
-    <div>📥</div>
-    <strong>PDF Downloads</strong>
-    <p>Easy access to study PDFs and worksheets.</p>
-    <span class="resource-action">View PDFs →</span>
-  </article>
+    <article onclick="activateResource('pdfs')" style="cursor:pointer;">
+      <div>📥</div>
+      <strong>PDF Downloads</strong>
+      <p>Easy access to study PDFs and worksheets.</p>
+      <span>View PDFs →</span>
+    </article>
 
-  <article
-    class="resource-card"
-    id="resourceImportant"
-    role="button"
-    tabindex="0"
-    onclick="activateResource('important')"
-    onkeydown="if(event.key==='Enter'||event.key===' ') activateResource('important')"
-  >
-    <div>🎯</div>
-    <strong>Important Questions</strong>
-    <p>Focused revision material for exams.</p>
-    <span class="resource-action">Revise Now →</span>
-  </article>
+    <article onclick="activateResource('important')" style="cursor:pointer;">
+      <div>🎯</div>
+      <strong>Important Questions</strong>
+      <p>Focused revision material for exams.</p>
+      <span>View Questions →</span>
+    </article>
 
-</div>
-
+  </div>
 </section>
-
 
 <!-- =======================================================
      LIVE MATERIALS
