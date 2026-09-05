@@ -2343,11 +2343,15 @@ onclick="document.getElementById('materialSearch').value='note'; document.getEle
     onclick="activateResource('questions')"
     onkeydown="if(event.key==='Enter'||event.key===' ') activateResource('questions')"
   >
-    <div>📝</div>
-    <strong>Question Papers</strong>
-    <p>Practice papers and important questions.</p>
-    <span class="resource-action">View Questions →</span>
-  </article>
+  <article
+  onclick="activateResource('questions')"
+  style="cursor:pointer;"
+>
+  <div>📝</div>
+  <strong>Question Papers</strong>
+  <p>Practice papers and important questions.</p>
+  <span>View Questions →</span>
+</article>
 
   <article
     class="resource-card"
