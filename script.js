@@ -1,4 +1,3 @@
-```javascript
 /* =========================================================
    EDUCATION POINT — MAIN JAVASCRIPT
    ========================================================= */
@@ -60,10 +59,15 @@ function setupTheme() {
     localStorage.getItem("educationPointTheme");
 
   if (savedTheme === "dark") {
+
     document.body.classList.add("dark");
+
     themeBtn.textContent = "☀️";
+
   } else {
+
     document.body.classList.remove("dark");
+
     themeBtn.textContent = "🌙";
   }
 
@@ -105,14 +109,17 @@ function createMaterialCard(material) {
     material.class_name ||
     "";
 
+
   const subjectName =
     material.subjects?.name ||
     material.subject_name ||
     "";
 
+
   const materialType =
     material.material_type ||
     "PDF";
+
 
   const typeIcon =
     getMaterialTypeIcon(materialType);
@@ -121,8 +128,14 @@ function createMaterialCard(material) {
   card.dataset.class =
     className;
 
+
   card.dataset.subject =
     subjectName;
+
+
+  card.dataset.resourceType =
+    getResourceCategory(material);
+
 
   card.dataset.search =
     [
@@ -176,10 +189,13 @@ function createMaterialCard(material) {
       material.chapter
         ? `
           <div class="material-chapter">
+
             📖
+
             <span>
               ${escapeText(material.chapter)}
             </span>
+
           </div>
         `
         : ""
@@ -196,32 +212,58 @@ function createMaterialCard(material) {
         : ""
     }
 
+
     ${
       material.material_type === "Question Paper" &&
       material.preview_url
         ? `
+
           <img
             src="${escapeText(material.preview_url)}"
             alt="Question Paper Preview"
-            style="width:100%; max-height:300px; object-fit:contain; border-radius:12px; margin:12px 0; cursor:pointer;"
-            onclick="window.open('${escapeText(material.preview_url)}', '_blank')"
+
+            style="
+              width:100%;
+              max-height:320px;
+              object-fit:contain;
+              border-radius:12px;
+              margin:12px 0;
+              cursor:pointer;
+            "
+
+            onclick="
+              window.open(
+                '${escapeText(material.preview_url)}',
+                '_blank'
+              )
+            "
           >
+
         `
         : ""
     }
+
+
     <div class="material-buttons">
 
       ${
         material.file_url
           ? `
+
             <a
               class="material-btn pdf-btn"
+
               href="${escapeText(material.file_url)}"
+
               target="_blank"
+
               rel="noopener noreferrer"
             >
+
               📥 Open PDF
+
             </a>
+
           `
           : ""
       }
@@ -230,14 +272,21 @@ function createMaterialCard(material) {
       ${
         material.youtube_url
           ? `
+
             <a
               class="material-btn video-btn"
+
               href="${escapeText(material.youtube_url)}"
+
               target="_blank"
+
               rel="noopener noreferrer"
             >
+
               ▶ Watch Video
+
             </a>
+
           `
           : ""
       }
@@ -264,10 +313,17 @@ async function loadLiveMaterials() {
 
 
   container.innerHTML = `
+
     <div class="material-loading">
+
       <div>⏳</div>
-      <p>Loading study materials...</p>
+
+      <p>
+        Loading study materials...
+      </p>
+
     </div>
+
   `;
 
 
@@ -284,8 +340,8 @@ async function loadLiveMaterials() {
       chapter,
       material_type,
       file_url,
-      youtube_url,
       preview_url,
+      youtube_url,
       description,
       created_at,
       class_id,
@@ -309,7 +365,9 @@ async function loadLiveMaterials() {
       error
     );
 
+
     container.innerHTML = `
+
       <div class="material-box error-box">
 
         <h3>
@@ -321,6 +379,7 @@ async function loadLiveMaterials() {
         </p>
 
       </div>
+
     `;
 
     return;
@@ -330,6 +389,7 @@ async function loadLiveMaterials() {
   if (!data || data.length === 0) {
 
     container.innerHTML = `
+
       <div class="material-box empty-box">
 
         <div class="empty-icon">
@@ -345,6 +405,7 @@ async function loadLiveMaterials() {
         </p>
 
       </div>
+
     `;
 
     return;
@@ -382,15 +443,18 @@ async function showSubjectMaterials(
       "subjectMaterials"
     );
 
+
   const selectedClass =
     document.getElementById(
       "selectedClass"
     );
 
+
   const selectedSubject =
     document.getElementById(
       "selectedSubject"
     );
+
 
   const list =
     document.getElementById(
@@ -430,9 +494,11 @@ async function showSubjectMaterials(
   /* Loading */
 
   list.innerHTML = `
+
     <div class="material-box">
 
       <div class="material-loading">
+
         <div>⏳</div>
 
         <h3>
@@ -448,6 +514,7 @@ async function showSubjectMaterials(
       </div>
 
     </div>
+
   `;
 
 
@@ -499,7 +566,9 @@ async function showSubjectMaterials(
       classError
     );
 
+
     list.innerHTML = `
+
       <div class="material-box error-box">
 
         <h3>
@@ -511,15 +580,20 @@ async function showSubjectMaterials(
         </p>
 
       </div>
+
     `;
 
     return;
   }
 
 
-  if (!classData || classData.length === 0) {
+  if (
+    !classData ||
+    classData.length === 0
+  ) {
 
     list.innerHTML = `
+
       <div class="material-box empty-box">
 
         <div class="empty-icon">
@@ -535,6 +609,7 @@ async function showSubjectMaterials(
         </p>
 
       </div>
+
     `;
 
     return;
@@ -572,7 +647,9 @@ async function showSubjectMaterials(
       subjectError
     );
 
+
     list.innerHTML = `
+
       <div class="material-box error-box">
 
         <h3>
@@ -584,6 +661,7 @@ async function showSubjectMaterials(
         </p>
 
       </div>
+
     `;
 
     return;
@@ -596,6 +674,7 @@ async function showSubjectMaterials(
   ) {
 
     list.innerHTML = `
+
       <div class="material-box empty-box">
 
         <div class="empty-icon">
@@ -603,7 +682,8 @@ async function showSubjectMaterials(
         </div>
 
         <h3>
-          ${escapeText(subjectName)} ke materials nahi mile
+          ${escapeText(subjectName)}
+          ke materials nahi mile
         </h3>
 
         <p>
@@ -613,6 +693,7 @@ async function showSubjectMaterials(
         </p>
 
       </div>
+
     `;
 
     return;
@@ -669,7 +750,9 @@ async function showSubjectMaterials(
       materialsError
     );
 
+
     list.innerHTML = `
+
       <div class="material-box error-box">
 
         <h3>
@@ -681,6 +764,7 @@ async function showSubjectMaterials(
         </p>
 
       </div>
+
     `;
 
     return;
@@ -697,6 +781,7 @@ async function showSubjectMaterials(
   ) {
 
     list.innerHTML = `
+
       <div class="material-box empty-box">
 
         <div class="empty-icon">
@@ -719,6 +804,7 @@ async function showSubjectMaterials(
         </small>
 
       </div>
+
     `;
 
     return;
@@ -744,6 +830,142 @@ async function showSubjectMaterials(
 
 
 /* =========================================================
+   EVERYTHING YOU NEED — RESOURCE CARDS
+   ========================================================= */
+
+let activeResourceFilter = "";
+
+
+function getResourceCategory(material) {
+
+  const type =
+    String(
+      material?.material_type || ""
+    ).toLowerCase();
+
+
+  const text = [
+
+    material?.title,
+
+    material?.chapter,
+
+    material?.description
+
+  ]
+    .filter(Boolean)
+    .join(" ")
+    .toLowerCase();
+
+
+  if (
+    type.includes("important") ||
+    text.includes("important question")
+  ) {
+
+    return "important";
+
+  }
+
+
+  if (
+    type.includes("question")
+  ) {
+
+    return "questions";
+
+  }
+
+
+  if (
+    type.includes("note")
+  ) {
+
+    return "notes";
+
+  }
+
+
+  if (
+    material?.file_url
+  ) {
+
+    return "pdfs";
+
+  }
+
+
+  return "other";
+}
+
+
+function activateResource(type) {
+
+  const liveSection =
+    document.getElementById(
+      "live-materials"
+    );
+
+
+  const searchInput =
+    document.getElementById(
+      "materialSearch"
+    );
+
+
+  const classFilter =
+    document.getElementById(
+      "classFilter"
+    );
+
+
+  const subjectFilter =
+    document.getElementById(
+      "subjectFilter"
+    );
+
+
+  activeResourceFilter =
+    type || "";
+
+
+  if (searchInput)
+    searchInput.value = "";
+
+
+  if (classFilter)
+    classFilter.value = "";
+
+
+  if (subjectFilter)
+    subjectFilter.value = "";
+
+
+  applyFilters();
+
+
+  if (liveSection) {
+
+    liveSection.scrollIntoView({
+      behavior: "smooth",
+      block: "start"
+    });
+
+  }
+
+}
+
+
+function clearResourceFilter() {
+
+  activeResourceFilter = "";
+
+  applyFilters();
+
+}
+
+
+/* =========================================================
    FILTER SYSTEM
    ========================================================= */
 
@@ -754,10 +976,12 @@ function applyFilters() {
       "materialSearch"
     );
 
+
   const classFilter =
     document.getElementById(
       "classFilter"
     );
+
 
   const subjectFilter =
     document.getElementById(
@@ -819,10 +1043,20 @@ function applyFilters() {
       cardSubject === selectedSubject;
 
 
+    const resourceType =
+      card.dataset.resourceType || "";
+
+
+    const resourceMatch =
+      !activeResourceFilter ||
+      resourceType === activeResourceFilter;
+
+
     const visible =
       searchMatch &&
       classMatch &&
-      subjectMatch;
+      subjectMatch &&
+      resourceMatch;
 
 
     card.style.display =
@@ -859,13 +1093,17 @@ function applyFilters() {
       noResult =
         document.createElement("div");
 
+
       noResult.id =
         "noFilterResults";
+
 
       noResult.className =
         "material-box empty-box";
 
+
       noResult.innerHTML = `
+
         <div class="empty-icon">
           🔍
         </div>
@@ -877,7 +1115,9 @@ function applyFilters() {
         <p>
           Search/filter change karke try karo.
         </p>
+
       `;
+
 
       container.appendChild(
         noResult
@@ -905,7 +1145,9 @@ function applyFilters() {
 function setupFilters() {
 
   document
-    .getElementById("materialSearch")
+    .getElementById(
+      "materialSearch"
+    )
     ?.addEventListener(
       "input",
       applyFilters
@@ -913,7 +1155,9 @@ function setupFilters() {
 
 
   document
-    .getElementById("classFilter")
+    .getElementById(
+      "classFilter"
+    )
     ?.addEventListener(
       "change",
       applyFilters
@@ -921,7 +1165,9 @@ function setupFilters() {
 
 
   document
-    .getElementById("subjectFilter")
+    .getElementById(
+      "subjectFilter"
+    )
     ?.addEventListener(
       "change",
       applyFilters
@@ -954,7 +1200,9 @@ function setupNavigation() {
             !targetId ||
             targetId === "#"
           ) {
+
             return;
+
           }
 
 
@@ -965,7 +1213,9 @@ function setupNavigation() {
 
 
           if (!target) {
+
             return;
+
           }
 
 
@@ -973,8 +1223,11 @@ function setupNavigation() {
 
 
           target.scrollIntoView({
+
             behavior: "smooth",
+
             block: "start"
+
           });
 
         }
@@ -1001,6 +1254,7 @@ function setupSubjectCards() {
         "role",
         "button"
       );
+
 
       card.setAttribute(
         "tabindex",
@@ -1066,69 +1320,18 @@ document.addEventListener(
 window.showSubjectMaterials =
   showSubjectMaterials;
 
-window.loadLiveMaterials =
-  loadLiveMaterials;
-
-window.applyFilters =
-  applyFilters;
-```
-window.showSubjectMaterials =
-  showSubjectMaterials;
 
 window.loadLiveMaterials =
   loadLiveMaterials;
 
+
 window.applyFilters =
   applyFilters;
-/* =========================================================
-   EVERYTHING YOU NEED — RESOURCE CARDS
-   ========================================================= */
 
-function activateResource(type) {
-  const liveSection =
-    document.getElementById("live-materials");
-
-  const searchInput =
-    document.getElementById("materialSearch");
-
-  const classFilter =
-    document.getElementById("classFilter");
-
-  const subjectFilter =
-    document.getElementById("subjectFilter");
-
-  if (!liveSection) {
-    console.error("Live materials section not found.");
-    return;
-  }
-
-  if (classFilter) {
-    classFilter.value = "";
-  }
-
-  if (subjectFilter) {
-    subjectFilter.value = "";
-  }
-
-  const searches = {
-    notes: "note",
-    questions: "question",
-    pdfs: "pdf",
-    important: "important"
-  };
-
-  if (searchInput) {
-    searchInput.value =
-      searches[type] || "";
-  }
-
-  applyFilters();
-
-  liveSection.scrollIntoView({
-    behavior: "smooth",
-    block: "start"
-  });
-}
 
 window.activateResource =
   activateResource;
+
+
+window.clearResourceFilter =
+  clearResourceFilter;
