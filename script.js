@@ -273,6 +273,7 @@ async function loadLiveMaterials() {
       material_type,
       file_url,
       youtube_url,
+      preview_url,
       description,
       created_at,
       class_id,
