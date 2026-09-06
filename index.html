@@ -560,6 +560,7 @@ body.dark select {
 ========================================================= */
 
 .section {
+  scroll-margin-top: 90px;
   max-width: 1250px;
 
   margin: auto;
@@ -1049,6 +1050,29 @@ body.dark select {
   margin-bottom: 15px;
 }
 
+.question-preview {
+  margin: 14px 0 4px;
+  padding: 8px;
+  border: 1px solid rgba(37,99,235,.10);
+  border-radius: 14px;
+  background: #f8fafc;
+  text-align: center;
+}
+
+.question-preview img {
+  display: block;
+  width: 100%;
+  max-height: 300px;
+  object-fit: contain;
+  border-radius: 10px;
+  cursor: zoom-in;
+}
+
+body.dark .question-preview {
+  background: #1e293b;
+  border-color: rgba(148,163,184,.16);
+}
+
 .material-buttons {
   display: flex;
 
@@ -1205,7 +1229,10 @@ body.dark select {
 }
 
 .resource-card {
+  position: relative;
   padding: 25px;
+  cursor: pointer;
+  user-select: none;
 
   background:
     rgba(255,255,255,.88);
@@ -1223,6 +1250,26 @@ body.dark select {
 
 .resource-card:hover {
   transform: translateY(-6px);
+  box-shadow: 0 18px 42px rgba(15,23,42,.12);
+}
+
+.resource-card:focus-visible {
+  outline: 3px solid rgba(37,99,235,.28);
+  outline-offset: 3px;
+}
+
+.resource-card.active-resource {
+  border-color: rgba(37,99,235,.35);
+  box-shadow: 0 18px 45px rgba(37,99,235,.16);
+  transform: translateY(-4px);
+}
+
+.resource-card span {
+  display: inline-block;
+  margin-top: 14px;
+  color: #2563eb;
+  font-size: 13px;
+  font-weight: 900;
 }
 
 .resource-card div {
@@ -2307,76 +2354,66 @@ footer a:hover {
 
   <div class="resource-grid">
 
-    <!-- CHAPTER NOTES -->
     <article
+      class="resource-card"
+      data-resource="notes"
+      role="button"
+      tabindex="0"
+      aria-label="Show chapter notes"
       onclick="activateResource('notes')"
-      style="cursor:pointer;"
     >
       <div>📚</div>
-
       <strong>Chapter Notes</strong>
-
-      <p>
-        Simple notes organized by class and subject.
-      </p>
-
+      <p>Simple notes organized by class and subject.</p>
       <span>View Notes →</span>
     </article>
 
-
-    <!-- QUESTION PAPERS -->
     <article
+      class="resource-card"
+      data-resource="questions"
+      role="button"
+      tabindex="0"
+      aria-label="Show question papers"
       onclick="activateResource('questions')"
-      style="cursor:pointer;"
     >
       <div>📝</div>
-
       <strong>Question Papers</strong>
-
-      <p>
-        Practice papers and important questions.
-      </p>
-
+      <p>Practice papers and previous-style question sets.</p>
       <span>View Questions →</span>
     </article>
 
-
-    <!-- PDF DOWNLOADS -->
     <article
+      class="resource-card"
+      data-resource="pdfs"
+      role="button"
+      tabindex="0"
+      aria-label="Show PDF downloads"
       onclick="activateResource('pdfs')"
-      style="cursor:pointer;"
     >
       <div>📥</div>
-
       <strong>PDF Downloads</strong>
-
-      <p>
-        Easy access to study PDFs and worksheets.
-      </p>
-
+      <p>Easy access to study PDFs and worksheets.</p>
       <span>View PDFs →</span>
     </article>
 
-
-    <!-- IMPORTANT QUESTIONS -->
     <article
+      class="resource-card"
+      data-resource="important"
+      role="button"
+      tabindex="0"
+      aria-label="Show important questions"
       onclick="activateResource('important')"
-      style="cursor:pointer;"
     >
       <div>🎯</div>
-
       <strong>Important Questions</strong>
-
-      <p>
-        Focused revision material for exams.
-      </p>
-
+      <p>Focused revision material for exams.</p>
       <span>View Questions →</span>
     </article>
 
   </div>
 
 </section>
+
 <!-- =======================================================
      LIVE MATERIALS
 ======================================================= -->
@@ -2983,6 +3020,7 @@ async function loadAllMaterials() {
       chapter,
       material_type,
       file_url,
+      preview_url,
       youtube_url,
       description,
       created_at,
@@ -3096,6 +3134,9 @@ function createMaterialCard(
   card.dataset.subject =
     subjectName;
 
+  card.dataset.resourceType =
+    getResourceCategory(material);
+
 
   card.dataset.search = [
 
@@ -3183,6 +3224,22 @@ function createMaterialCard(
           )}
         </p>
 
+      `
+      : ""
+    }
+
+
+    ${
+      material.material_type === "Question Paper" &&
+      material.preview_url
+      ? `
+        <div class="question-preview">
+          <img
+            src="${escapeHTML(material.preview_url)}"
+            alt="Question paper preview"
+            loading="lazy"
+          >
+        </div>
       `
       : ""
     }
@@ -3578,13 +3635,111 @@ async function showSubjectMaterials(
    FILTER MATERIALS
 ========================================================= */
 
+function getResourceCategory(material) {
+
+  const type =
+    normalize(material?.material_type);
+
+  const text = [
+    material?.title,
+    material?.chapter,
+    material?.description
+  ]
+    .filter(Boolean)
+    .join(" ")
+    .toLowerCase();
+
+  if (type.includes("important") || text.includes("important question")) {
+    return "important";
+  }
+
+  if (type.includes("question")) {
+    return "questions";
+  }
+
+  if (type.includes("note")) {
+    return "notes";
+  }
+
+  if (material?.file_url) {
+    return "pdfs";
+  }
+
+  return "other";
+}
+
+
+let activeResourceFilter = "";
+
+
+function activateResource(type) {
+
+  activeResourceFilter =
+    type || "";
+
+  const searchInput =
+    document.getElementById("materialSearch");
+
+  const classFilter =
+    document.getElementById("classFilter");
+
+  const subjectFilter =
+    document.getElementById("subjectFilter");
+
+  if (searchInput) {
+    searchInput.value = "";
+  }
+
+  if (classFilter) {
+    classFilter.value = "";
+  }
+
+  if (subjectFilter) {
+    subjectFilter.value = "";
+  }
+
+  document
+    .querySelectorAll(".resource-card")
+    .forEach(card => {
+      card.classList.toggle(
+        "active-resource",
+        card.dataset.resource === activeResourceFilter
+      );
+    });
+
+  applyFilters();
+
+  const liveSection =
+    document.getElementById("live-materials");
+
+  if (liveSection) {
+    liveSection.scrollIntoView({
+      behavior: "smooth",
+      block: "start"
+    });
+  }
+}
+
+
+function clearResourceFilter() {
+
+  activeResourceFilter = "";
+
+  document
+    .querySelectorAll(".resource-card")
+    .forEach(card => {
+      card.classList.remove("active-resource");
+    });
+
+  applyFilters();
+}
+
+
 function applyFilters() {
 
   const search =
     document
-      .getElementById(
-        "materialSearch"
-      )
+      .getElementById("materialSearch")
       ?.value
       .toLowerCase()
       .trim() || "";
@@ -3592,17 +3747,13 @@ function applyFilters() {
 
   const selectedClass =
     document
-      .getElementById(
-        "classFilter"
-      )
+      .getElementById("classFilter")
       ?.value || "";
 
 
   const selectedSubject =
     document
-      .getElementById(
-        "subjectFilter"
-      )
+      .getElementById("subjectFilter")
       ?.value || "";
 
 
@@ -3612,57 +3763,52 @@ function applyFilters() {
     );
 
 
-  let visible =
-    0;
+  let visible = 0;
 
 
-  cards.forEach(
-    card => {
+  cards.forEach(card => {
 
-      const text =
-        card.dataset.search ||
-        card.textContent.toLowerCase();
+    const text =
+      card.dataset.search ||
+      card.textContent.toLowerCase();
 
+    const cardClass =
+      card.dataset.class || "";
 
-      const cardClass =
-        card.dataset.class || "";
+    const cardSubject =
+      card.dataset.subject || "";
 
+    const resourceType =
+      card.dataset.resourceType || "";
 
-      const cardSubject =
-        card.dataset.subject || "";
+    const searchMatch =
+      !search || text.includes(search);
 
+    const classMatch =
+      !selectedClass ||
+      cardClass === selectedClass;
 
-      const searchMatch =
-        !search ||
-        text.includes(search);
+    const subjectMatch =
+      !selectedSubject ||
+      cardSubject === selectedSubject;
 
+    const resourceMatch =
+      !activeResourceFilter ||
+      resourceType === activeResourceFilter;
 
-      const classMatch =
-        !selectedClass ||
-        cardClass === selectedClass;
+    const show =
+      searchMatch &&
+      classMatch &&
+      subjectMatch &&
+      resourceMatch;
 
+    card.style.display =
+      show ? "" : "none";
 
-      const subjectMatch =
-        !selectedSubject ||
-        cardSubject === selectedSubject;
-
-
-      const show =
-        searchMatch &&
-        classMatch &&
-        subjectMatch;
-
-
-      card.style.display =
-        show ? "" : "none";
-
-
-      if (show) {
-        visible++;
-      }
-
+    if (show) {
+      visible++;
     }
-  );
+  });
 
 
   let noResults =
@@ -3679,9 +3825,7 @@ function applyFilters() {
     if (!noResults) {
 
       noResults =
-        document.createElement(
-          "div"
-        );
+        document.createElement("div");
 
       noResults.id =
         "filterNoResults";
@@ -3690,37 +3834,49 @@ function applyFilters() {
         "material-box empty-box";
 
       noResults.innerHTML = `
-
-        <div class="empty-icon">
-          🔍
-        </div>
-
-        <h3>
-          No materials found
-        </h3>
-
+        <div class="empty-icon">🔍</div>
+        <h3>No materials found</h3>
         <p>
-          Search ya filter change karke try karo.
+          Filter change karke dobara try karo.
         </p>
-
+        <button
+          type="button"
+          class="material-btn pdf-btn"
+          onclick="clearAllMaterialFilters()"
+          style="border:none; cursor:pointer; margin-top:10px;"
+        >
+          Clear Filters
+        </button>
       `;
 
       document
-        .getElementById(
-          "liveMaterials"
-        )
-        ?.appendChild(
-          noResults
-        );
-
+        .getElementById("liveMaterials")
+        ?.appendChild(noResults);
     }
 
   } else {
 
     noResults?.remove();
-
   }
+}
 
+
+function clearAllMaterialFilters() {
+
+  const searchInput =
+    document.getElementById("materialSearch");
+
+  const classFilter =
+    document.getElementById("classFilter");
+
+  const subjectFilter =
+    document.getElementById("subjectFilter");
+
+  if (searchInput) searchInput.value = "";
+  if (classFilter) classFilter.value = "";
+  if (subjectFilter) subjectFilter.value = "";
+
+  clearResourceFilter();
 }
 
 
@@ -3759,6 +3915,32 @@ function setupFilters() {
       applyFilters
     );
 
+}
+
+
+/* =========================================================
+   RESOURCE CARD KEYBOARD
+========================================================= */
+
+function setupResourceCards() {
+
+  document
+    .querySelectorAll(".resource-card")
+    .forEach(card => {
+
+      card.addEventListener("keydown", event => {
+
+        if (
+          event.key === "Enter" ||
+          event.key === " "
+        ) {
+          event.preventDefault();
+          card.click();
+        }
+
+      });
+
+    });
 }
 
 
@@ -3821,6 +4003,7 @@ document.addEventListener(
     setupDarkMode();
 
     setupFilters();
+    setupResourceCards();
 
     setupSubjectCards();
 
@@ -3856,6 +4039,15 @@ document.addEventListener(
 
 window.showSubjectMaterials =
   showSubjectMaterials;
+
+window.activateResource =
+  activateResource;
+
+window.clearResourceFilter =
+  clearResourceFilter;
+
+window.clearAllMaterialFilters =
+  clearAllMaterialFilters;
 
 </script>
 
