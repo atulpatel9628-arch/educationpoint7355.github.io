@@ -7,7 +7,8 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}body{font-family:Inter,system-ui,Arial,sans-serif;background:#f4f7fb;color:#172033;padding:20px}.container{width:min(1100px,100%);margin:auto}.card{background:#fff;border:1px solid #e5e7eb;border-radius:18px;padding:22px;box-shadow:0 10px 30px rgba(15,23,42,.06);margin-bottom:20px}h1,h2{margin-bottom:8px}p{line-height:1.5}.muted{color:#64748b}.field{margin-bottom:15px}.field label{display:block;font-size:13px;font-weight:800;margin-bottom:7px}.field input,.field select,.field textarea{width:100%;padding:12px 13px;border:1px solid #dbe1ea;border-radius:10px;background:#fff;color:#172033;font:inherit}.field textarea{min-height:90px;resize:vertical}.btn{border:0;border-radius:10px;padding:12px 15px;font-weight:800;cursor:pointer;background:#4f46e5;color:#fff}.btn:hover{background:#4338ca}.btn:disabled{opacity:.6;cursor:not-allowed}.btn-danger{background:#dc2626}.btn-warning{background:#d97706}.btn-secondary{background:#64748b}.row{display:grid;grid-template-columns:1fr 1fr;gap:15px}.topbar{display:flex;justify-content:space-between;align-items:center;gap:15px;flex-wrap:wrap}.actions{display:flex;gap:8px;flex-wrap:wrap}.status{display:none;margin-top:12px;padding:12px;border-radius:10px}.status.show{display:block}.status.success{background:#dcfce7;color:#166534}.status.error{background:#fee2e2;color:#991b1b}.status.info{background:#dbeafe;color:#1e40af}.hidden{display:none!important}.login-wrap{min-height:90vh;display:grid;place-items:center}.login-card{width:min(430px,100%)}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.stat{padding:18px;border:1px solid #e5e7eb;border-radius:14px}.stat b{display:block;font-size:26px}.toolbar{display:grid;grid-template-columns:2fr 1fr 1fr auto;gap:10px;margin-bottom:15px}.material{display:flex;justify-content:space-between;gap:15px;align-items:center;border:1px solid #e5e7eb;border-radius:14px;padding:15px;margin-bottom:10px}.material-info{min-width:0}.material-title{font-weight:900}.material-meta,.material-chapter{color:#64748b;font-size:13px;margin-top:4px}.material-actions{display:flex;gap:7px;flex-wrap:wrap}.material-actions a{text-decoration:none}.preview{width:100%;max-height:220px;object-fit:contain;border-radius:10px;margin-top:10px}.hint{font-size:12px;color:#64748b;margin-top:6px}@media(max-width:750px){.row,.stats,.toolbar{grid-template-columns:1fr}.material{align-items:flex-start;flex-direction:column}.material-actions{width:100%}.material-actions>*{flex:1;text-align:center}}
-</style>
+
+.messages-toolbar{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:15px}.message-card{border:1px solid #e5e7eb;border-radius:14px;padding:16px;margin-bottom:12px}.message-head{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}.message-name{font-weight:900;font-size:16px}.message-email{font-size:13px;color:#4f46e5;margin-top:3px}.message-time{font-size:12px;color:#64748b}.message-text{margin-top:12px;white-space:pre-wrap;line-height:1.6}.message-actions{margin-top:12px}</style>
 </head>
 <body>
 <section id="loginScreen" class="login-wrap">
@@ -74,6 +75,14 @@
     <div id="adminMaterialsList"><p class="muted">Loading materials...</p></div>
   </div>
 </div>
+
+  <div class="card" style="margin-top:20px">
+    <div class="messages-toolbar">
+      <div><h2>📩 Student Messages</h2><p class="muted">Questions and doubts submitted from the website.</p></div>
+      <button class="btn btn-secondary" id="messagesRefreshBtn" type="button">🔄 Refresh</button>
+    </div>
+    <div id="studentMessages"><p class="muted">Loading messages...</p></div>
+  </div>
 </section>
 
 <script>
@@ -140,10 +149,59 @@ async function editMaterial(id){const m=allMaterials.find(x=>String(x.id)===Stri
 
 async function deleteMaterial(id){const m=allMaterials.find(x=>String(x.id)===String(id));if(!m)return alert("Material not found.");if(!confirm("⚠️ Delete this material and its files?"))return;try{const {error}=await supabaseClient.from("materials").delete().eq("id",id);if(error)throw error;const paths=[];for(const url of [m.file_url,m.preview_url]){if(!url)continue;const marker="/storage/v1/object/public/study-material/",i=url.indexOf(marker);if(i!==-1)paths.push(decodeURIComponent(url.substring(i+marker.length)));}if(paths.length)await supabaseClient.storage.from("study-material").remove(paths);alert("✅ Material deleted successfully!");await Promise.all([loadDashboardStats(),loadRecentUploads(),loadAdminMaterials()]);}catch(e){alert("❌ Delete failed: "+e.message);}}
 
+
+async function loadStudentMessages(){
+  const el=$("studentMessages");
+  el.innerHTML='<p class="muted">⏳ Loading messages...</p>';
+  try{
+    const {data,error}=await supabaseClient
+      .from("contact_messages")
+      .select("id,name,email,message,created_at")
+      .order("created_at",{ascending:false});
+    if(error) throw error;
+    if(!data?.length){
+      el.innerHTML='<p class="muted">📭 No student messages yet.</p>';
+      return;
+    }
+    el.innerHTML=data.map(m=>`
+      <div class="message-card">
+        <div class="message-head">
+          <div>
+            <div class="message-name">👤 ${escapeHTML(m.name)}</div>
+            <div class="message-email">📧 ${escapeHTML(m.email)}</div>
+          </div>
+          <div class="message-time">${m.created_at?new Date(m.created_at).toLocaleString():""}</div>
+        </div>
+        <div class="message-text">${escapeHTML(m.message)}</div>
+        <div class="message-actions">
+          <button class="btn btn-danger" data-message-delete="${escapeHTML(m.id)}">🗑️ Delete</button>
+        </div>
+      </div>
+    `).join("");
+  }catch(e){
+    el.innerHTML='<p class="muted">❌ Messages load nahi ho pa rahe.<br>'+escapeHTML(e.message)+'</p>';
+  }
+}
+async function deleteStudentMessage(id){
+  if(!confirm("Delete this student message?")) return;
+  try{
+    const {error}=await supabaseClient.from("contact_messages").delete().eq("id",id);
+    if(error) throw error;
+    await loadStudentMessages();
+  }catch(e){
+    alert("❌ Delete failed: "+e.message);
+  }
+}
+$("studentMessages").addEventListener("click",e=>{
+  const btn=e.target.closest("[data-message-delete]");
+  if(btn) deleteStudentMessage(btn.dataset.messageDelete);
+});
+$("messagesRefreshBtn").addEventListener("click",loadStudentMessages);
+
 function loadTheme(){const dark=localStorage.getItem("educationPointAdminTheme")==="dark";document.body.style.background=dark?"#0f172a":"#f4f7fb";document.body.style.color=dark?"#f8fafc":"#172033";$("themeBtn").textContent=dark?"☀️ Light":"🌙 Dark";if(dark){document.querySelectorAll(".card,.field input,.field select,.field textarea,.material,.stat").forEach(x=>{x.style.background="#1e293b";x.style.color="#f8fafc";x.style.borderColor="#334155";});}}
 $("themeBtn").addEventListener("click",()=>{const dark=localStorage.getItem("educationPointAdminTheme")!=="dark";localStorage.setItem("educationPointAdminTheme",dark?"dark":"light");location.reload();});
 
-let initialized=false;async function initializeAdmin(){if(initialized){await Promise.all([loadDashboardStats(),loadRecentUploads(),loadAdminMaterials()]);return;}await loadClasses();await loadSubjectFilter();await loadDashboardStats();await loadRecentUploads();await loadAdminMaterials();initialized=true;}
+let initialized=false;async function initializeAdmin(){if(initialized){await Promise.all([loadDashboardStats(),loadRecentUploads(),loadAdminMaterials(),loadStudentMessages()]);return;}await loadClasses();await loadSubjectFilter();await loadDashboardStats();await loadRecentUploads();await loadAdminMaterials();await loadStudentMessages();initialized=true;}
 $("refreshBtn").addEventListener("click",initializeAdmin);$("recentRefreshBtn").addEventListener("click",loadRecentUploads);$("materialsRefreshBtn").addEventListener("click",loadAdminMaterials);loadTheme();checkLogin();
 </script>
 </body>
