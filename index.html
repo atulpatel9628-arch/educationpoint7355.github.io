@@ -1623,6 +1623,136 @@ footer a:hover {
 
 }
 
+
+
+/* =========================================================
+   CONTACT / ASK YOUR DOUBT
+========================================================= */
+.contact-box {
+  margin: 40px 6%;
+  padding: 34px;
+  border-radius: 24px;
+  background: rgba(255,255,255,.88);
+  border: 1px solid rgba(37,99,235,.10);
+  box-shadow: 0 18px 45px rgba(15,23,42,.08);
+}
+
+body.dark .contact-box {
+  background: rgba(15,23,42,.92);
+  border-color: rgba(148,163,184,.16);
+}
+
+.contact-grid {
+  display: grid;
+  grid-template-columns: .85fr 1.15fr;
+  gap: 30px;
+  align-items: start;
+}
+
+.contact-info small {
+  color: #2563eb;
+  font-weight: 800;
+  letter-spacing: .08em;
+}
+
+.contact-info h2 {
+  margin: 10px 0 12px;
+  font-size: clamp(28px, 4vw, 42px);
+}
+
+.contact-info p {
+  color: #64748b;
+  line-height: 1.7;
+  margin-bottom: 16px;
+}
+
+body.dark .contact-info p {
+  color: #cbd5e1;
+}
+
+.contact-email {
+  display: inline-block;
+  color: #2563eb;
+  font-weight: 800;
+  text-decoration: none;
+  word-break: break-word;
+}
+
+.contact-form {
+  display: grid;
+  gap: 14px;
+}
+
+.contact-form label {
+  font-weight: 800;
+  font-size: 14px;
+}
+
+.contact-form input,
+.contact-form textarea {
+  width: 100%;
+  padding: 13px 14px;
+  border: 1px solid #dbe3ef;
+  border-radius: 12px;
+  outline: none;
+  background: #fff;
+  color: #172033;
+}
+
+.contact-form textarea {
+  min-height: 145px;
+  resize: vertical;
+}
+
+body.dark .contact-form input,
+body.dark .contact-form textarea {
+  background: #1e293b;
+  color: #f8fafc;
+  border-color: #475569;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37,99,235,.12);
+}
+
+.contact-submit {
+  border: 0;
+  border-radius: 12px;
+  padding: 14px 18px;
+  background: linear-gradient(135deg,#2563eb,#7c3aed);
+  color: #fff;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.contact-submit:disabled {
+  opacity: .65;
+  cursor: not-allowed;
+}
+
+.contact-status {
+  min-height: 22px;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.contact-status.success { color: #16a34a; }
+.contact-status.error { color: #dc2626; }
+
+@media (max-width: 800px) {
+  .contact-box {
+    margin-left: 15px;
+    margin-right: 15px;
+    padding: 24px;
+  }
+
+  .contact-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 </style>
 </head>
 
@@ -2627,6 +2757,61 @@ footer a:hover {
 
 </section>
 
+
+
+
+<!-- =======================================================
+     CONTACT / ASK YOUR DOUBT
+======================================================= -->
+<section id="contact" class="contact-box">
+  <div class="contact-grid">
+    <div class="contact-info">
+      <small>CONTACT EDUCATION POINT</small>
+      <h2>Have a question or doubt?</h2>
+      <p>
+        Students can send their questions, suggestions,
+        feedback, or website-related problems using this form.
+      </p>
+      <p>
+        📧 <a class="contact-email" href="mailto:educationpoint7355@gmail.com">
+          educationpoint7355@gmail.com
+        </a>
+      </p>
+    </div>
+
+    <form id="contactForm" class="contact-form">
+      <div>
+        <label for="contactName">Your Name</label>
+        <input id="contactName" name="name" type="text" maxlength="80" required placeholder="Enter your name">
+      </div>
+
+      <div>
+        <label for="contactEmail">Your Email</label>
+        <input id="contactEmail" name="email" type="email" maxlength="120" required placeholder="Enter your email">
+      </div>
+
+      <div>
+        <label for="contactMessage">Your Question</label>
+        <textarea id="contactMessage" name="message" maxlength="3000" required placeholder="Write your question or message..."></textarea>
+      </div>
+
+      <input
+        type="text"
+        id="contactWebsite"
+        name="website"
+        tabindex="-1"
+        autocomplete="off"
+        style="display:none;"
+      >
+
+      <button id="contactSubmit" class="contact-submit" type="submit">
+        📩 Send Question
+      </button>
+
+      <div id="contactStatus" class="contact-status" aria-live="polite"></div>
+    </form>
+  </div>
+</section>
 
 </main>
 
@@ -3991,6 +4176,67 @@ function setupSubjectCards() {
    INITIALIZE
 ========================================================= */
 
+
+
+/* =========================================================
+   CONTACT FORM
+========================================================= */
+function setupContactForm() {
+  const form = document.getElementById("contactForm");
+  const status = document.getElementById("contactStatus");
+  const submitButton = document.getElementById("contactSubmit");
+  const honeypot = document.getElementById("contactWebsite");
+
+  if (!form) return;
+
+  form.addEventListener("submit", async function(event) {
+    event.preventDefault();
+
+    if (honeypot && honeypot.value.trim() !== "") {
+      return;
+    }
+
+    const name = document.getElementById("contactName")?.value.trim();
+    const email = document.getElementById("contactEmail")?.value.trim();
+    const message = document.getElementById("contactMessage")?.value.trim();
+
+    if (!name || !email || !message) {
+      status.textContent = "Please fill in all fields.";
+      status.className = "contact-status error";
+      return;
+    }
+
+    submitButton.disabled = true;
+    submitButton.textContent = "Sending...";
+    status.textContent = "";
+    status.className = "contact-status";
+
+    try {
+      const { error } = await supabaseClient
+        .from("contact_messages")
+        .insert([{
+          name: name,
+          email: email,
+          message: message
+        }]);
+
+      if (error) throw error;
+
+      status.textContent = "✅ Your question has been sent successfully!";
+      status.className = "contact-status success";
+      form.reset();
+    } catch (error) {
+      console.error("Contact form error:", error);
+      status.textContent = "❌ Could not send your question. Please try again or email us directly.";
+      status.className = "contact-status error";
+    } finally {
+      submitButton.disabled = false;
+      submitButton.textContent = "📩 Send Question";
+    }
+  });
+}
+
+
 document.addEventListener(
   "DOMContentLoaded",
   async function() {
@@ -4006,6 +4252,7 @@ document.addEventListener(
     setupResourceCards();
 
     setupSubjectCards();
+    setupContactForm();
 
 
     /*
