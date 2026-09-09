@@ -172,6 +172,164 @@ select option{background:#06110d;color:#d7ffe9}
 body.cyber-dim::before{opacity:.18}
 body.cyber-dim #matrixCanvas{opacity:.07}
 body.cyber-dim .card{box-shadow:0 0 18px rgba(0,255,136,.04)}
+
+/* =========================================================
+   PREMIUM CYBER COMMAND CENTER — refined visual layer
+========================================================= */
+:root{
+  --p-bg:#070812;
+  --p-panel:rgba(14,16,30,.78);
+  --p-panel-strong:rgba(17,20,38,.94);
+  --p-border:rgba(124,92,255,.22);
+  --p-purple:#8b5cf6;
+  --p-purple2:#b58cff;
+  --p-cyan:#22d3ee;
+  --p-blue:#60a5fa;
+  --p-text:#eef2ff;
+  --p-muted:#8f99b7;
+  --p-green:#34d399;
+  --p-red:#fb7185;
+}
+body{
+  background:
+    radial-gradient(circle at 12% 8%,rgba(139,92,246,.16),transparent 27%),
+    radial-gradient(circle at 88% 16%,rgba(34,211,238,.10),transparent 24%),
+    radial-gradient(circle at 55% 100%,rgba(96,165,250,.07),transparent 30%),
+    linear-gradient(135deg,#060711 0%,#0a0b17 48%,#070812 100%);
+  color:var(--p-text);
+  font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+}
+body::before{
+  background:
+    linear-gradient(rgba(255,255,255,.012) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.012) 1px,transparent 1px);
+  background-size:42px 42px;
+  opacity:.55;
+  mix-blend-mode:normal;
+}
+body::after{
+  background:linear-gradient(90deg,transparent,rgba(139,92,246,.055),transparent);
+  animation:premiumSweep 9s ease-in-out infinite;
+}
+#matrixCanvas{opacity:.035;filter:hue-rotate(25deg) saturate(.65)}
+.container{max-width:1180px}
+.card{
+  background:linear-gradient(145deg,rgba(17,20,38,.88),rgba(10,12,24,.78));
+  border:1px solid rgba(148,163,255,.12);
+  border-radius:20px;
+  box-shadow:0 18px 55px rgba(0,0,0,.22),inset 0 1px 0 rgba(255,255,255,.035);
+  backdrop-filter:blur(18px);
+  overflow:hidden;
+}
+.card::before{
+  width:2px;
+  background:linear-gradient(180deg,var(--p-purple),var(--p-cyan),transparent);
+  opacity:.75;
+}
+.card:hover{
+  border-color:rgba(139,92,246,.28);
+  box-shadow:0 22px 65px rgba(0,0,0,.28),0 0 28px rgba(139,92,246,.055),inset 0 1px 0 rgba(255,255,255,.045);
+}
+h1,h2{color:var(--p-text);text-shadow:none;letter-spacing:-.025em}
+h1::before,h2::before{content:""}
+p,.muted{color:var(--p-muted)}
+.topbar{
+  min-height:88px;
+  border-color:rgba(139,92,246,.18);
+  background:linear-gradient(120deg,rgba(18,21,42,.94),rgba(12,14,29,.88));
+}
+.topbar h1{font-size:25px;font-weight:850}
+.topbar h1::after{
+  content:"  //  COMMAND CENTER";
+  color:var(--p-purple2);
+  font-size:11px;
+  letter-spacing:.16em;
+  vertical-align:middle;
+  font-weight:700;
+}
+.topbar::after{
+  content:"● SYSTEM ONLINE   •   ENCRYPTED SESSION";
+  right:22px;bottom:10px;
+  color:rgba(52,211,153,.55);
+  font-size:9px;
+  letter-spacing:.13em;
+}
+.btn{
+  background:linear-gradient(135deg,#7c3aed,#8b5cf6);
+  color:#fff;
+  border:1px solid rgba(181,140,255,.42);
+  border-radius:12px;
+  box-shadow:0 8px 24px rgba(124,58,237,.18);
+  text-transform:none;
+  letter-spacing:0;
+  transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease,background .2s ease;
+}
+.btn:hover{background:linear-gradient(135deg,#8b5cf6,#a78bfa);color:#fff;transform:translateY(-2px);box-shadow:0 12px 30px rgba(124,58,237,.28);filter:none}
+.btn-secondary{background:rgba(34,211,238,.055);color:#67e8f9;border-color:rgba(34,211,238,.20);box-shadow:none}
+.btn-secondary:hover{background:rgba(34,211,238,.10);color:#a5f3fc;border-color:rgba(34,211,238,.42);box-shadow:0 8px 24px rgba(34,211,238,.10)}
+.btn-warning{background:rgba(251,191,36,.055);color:#fcd34d;border-color:rgba(251,191,36,.20);box-shadow:none}
+.btn-warning:hover{background:rgba(251,191,36,.10);color:#fde68a;border-color:rgba(251,191,36,.4)}
+.btn-danger{background:rgba(251,113,133,.055);color:#fb7185;border-color:rgba(251,113,133,.20);box-shadow:none}
+.btn-danger:hover{background:rgba(251,113,133,.10);color:#fda4af;border-color:rgba(251,113,133,.4)}
+.btn-reply{background:rgba(52,211,153,.06);color:#6ee7b7;border-color:rgba(52,211,153,.22);box-shadow:none}
+.btn-reply:hover{background:rgba(52,211,153,.12);color:#a7f3d0;border-color:rgba(52,211,153,.42);box-shadow:0 8px 24px rgba(52,211,153,.08)}
+.field label{color:#c4b5fd;text-transform:none;letter-spacing:0;font-size:12px}
+.field input,.field select,.field textarea,#materialSearch,#classFilter,#subjectFilter{
+  background:rgba(7,9,20,.82);
+  color:var(--p-text);
+  border:1px solid rgba(148,163,184,.14);
+  border-radius:12px;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.02);
+}
+.field input:focus,.field select:focus,.field textarea:focus,#materialSearch:focus,#classFilter:focus,#subjectFilter:focus{
+  border-color:rgba(139,92,246,.62);
+  box-shadow:0 0 0 3px rgba(139,92,246,.10),0 0 24px rgba(139,92,246,.08);
+  transform:none;
+}
+select option{background:#101326;color:#eef2ff}
+.stats{gap:16px}
+.stat{background:linear-gradient(145deg,rgba(17,20,38,.82),rgba(10,12,24,.76));border-color:rgba(148,163,255,.11);padding:20px}
+.stat::after{
+  content:"";position:absolute;right:-35px;top:-35px;width:110px;height:110px;border-radius:50%;
+  background:radial-gradient(circle,rgba(139,92,246,.15),transparent 68%);pointer-events:none
+}
+.stat b{color:#fff;text-shadow:0 0 22px rgba(139,92,246,.25);font-size:29px}
+.stat span{color:#8993b0}
+.stat:hover{transform:translateY(-4px);border-color:rgba(139,92,246,.24)}
+.material,.message-card{
+  background:rgba(11,14,28,.68);
+  border-color:rgba(148,163,184,.10);
+  border-radius:16px;
+}
+.material:hover,.message-card:hover{transform:translateY(-2px);border-color:rgba(139,92,246,.24);box-shadow:0 12px 30px rgba(0,0,0,.18)}
+.material-title,.message-name{color:#f1efff}
+.material-meta,.material-chapter,.message-time{color:#7f8aa8}
+.message-email{color:#67e8f9}
+.message-text{color:#cbd5e1;border-left:2px solid rgba(139,92,246,.34);padding-left:14px}
+.messages-toolbar{padding-bottom:4px}
+.message-actions{gap:9px}
+.status.show{background:rgba(52,211,153,.06);color:#6ee7b7;border-color:rgba(52,211,153,.18)}
+.status.error{background:rgba(251,113,133,.06);color:#fda4af;border-color:rgba(251,113,133,.18)}
+.status.info{background:rgba(34,211,238,.06);color:#67e8f9;border-color:rgba(34,211,238,.18)}
+.login-wrap{min-height:calc(100vh - 40px)}
+.login-card{
+  width:min(460px,100%);
+  background:linear-gradient(145deg,rgba(17,20,38,.95),rgba(9,11,23,.92));
+  border-color:rgba(139,92,246,.28);
+  box-shadow:0 30px 90px rgba(0,0,0,.38),0 0 45px rgba(139,92,246,.07);
+}
+.login-card h1{font-size:30px}
+.login-card h1::after{content:"_";color:var(--p-purple2);animation:premiumBlink 1.1s steps(1) infinite}
+.login-card::after{
+  content:"SECURE ACCESS  •  EDUCATION POINT";
+  position:absolute;right:22px;top:16px;font-size:8px;letter-spacing:.15em;color:rgba(148,163,184,.45)
+}
+.preview{border-color:rgba(139,92,246,.14)}
+::selection{background:rgba(139,92,246,.30);color:#fff}
+@keyframes premiumSweep{0%,100%{transform:translateX(-100%)}50%{transform:translateX(100%)}}
+@keyframes premiumBlink{50%{opacity:0}}
+@media(max-width:750px){body{padding:10px}.topbar h1::after{display:block;margin-top:6px}.topbar::after{display:none}.card{border-radius:16px}}
+
 </style>
 </head>
 <body>
@@ -192,11 +350,11 @@ body.cyber-dim .card{box-shadow:0 0 18px rgba(0,255,136,.04)}
 <section id="adminApp" class="hidden">
 <div class="container">
   <header class="card topbar">
-    <div><h1>🎓 Education Point</h1><p class="muted">Admin Dashboard</p></div>
+    <div><h1>🎓 Education Point</h1><p class="muted">Admin Command Center</p></div>
     <div class="actions"><button class="btn btn-secondary" id="refreshBtn" type="button">🔄 Refresh</button><button class="btn btn-warning" id="themeBtn" type="button">🌙 Dark</button><button class="btn btn-danger" id="logoutBtn" type="button">Logout</button></div>
   </header>
 
-  <div class="card"><h2>Welcome 👋</h2><p class="muted">Upload and manage CBSE study materials.</p></div>
+  <div class="card"><h2>Welcome back 👋</h2><p class="muted">Manage your Education Point platform from one secure control center.</p></div>
 
   <div class="stats">
     <div class="stat card"><b id="totalMaterials">—</b><span class="muted">Materials</span></div>
