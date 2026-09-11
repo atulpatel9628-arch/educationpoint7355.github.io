@@ -560,7 +560,6 @@ body.dark select {
 ========================================================= */
 
 .section {
-  scroll-margin-top: 90px;
   max-width: 1250px;
 
   margin: auto;
@@ -1050,29 +1049,6 @@ body.dark select {
   margin-bottom: 15px;
 }
 
-.question-preview {
-  margin: 14px 0 4px;
-  padding: 8px;
-  border: 1px solid rgba(37,99,235,.10);
-  border-radius: 14px;
-  background: #f8fafc;
-  text-align: center;
-}
-
-.question-preview img {
-  display: block;
-  width: 100%;
-  max-height: 300px;
-  object-fit: contain;
-  border-radius: 10px;
-  cursor: zoom-in;
-}
-
-body.dark .question-preview {
-  background: #1e293b;
-  border-color: rgba(148,163,184,.16);
-}
-
 .material-buttons {
   display: flex;
 
@@ -1229,10 +1205,7 @@ body.dark .question-preview {
 }
 
 .resource-card {
-  position: relative;
   padding: 25px;
-  cursor: pointer;
-  user-select: none;
 
   background:
     rgba(255,255,255,.88);
@@ -1250,26 +1223,6 @@ body.dark .question-preview {
 
 .resource-card:hover {
   transform: translateY(-6px);
-  box-shadow: 0 18px 42px rgba(15,23,42,.12);
-}
-
-.resource-card:focus-visible {
-  outline: 3px solid rgba(37,99,235,.28);
-  outline-offset: 3px;
-}
-
-.resource-card.active-resource {
-  border-color: rgba(37,99,235,.35);
-  box-shadow: 0 18px 45px rgba(37,99,235,.16);
-  transform: translateY(-4px);
-}
-
-.resource-card span {
-  display: inline-block;
-  margin-top: 14px;
-  color: #2563eb;
-  font-size: 13px;
-  font-weight: 900;
 }
 
 .resource-card div {
@@ -1626,131 +1579,108 @@ footer a:hover {
 
 
 /* =========================================================
-   CONTACT / ASK YOUR DOUBT
+   PROFESSIONAL STUDENT EXPERIENCE UPGRADE
 ========================================================= */
-.contact-box {
-  margin: 40px 6%;
-  padding: 34px;
-  border-radius: 24px;
-  background: rgba(255,255,255,.88);
-  border: 1px solid rgba(37,99,235,.10);
-  box-shadow: 0 18px 45px rgba(15,23,42,.08);
+
+:root {
+  --brand:#2563eb;
+  --brand2:#7c3aed;
+  --accent:#db2777;
+  --ink:#172033;
+  --muted:#64748b;
+  --soft:#eef4ff;
+  --card:rgba(255,255,255,.92);
 }
 
-body.dark .contact-box {
-  background: rgba(15,23,42,.92);
-  border-color: rgba(148,163,184,.16);
+body.dark {
+  --soft:#1e293b;
+  --card:rgba(15,23,42,.92);
 }
 
-.contact-grid {
-  display: grid;
-  grid-template-columns: .85fr 1.15fr;
-  gap: 30px;
-  align-items: start;
+.navbar {
+  box-shadow:0 8px 30px rgba(15,23,42,.04);
 }
 
-.contact-info small {
-  color: #2563eb;
-  font-weight: 800;
-  letter-spacing: .08em;
+.mobile-menu-btn {
+  display:none;
+  width:44px;height:44px;border:1px solid #dbe5ff;border-radius:12px;
+  background:var(--card);color:inherit;font-size:20px;cursor:pointer;
 }
 
-.contact-info h2 {
-  margin: 10px 0 12px;
-  font-size: clamp(28px, 4vw, 42px);
+.mobile-nav {
+  display:none;
+  position:fixed;left:15px;right:15px;top:78px;z-index:999;
+  padding:12px;background:var(--card);backdrop-filter:blur(18px);
+  border:1px solid rgba(37,99,235,.12);border-radius:18px;
+  box-shadow:0 20px 50px rgba(15,23,42,.15);
 }
+.mobile-nav.open {display:grid;gap:5px;animation:dropIn .22s ease both}
+.mobile-nav a {padding:13px 14px;border-radius:12px;color:inherit;text-decoration:none;font-weight:800}
+.mobile-nav a:hover {background:var(--soft);color:var(--brand)}
+@keyframes dropIn {from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
 
-.contact-info p {
-  color: #64748b;
-  line-height: 1.7;
-  margin-bottom: 16px;
+.quick-panel {
+  max-width:1100px;margin:0 auto 35px;padding:28px;
+  border:1px solid rgba(37,99,235,.12);border-radius:28px;
+  background:linear-gradient(135deg,rgba(255,255,255,.96),rgba(239,246,255,.9));
+  box-shadow:0 18px 50px rgba(15,23,42,.08);
 }
+body.dark .quick-panel {background:linear-gradient(135deg,rgba(15,23,42,.96),rgba(30,41,59,.9))}
+.quick-head {display:flex;align-items:center;justify-content:space-between;gap:18px;margin-bottom:18px}
+.quick-head h3 {font-size:24px}
+.quick-head p {color:var(--muted);margin-top:5px;line-height:1.5}
+.quick-form {display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:12px;align-items:end}
+.quick-field label {display:block;font-size:11px;font-weight:900;color:var(--muted);margin:0 0 6px 2px;text-transform:uppercase;letter-spacing:.5px}
+.quick-field select,.quick-field input {width:100%;padding:13px 14px;border:1px solid #dbe3ef;border-radius:12px;background:white;color:var(--ink);outline:none}
+body.dark .quick-field select,body.dark .quick-field input {background:#1e293b;color:#fff;border-color:#475569}
+.quick-field select:focus,.quick-field input:focus {border-color:var(--brand);box-shadow:0 0 0 3px rgba(37,99,235,.1)}
+.quick-btn {padding:13px 18px;border:0;border-radius:12px;color:#fff;background:linear-gradient(135deg,var(--brand),var(--brand2));font-weight:900;cursor:pointer;box-shadow:0 10px 25px rgba(37,99,235,.2);transition:.2s}
+.quick-btn:hover {transform:translateY(-2px)}
+.quick-result {margin-top:16px;display:none;padding:15px;border-radius:14px;background:var(--soft);color:inherit;line-height:1.6}
+.quick-result.show {display:block;animation:materialIn .25s ease both}
 
-body.dark .contact-info p {
-  color: #cbd5e1;
+.feature-strip {display:grid;grid-template-columns:repeat(3,1fr);gap:15px;margin:0 auto 25px;max-width:1100px}
+.feature-mini {padding:18px;border-radius:18px;background:var(--card);border:1px solid rgba(37,99,235,.09);box-shadow:0 8px 25px rgba(15,23,42,.05);transition:.2s}
+.feature-mini:hover {transform:translateY(-4px)}
+.feature-mini b {display:block;font-size:16px;margin-bottom:5px}.feature-mini span{font-size:12px;color:var(--muted);line-height:1.5}
+
+.section-alt {background:linear-gradient(135deg,rgba(248,250,252,.9),rgba(239,246,255,.8))}
+body.dark .section-alt {background:rgba(2,6,23,.2)}
+
+.popular-grid,.exam-grid,.why-grid,.feedback-grid {display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.popular-card,.exam-card,.why-card,.feedback-card {padding:22px;border-radius:20px;background:var(--card);border:1px solid rgba(37,99,235,.09);box-shadow:0 10px 30px rgba(15,23,42,.06);transition:.25s}
+.popular-card:hover,.exam-card:hover,.why-card:hover {transform:translateY(-6px);box-shadow:0 18px 40px rgba(15,23,42,.11)}
+.popular-card .big,.exam-card .big,.why-card .big {font-size:30px;margin-bottom:12px}
+.popular-card h3,.exam-card h3,.why-card h3 {margin-bottom:7px}.popular-card p,.exam-card p,.why-card p {color:var(--muted);font-size:13px;line-height:1.6}
+.card-link {display:inline-flex;margin-top:14px;padding:9px 12px;border-radius:10px;background:var(--soft);color:var(--brand);font-weight:900;text-decoration:none;font-size:12px}
+
+.chapter-board {display:grid;gap:12px}
+.chapter-group {border:1px solid rgba(37,99,235,.10);background:var(--card);border-radius:18px;overflow:hidden}
+.chapter-head {display:flex;align-items:center;justify-content:space-between;gap:15px;padding:16px 18px;cursor:pointer;font-weight:900}
+.chapter-head:hover {background:var(--soft)}
+.chapter-items {display:grid;grid-template-columns:repeat(2,1fr);gap:10px;padding:0 18px 18px}
+.chapter-item {padding:13px;border-radius:12px;background:var(--soft);font-size:13px}
+
+.exam-banner {padding:30px;border-radius:26px;background:linear-gradient(135deg,#172554,#4338ca,#7c3aed);color:#fff;box-shadow:0 20px 50px rgba(67,56,202,.2)}
+.exam-banner h2{font-size:30px;margin-bottom:8px}.exam-banner p{color:#dbeafe;line-height:1.6;max-width:700px}.exam-banner .btn{margin-top:16px;background:#fff;color:#312e81}
+
+.youtube-pro {max-width:1100px;margin:0 auto 70px;padding:34px;border-radius:28px;background:linear-gradient(135deg,#111827,#1f2937);color:#fff;display:flex;align-items:center;justify-content:space-between;gap:25px;box-shadow:0 20px 50px rgba(15,23,42,.18)}
+.youtube-pro .yt-icon{width:65px;height:65px;display:grid;place-items:center;border-radius:20px;background:#ef4444;font-size:28px;flex-shrink:0}.youtube-pro-left{display:flex;align-items:center;gap:17px}.youtube-pro small{color:#cbd5e1;font-weight:900;letter-spacing:1px}.youtube-pro h2{margin-top:4px}.youtube-pro p{margin-top:7px;color:#94a3b8;line-height:1.5}
+
+.feedback-wrap {max-width:1100px;margin:0 auto 70px;padding:30px;border-radius:28px;background:var(--card);border:1px solid rgba(37,99,235,.10);box-shadow:0 15px 45px rgba(15,23,42,.07)}
+.feedback-form {display:grid;grid-template-columns:1fr 1fr;gap:12px}.feedback-form textarea{grid-column:1/-1;min-height:130px;resize:vertical}.feedback-form input,.feedback-form textarea,.feedback-form select{width:100%;padding:13px 14px;border:1px solid #dbe3ef;border-radius:12px;outline:none;background:white;color:var(--ink)}
+body.dark .feedback-form input,body.dark .feedback-form textarea,body.dark .feedback-form select{background:#1e293b;color:#fff;border-color:#475569}.feedback-form input:focus,.feedback-form textarea:focus{border-color:var(--brand);box-shadow:0 0 0 3px rgba(37,99,235,.1)}
+.feedback-actions{display:flex;align-items:center;gap:12px;grid-column:1/-1}.feedback-status{font-size:13px;font-weight:800;color:var(--muted)}
+
+.contact-box {max-width:1100px;margin:0 auto 70px;padding:34px;border-radius:28px;background:linear-gradient(135deg,rgba(239,246,255,.95),rgba(250,245,255,.95));border:1px solid rgba(37,99,235,.10)}
+body.dark .contact-box{background:linear-gradient(135deg,rgba(15,23,42,.95),rgba(30,41,59,.95))}
+.contact-form{display:grid;grid-template-columns:1fr 1fr;gap:12px}.contact-form textarea{grid-column:1/-1;min-height:140px;resize:vertical}.contact-form input,.contact-form textarea{width:100%;padding:14px;border:1px solid #dbe3ef;border-radius:12px;outline:none;background:#fff;color:var(--ink)}body.dark .contact-form input,body.dark .contact-form textarea{background:#1e293b;color:#fff;border-color:#475569}.contact-form .full{grid-column:1/-1}
+
+@media (max-width:950px){
+  .mobile-menu-btn{display:block}.navbar .navlinks{display:none}.navbar{gap:10px}.quick-form{grid-template-columns:1fr 1fr}.quick-btn{width:100%}.feature-strip,.popular-grid,.exam-grid,.why-grid{grid-template-columns:1fr 1fr}.youtube-pro{margin-left:15px;margin-right:15px}.chapter-items{grid-template-columns:1fr}
 }
-
-.contact-email {
-  display: inline-block;
-  color: #2563eb;
-  font-weight: 800;
-  text-decoration: none;
-  word-break: break-word;
-}
-
-.contact-form {
-  display: grid;
-  gap: 14px;
-}
-
-.contact-form label {
-  font-weight: 800;
-  font-size: 14px;
-}
-
-.contact-form input,
-.contact-form textarea {
-  width: 100%;
-  padding: 13px 14px;
-  border: 1px solid #dbe3ef;
-  border-radius: 12px;
-  outline: none;
-  background: #fff;
-  color: #172033;
-}
-
-.contact-form textarea {
-  min-height: 145px;
-  resize: vertical;
-}
-
-body.dark .contact-form input,
-body.dark .contact-form textarea {
-  background: #1e293b;
-  color: #f8fafc;
-  border-color: #475569;
-}
-
-.contact-form input:focus,
-.contact-form textarea:focus {
-  border-color: #2563eb;
-  box-shadow: 0 0 0 3px rgba(37,99,235,.12);
-}
-
-.contact-submit {
-  border: 0;
-  border-radius: 12px;
-  padding: 14px 18px;
-  background: linear-gradient(135deg,#2563eb,#7c3aed);
-  color: #fff;
-  font-weight: 800;
-  cursor: pointer;
-}
-
-.contact-submit:disabled {
-  opacity: .65;
-  cursor: not-allowed;
-}
-
-.contact-status {
-  min-height: 22px;
-  font-size: 14px;
-  font-weight: 700;
-}
-
-.contact-status.success { color: #16a34a; }
-.contact-status.error { color: #dc2626; }
-
-@media (max-width: 800px) {
-  .contact-box {
-    margin-left: 15px;
-    margin-right: 15px;
-    padding: 24px;
-  }
-
-  .contact-grid {
-    grid-template-columns: 1fr;
-  }
+@media (max-width:650px){
+  .quick-panel{margin-left:15px;margin-right:15px;padding:20px}.quick-form{grid-template-columns:1fr}.feature-strip,.popular-grid,.exam-grid,.why-grid{grid-template-columns:1fr}.feedback-form,.contact-form{grid-template-columns:1fr}.feedback-form textarea,.feedback-actions,.contact-form textarea,.contact-form .full{grid-column:auto}.youtube-pro{margin-left:15px;margin-right:15px;flex-direction:column;align-items:flex-start}.quick-head{align-items:flex-start;flex-direction:column}.quick-head h3{font-size:21px}
 }
 
 </style>
@@ -1833,11 +1763,26 @@ body.dark .contact-form textarea {
       YouTube
     </a>
 
-    <a href="#about">
-      About
+    <a href="#why-education-point">
+      Why Us
+    </a>
+
+    <a href="#contact">
+      Contact
     </a>
 
   </div>
+
+
+  <button
+    class="mobile-menu-btn"
+    id="mobileMenuBtn"
+    type="button"
+    aria-label="Open menu"
+    aria-expanded="false"
+  >
+    ☰
+  </button>
 
 
   <button
@@ -1849,6 +1794,16 @@ body.dark .contact-form textarea {
   </button>
 
 </nav>
+
+<div class="mobile-nav" id="mobileNav">
+  <a href="#home">🏠 Home</a>
+  <a href="#classes">🎓 Classes</a>
+  <a href="#resources">📚 Resources</a>
+  <a href="#live-materials">🔎 Materials</a>
+  <a href="#exam-prep">🎯 Exam Prep</a>
+  <a href="#youtube">▶️ YouTube</a>
+  <a href="#contact">📩 Ask Your Doubt</a>
+</div>
 
 
 <main>
@@ -2484,64 +2439,155 @@ body.dark .contact-form textarea {
 
   <div class="resource-grid">
 
+    <!-- CHAPTER NOTES -->
     <article
-      class="resource-card"
-      data-resource="notes"
-      role="button"
-      tabindex="0"
-      aria-label="Show chapter notes"
       onclick="activateResource('notes')"
+      style="cursor:pointer;"
     >
       <div>📚</div>
+
       <strong>Chapter Notes</strong>
-      <p>Simple notes organized by class and subject.</p>
+
+      <p>
+        Simple notes organized by class and subject.
+      </p>
+
       <span>View Notes →</span>
     </article>
 
+
+    <!-- QUESTION PAPERS -->
     <article
-      class="resource-card"
-      data-resource="questions"
-      role="button"
-      tabindex="0"
-      aria-label="Show question papers"
       onclick="activateResource('questions')"
+      style="cursor:pointer;"
     >
       <div>📝</div>
+
       <strong>Question Papers</strong>
-      <p>Practice papers and previous-style question sets.</p>
+
+      <p>
+        Practice papers and important questions.
+      </p>
+
       <span>View Questions →</span>
     </article>
 
+
+    <!-- PDF DOWNLOADS -->
     <article
-      class="resource-card"
-      data-resource="pdfs"
-      role="button"
-      tabindex="0"
-      aria-label="Show PDF downloads"
       onclick="activateResource('pdfs')"
+      style="cursor:pointer;"
     >
       <div>📥</div>
+
       <strong>PDF Downloads</strong>
-      <p>Easy access to study PDFs and worksheets.</p>
+
+      <p>
+        Easy access to study PDFs and worksheets.
+      </p>
+
       <span>View PDFs →</span>
     </article>
 
+
+    <!-- IMPORTANT QUESTIONS -->
     <article
-      class="resource-card"
-      data-resource="important"
-      role="button"
-      tabindex="0"
-      aria-label="Show important questions"
       onclick="activateResource('important')"
+      style="cursor:pointer;"
     >
       <div>🎯</div>
+
       <strong>Important Questions</strong>
-      <p>Focused revision material for exams.</p>
+
+      <p>
+        Focused revision material for exams.
+      </p>
+
       <span>View Questions →</span>
     </article>
 
   </div>
 
+</section>
+
+<!-- =======================================================
+     QUICK STUDY FINDER
+======================================================= -->
+<section class="section" id="study-finder">
+  <div class="quick-panel">
+    <div class="quick-head">
+      <div>
+        <h3>🎯 Find Your Study Material</h3>
+        <p>Choose your class, subject and what you need. Education Point will take you to the right resources.</p>
+      </div>
+      <div class="pill" style="margin:0">⚡ QUICK ACCESS</div>
+    </div>
+    <div class="quick-form">
+      <div class="quick-field"><label>Class</label><select id="finderClass"><option value="">Select Class</option><option>Class 9</option><option>Class 10</option><option>Class 11</option><option>Class 12</option></select></div>
+      <div class="quick-field"><label>Subject</label><select id="finderSubject"><option value="">Select Subject</option><option>Mathematics</option><option>Science</option><option>English</option><option>Hindi</option><option>Social Science</option><option>Physics</option><option>Chemistry</option><option>Biology</option></select></div>
+      <div class="quick-field"><label>Need</label><select id="finderType"><option value="">Select Resource</option><option value="note">📚 Chapter Notes</option><option value="question">📝 Question Papers</option><option value="pdf">📄 PDF Downloads</option><option value="important">🎯 Important Questions</option></select></div>
+      <button class="quick-btn" type="button" onclick="runStudyFinder()">Find →</button>
+    </div>
+    <div class="quick-result" id="finderResult"></div>
+  </div>
+</section>
+
+<!-- =======================================================
+     TODAY'S STUDY
+======================================================= -->
+<section class="section section-alt" id="today-study">
+  <div class="heading"><span>★</span><div><small>START HERE</small><h2>Today’s Study</h2></div></div>
+  <div class="feature-strip">
+    <div class="feature-mini"><b>📖 Pick one chapter</b><span>Focus on one topic instead of searching through everything.</span></div>
+    <div class="feature-mini"><b>📝 Practice questions</b><span>Test what you learned with question papers and important questions.</span></div>
+    <div class="feature-mini"><b>🎥 Learn visually</b><span>Use Education Point videos when you need another explanation.</span></div>
+  </div>
+  <div class="quick-panel" style="margin-bottom:0">
+    <div class="quick-head"><div><h3>What are you studying today?</h3><p>Pick a class and subject to jump straight to its materials.</p></div></div>
+    <div class="quick-form" style="grid-template-columns:1fr 1fr auto">
+      <div class="quick-field"><label>Class</label><select id="todayClass"><option value="">Select Class</option><option>Class 9</option><option>Class 10</option><option>Class 11</option><option>Class 12</option></select></div>
+      <div class="quick-field"><label>Subject</label><select id="todaySubject"><option value="">Select Subject</option><option>Mathematics</option><option>Science</option><option>English</option><option>Hindi</option><option>Social Science</option><option>Physics</option><option>Chemistry</option><option>Biology</option></select></div>
+      <button class="quick-btn" type="button" onclick="startTodayStudy()">Start Studying →</button>
+    </div>
+  </div>
+</section>
+
+<!-- =======================================================
+     POPULAR MATERIALS
+======================================================= -->
+<section class="section" id="popular-materials">
+  <div class="heading"><span>🔥</span><div><small>STUDENT PICKS</small><h2>Popular Study Materials</h2></div></div>
+  <div class="popular-grid">
+    <article class="popular-card"><div class="big">📝</div><h3>Question Papers</h3><p>Practice with available papers and improve exam confidence.</p><a class="card-link" href="#live-materials" onclick="activateResource('questions')">Explore Questions →</a></article>
+    <article class="popular-card"><div class="big">📚</div><h3>Chapter Notes</h3><p>Quick revision material organized around your class and subject.</p><a class="card-link" href="#live-materials" onclick="activateResource('notes')">Explore Notes →</a></article>
+    <article class="popular-card"><div class="big">🎯</div><h3>Important Questions</h3><p>Focus your revision on high-priority practice material.</p><a class="card-link" href="#live-materials" onclick="activateResource('important')">Explore Important →</a></article>
+  </div>
+</section>
+
+<!-- =======================================================
+     EXAM PREPARATION
+======================================================= -->
+<section class="section" id="exam-prep">
+  <div class="exam-banner">
+    <small>EXAM MODE</small><h2>🎯 Exam Preparation Hub</h2>
+    <p>Revision becomes easier when everything is in one place. Use notes for learning, question papers for practice and important questions for final revision.</p>
+    <a class="btn" href="#live-materials" onclick="activateResource('questions')">Start Exam Practice →</a>
+  </div>
+</section>
+
+<!-- =======================================================
+     WHY EDUCATION POINT
+======================================================= -->
+<section class="section section-alt" id="why-education-point">
+  <div class="heading"><span>10</span><div><small>WHY STUDENTS CHOOSE US</small><h2>Why Education Point?</h2></div></div>
+  <div class="why-grid">
+    <article class="why-card"><div class="big">📚</div><h3>CBSE Focused</h3><p>Resources are designed around CBSE Classes 9–12.</p></article>
+    <article class="why-card"><div class="big">⚡</div><h3>Quick Access</h3><p>Find your class, subject and resource without unnecessary steps.</p></article>
+    <article class="why-card"><div class="big">📝</div><h3>Practice Ready</h3><p>Notes, question papers and important questions in one place.</p></article>
+    <article class="why-card"><div class="big">🎯</div><h3>Exam Focused</h3><p>Simple revision tools to help you prepare with a clear plan.</p></article>
+    <article class="why-card"><div class="big">📱</div><h3>Mobile Friendly</h3><p>Study resources should work comfortably on phones and desktops.</p></article>
+    <article class="why-card"><div class="big">🆓</div><h3>Student Friendly</h3><p>Simple navigation and free educational resources for students.</p></article>
+  </div>
 </section>
 
 <!-- =======================================================
@@ -2676,6 +2722,18 @@ body.dark .contact-form textarea {
 </section>
 
 
+
+<!-- =======================================================
+     YOUTUBE PRO
+======================================================= -->
+<section class="youtube-pro" id="youtube-learning">
+  <div class="youtube-pro-left">
+    <div class="yt-icon">▶</div>
+    <div><small>LEARN WITH EDUCATION POINT</small><h2>🎥 Latest Learning Videos</h2><p>Watch lessons, explanations and revision videos on the Education Point YouTube channel.</p></div>
+  </div>
+  <a class="btn" href="https://www.youtube.com/@educationpoint7355" target="_blank" rel="noopener">Watch on YouTube ↗</a>
+</section>
+
 <!-- =======================================================
      YOUTUBE
 ======================================================= -->
@@ -2758,63 +2816,37 @@ body.dark .contact-form textarea {
 </section>
 
 
+</main>
+
 
 
 <!-- =======================================================
-     CONTACT / ASK YOUR DOUBT
+     ASK YOUR DOUBT
 ======================================================= -->
-<section id="contact" class="contact-box">
-  <div class="contact-grid">
-    <div class="contact-info">
-      <small>CONTACT EDUCATION POINT</small>
-      <h2>Have a question or doubt?</h2>
-      <p>
-        Students can send their questions, suggestions,
-        feedback, or website-related problems using this form.
-      </p>
-      <p>
-        📧 <a class="contact-email" href="mailto:educationpoint7355@gmail.com">
-          educationpoint7355@gmail.com
-        </a>
-      </p>
-    </div>
-
-    <form id="contactForm" class="contact-form">
-      <div>
-        <label for="contactName">Your Name</label>
-        <input id="contactName" name="name" type="text" maxlength="80" required placeholder="Enter your name">
-      </div>
-
-      <div>
-        <label for="contactEmail">Your Email</label>
-        <input id="contactEmail" name="email" type="email" maxlength="120" required placeholder="Enter your email">
-      </div>
-
-      <div>
-        <label for="contactMessage">Your Question</label>
-        <textarea id="contactMessage" name="message" maxlength="3000" required placeholder="Write your question or message..."></textarea>
-      </div>
-
-      <input
-        type="text"
-        id="contactWebsite"
-        name="website"
-        tabindex="-1"
-        autocomplete="off"
-        style="display:none;"
-      >
-
-      <button id="contactSubmit" class="contact-submit" type="submit">
-        📩 Send Question
-      </button>
-
-      <div id="contactStatus" class="contact-status" aria-live="polite"></div>
-    </form>
-  </div>
+<section class="contact-box" id="contact">
+  <div class="heading"><span>📩</span><div><small>NEED HELP?</small><h2>Ask Your Doubt</h2></div></div>
+  <p style="color:var(--muted);line-height:1.6;margin-bottom:18px">Have a question, suggestion or website problem? Send it to Education Point.</p>
+  <form class="contact-form" id="doubtForm">
+    <input id="doubtName" required placeholder="Your name">
+    <input id="doubtEmail" required type="email" placeholder="Your email">
+    <textarea id="doubtMessage" required placeholder="Write your question or doubt..."></textarea>
+    <div class="full" style="display:flex;gap:12px;align-items:center;flex-wrap:wrap"><button class="quick-btn" type="submit">📩 Send Question</button><span id="doubtStatus" class="feedback-status"></span></div>
+  </form>
 </section>
 
-</main>
-
+<!-- =======================================================
+     STUDENT FEEDBACK
+======================================================= -->
+<section class="feedback-wrap" id="feedback">
+  <div class="heading"><span>❤️</span><div><small>HELP US IMPROVE</small><h2>Student Feedback</h2></div></div>
+  <p style="color:var(--muted);line-height:1.6;margin-bottom:18px">Tell us what is useful and what we should improve. Feedback is sent to the same Education Point admin inbox.</p>
+  <form class="feedback-form" id="feedbackForm">
+    <input id="feedbackName" required placeholder="Your name">
+    <select id="feedbackRating" required><option value="">Rating</option><option>5 - Excellent</option><option>4 - Very Good</option><option>3 - Good</option><option>2 - Needs Improvement</option><option>1 - Poor</option></select>
+    <textarea id="feedbackMessage" required placeholder="What do you like about Education Point? What should we improve?"></textarea>
+    <div class="feedback-actions"><button class="quick-btn" type="submit">❤️ Send Feedback</button><span id="feedbackStatus" class="feedback-status"></span></div>
+  </form>
+</section>
 
 <!-- =======================================================
      FOOTER
@@ -3205,7 +3237,6 @@ async function loadAllMaterials() {
       chapter,
       material_type,
       file_url,
-      preview_url,
       youtube_url,
       description,
       created_at,
@@ -3319,9 +3350,6 @@ function createMaterialCard(
   card.dataset.subject =
     subjectName;
 
-  card.dataset.resourceType =
-    getResourceCategory(material);
-
 
   card.dataset.search = [
 
@@ -3409,22 +3437,6 @@ function createMaterialCard(
           )}
         </p>
 
-      `
-      : ""
-    }
-
-
-    ${
-      material.material_type === "Question Paper" &&
-      material.preview_url
-      ? `
-        <div class="question-preview">
-          <img
-            src="${escapeHTML(material.preview_url)}"
-            alt="Question paper preview"
-            loading="lazy"
-          >
-        </div>
       `
       : ""
     }
@@ -3820,111 +3832,13 @@ async function showSubjectMaterials(
    FILTER MATERIALS
 ========================================================= */
 
-function getResourceCategory(material) {
-
-  const type =
-    normalize(material?.material_type);
-
-  const text = [
-    material?.title,
-    material?.chapter,
-    material?.description
-  ]
-    .filter(Boolean)
-    .join(" ")
-    .toLowerCase();
-
-  if (type.includes("important") || text.includes("important question")) {
-    return "important";
-  }
-
-  if (type.includes("question")) {
-    return "questions";
-  }
-
-  if (type.includes("note")) {
-    return "notes";
-  }
-
-  if (material?.file_url) {
-    return "pdfs";
-  }
-
-  return "other";
-}
-
-
-let activeResourceFilter = "";
-
-
-function activateResource(type) {
-
-  activeResourceFilter =
-    type || "";
-
-  const searchInput =
-    document.getElementById("materialSearch");
-
-  const classFilter =
-    document.getElementById("classFilter");
-
-  const subjectFilter =
-    document.getElementById("subjectFilter");
-
-  if (searchInput) {
-    searchInput.value = "";
-  }
-
-  if (classFilter) {
-    classFilter.value = "";
-  }
-
-  if (subjectFilter) {
-    subjectFilter.value = "";
-  }
-
-  document
-    .querySelectorAll(".resource-card")
-    .forEach(card => {
-      card.classList.toggle(
-        "active-resource",
-        card.dataset.resource === activeResourceFilter
-      );
-    });
-
-  applyFilters();
-
-  const liveSection =
-    document.getElementById("live-materials");
-
-  if (liveSection) {
-    liveSection.scrollIntoView({
-      behavior: "smooth",
-      block: "start"
-    });
-  }
-}
-
-
-function clearResourceFilter() {
-
-  activeResourceFilter = "";
-
-  document
-    .querySelectorAll(".resource-card")
-    .forEach(card => {
-      card.classList.remove("active-resource");
-    });
-
-  applyFilters();
-}
-
-
 function applyFilters() {
 
   const search =
     document
-      .getElementById("materialSearch")
+      .getElementById(
+        "materialSearch"
+      )
       ?.value
       .toLowerCase()
       .trim() || "";
@@ -3932,13 +3846,17 @@ function applyFilters() {
 
   const selectedClass =
     document
-      .getElementById("classFilter")
+      .getElementById(
+        "classFilter"
+      )
       ?.value || "";
 
 
   const selectedSubject =
     document
-      .getElementById("subjectFilter")
+      .getElementById(
+        "subjectFilter"
+      )
       ?.value || "";
 
 
@@ -3948,52 +3866,57 @@ function applyFilters() {
     );
 
 
-  let visible = 0;
+  let visible =
+    0;
 
 
-  cards.forEach(card => {
+  cards.forEach(
+    card => {
 
-    const text =
-      card.dataset.search ||
-      card.textContent.toLowerCase();
+      const text =
+        card.dataset.search ||
+        card.textContent.toLowerCase();
 
-    const cardClass =
-      card.dataset.class || "";
 
-    const cardSubject =
-      card.dataset.subject || "";
+      const cardClass =
+        card.dataset.class || "";
 
-    const resourceType =
-      card.dataset.resourceType || "";
 
-    const searchMatch =
-      !search || text.includes(search);
+      const cardSubject =
+        card.dataset.subject || "";
 
-    const classMatch =
-      !selectedClass ||
-      cardClass === selectedClass;
 
-    const subjectMatch =
-      !selectedSubject ||
-      cardSubject === selectedSubject;
+      const searchMatch =
+        !search ||
+        text.includes(search);
 
-    const resourceMatch =
-      !activeResourceFilter ||
-      resourceType === activeResourceFilter;
 
-    const show =
-      searchMatch &&
-      classMatch &&
-      subjectMatch &&
-      resourceMatch;
+      const classMatch =
+        !selectedClass ||
+        cardClass === selectedClass;
 
-    card.style.display =
-      show ? "" : "none";
 
-    if (show) {
-      visible++;
+      const subjectMatch =
+        !selectedSubject ||
+        cardSubject === selectedSubject;
+
+
+      const show =
+        searchMatch &&
+        classMatch &&
+        subjectMatch;
+
+
+      card.style.display =
+        show ? "" : "none";
+
+
+      if (show) {
+        visible++;
+      }
+
     }
-  });
+  );
 
 
   let noResults =
@@ -4010,7 +3933,9 @@ function applyFilters() {
     if (!noResults) {
 
       noResults =
-        document.createElement("div");
+        document.createElement(
+          "div"
+        );
 
       noResults.id =
         "filterNoResults";
@@ -4019,49 +3944,37 @@ function applyFilters() {
         "material-box empty-box";
 
       noResults.innerHTML = `
-        <div class="empty-icon">🔍</div>
-        <h3>No materials found</h3>
+
+        <div class="empty-icon">
+          🔍
+        </div>
+
+        <h3>
+          No materials found
+        </h3>
+
         <p>
-          Filter change karke dobara try karo.
+          Search ya filter change karke try karo.
         </p>
-        <button
-          type="button"
-          class="material-btn pdf-btn"
-          onclick="clearAllMaterialFilters()"
-          style="border:none; cursor:pointer; margin-top:10px;"
-        >
-          Clear Filters
-        </button>
+
       `;
 
       document
-        .getElementById("liveMaterials")
-        ?.appendChild(noResults);
+        .getElementById(
+          "liveMaterials"
+        )
+        ?.appendChild(
+          noResults
+        );
+
     }
 
   } else {
 
     noResults?.remove();
+
   }
-}
 
-
-function clearAllMaterialFilters() {
-
-  const searchInput =
-    document.getElementById("materialSearch");
-
-  const classFilter =
-    document.getElementById("classFilter");
-
-  const subjectFilter =
-    document.getElementById("subjectFilter");
-
-  if (searchInput) searchInput.value = "";
-  if (classFilter) classFilter.value = "";
-  if (subjectFilter) subjectFilter.value = "";
-
-  clearResourceFilter();
 }
 
 
@@ -4100,32 +4013,6 @@ function setupFilters() {
       applyFilters
     );
 
-}
-
-
-/* =========================================================
-   RESOURCE CARD KEYBOARD
-========================================================= */
-
-function setupResourceCards() {
-
-  document
-    .querySelectorAll(".resource-card")
-    .forEach(card => {
-
-      card.addEventListener("keydown", event => {
-
-        if (
-          event.key === "Enter" ||
-          event.key === " "
-        ) {
-          event.preventDefault();
-          card.click();
-        }
-
-      });
-
-    });
 }
 
 
@@ -4176,67 +4063,6 @@ function setupSubjectCards() {
    INITIALIZE
 ========================================================= */
 
-
-
-/* =========================================================
-   CONTACT FORM
-========================================================= */
-function setupContactForm() {
-  const form = document.getElementById("contactForm");
-  const status = document.getElementById("contactStatus");
-  const submitButton = document.getElementById("contactSubmit");
-  const honeypot = document.getElementById("contactWebsite");
-
-  if (!form) return;
-
-  form.addEventListener("submit", async function(event) {
-    event.preventDefault();
-
-    if (honeypot && honeypot.value.trim() !== "") {
-      return;
-    }
-
-    const name = document.getElementById("contactName")?.value.trim();
-    const email = document.getElementById("contactEmail")?.value.trim();
-    const message = document.getElementById("contactMessage")?.value.trim();
-
-    if (!name || !email || !message) {
-      status.textContent = "Please fill in all fields.";
-      status.className = "contact-status error";
-      return;
-    }
-
-    submitButton.disabled = true;
-    submitButton.textContent = "Sending...";
-    status.textContent = "";
-    status.className = "contact-status";
-
-    try {
-      const { error } = await supabaseClient
-        .from("contact_messages")
-        .insert([{
-          name: name,
-          email: email,
-          message: message
-        }]);
-
-      if (error) throw error;
-
-      status.textContent = "✅ Your question has been sent successfully!";
-      status.className = "contact-status success";
-      form.reset();
-    } catch (error) {
-      console.error("Contact form error:", error);
-      status.textContent = "❌ Could not send your question. Please try again or email us directly.";
-      status.className = "contact-status error";
-    } finally {
-      submitButton.disabled = false;
-      submitButton.textContent = "📩 Send Question";
-    }
-  });
-}
-
-
 document.addEventListener(
   "DOMContentLoaded",
   async function() {
@@ -4249,10 +4075,11 @@ document.addEventListener(
     setupDarkMode();
 
     setupFilters();
-    setupResourceCards();
 
     setupSubjectCards();
-    setupContactForm();
+    setupMobileMenu();
+    setupContactForms();
+    setupRevealAnimations();
 
 
     /*
@@ -4287,14 +4114,176 @@ document.addEventListener(
 window.showSubjectMaterials =
   showSubjectMaterials;
 
-window.activateResource =
-  activateResource;
 
-window.clearResourceFilter =
-  clearResourceFilter;
 
-window.clearAllMaterialFilters =
-  clearAllMaterialFilters;
+/* =========================================================
+   PROFESSIONAL EXPERIENCE FUNCTIONS
+========================================================= */
+
+function activateResource(type) {
+  const liveSection = document.getElementById("live-materials");
+  const searchInput = document.getElementById("materialSearch");
+  const classFilter = document.getElementById("classFilter");
+  const subjectFilter = document.getElementById("subjectFilter");
+  const searches = {notes:"note", questions:"question", pdfs:"pdf", important:"important"};
+  if (!liveSection) return;
+  if (classFilter) classFilter.value = "";
+  if (subjectFilter) subjectFilter.value = "";
+  if (searchInput) searchInput.value = searches[type] || "";
+  applyFilters();
+  liveSection.scrollIntoView({behavior:"smooth",block:"start"});
+}
+window.activateResource = activateResource;
+
+function runStudyFinder() {
+  const cls = document.getElementById("finderClass")?.value || "";
+  const sub = document.getElementById("finderSubject")?.value || "";
+  const type = document.getElementById("finderType")?.value || "";
+  const result = document.getElementById("finderResult");
+  if (!cls || !sub || !type) {
+    result.textContent = "Please select Class, Subject and Resource first. 😊";
+    result.classList.add("show");
+    return;
+  }
+  const classFilter = document.getElementById("classFilter");
+  const subjectFilter = document.getElementById("subjectFilter");
+  const searchInput = document.getElementById("materialSearch");
+  if (classFilter) classFilter.value = cls;
+  if (subjectFilter) subjectFilter.value = sub;
+  if (searchInput) searchInput.value = type;
+  applyFilters();
+  result.innerHTML = `Showing <b>${escapeHTML(cls)}</b> → <b>${escapeHTML(sub)}</b> → matching <b>${escapeHTML(type)}</b> resources below.`;
+  result.classList.add("show");
+  document.getElementById("live-materials")?.scrollIntoView({behavior:"smooth",block:"start"});
+}
+
+function startTodayStudy() {
+  const cls = document.getElementById("todayClass")?.value || "";
+  const sub = document.getElementById("todaySubject")?.value || "";
+  if (!cls || !sub) { showToast("Class aur Subject select karo 📚"); return; }
+  showSubjectMaterials(cls, sub);
+}
+
+function setupMobileMenu() {
+  const btn = document.getElementById("mobileMenuBtn");
+  const nav = document.getElementById("mobileNav");
+  if (!btn || !nav) return;
+  btn.addEventListener("click", () => {
+    const open = nav.classList.toggle("open");
+    btn.setAttribute("aria-expanded", String(open));
+    btn.textContent = open ? "✕" : "☰";
+  });
+  nav.querySelectorAll("a").forEach(a => a.addEventListener("click", () => {
+    nav.classList.remove("open"); btn.textContent="☰"; btn.setAttribute("aria-expanded","false");
+  }));
+}
+
+async function sendContactMessage(name,email,message,statusEl) {
+  statusEl.textContent = "Sending...";
+  const { error } = await supabaseClient.from("contact_messages").insert({name,email,message});
+  if (error) {
+    console.error(error);
+    statusEl.textContent = "❌ Could not send. Please try again.";
+    return false;
+  }
+  statusEl.textContent = "✅ Sent successfully!";
+  return true;
+}
+
+function setupContactForms() {
+  document.getElementById("doubtForm")?.addEventListener("submit", async e => {
+    e.preventDefault();
+    const ok = await sendContactMessage(
+      document.getElementById("doubtName").value.trim(),
+      document.getElementById("doubtEmail").value.trim(),
+      document.getElementById("doubtMessage").value.trim(),
+      document.getElementById("doubtStatus")
+    );
+    if (ok) e.target.reset();
+  });
+
+  document.getElementById("feedbackForm")?.addEventListener("submit", async e => {
+    e.preventDefault();
+    const name = document.getElementById("feedbackName").value.trim();
+    const rating = document.getElementById("feedbackRating").value;
+    const message = document.getElementById("feedbackMessage").value.trim();
+    const status = document.getElementById("feedbackStatus");
+    const ok = await sendContactMessage(name, "student-feedback@educationpoint.local", `[Feedback] ${rating}\n\n${message}`, status);
+    if (ok) e.target.reset();
+  });
+}
+
+/* =========================================================
+   CHAPTER-WISE SUBJECT VIEW
+========================================================= */
+window.showSubjectMaterials = async function(className, subjectName) {
+  const section = document.getElementById("subjectMaterials");
+  const title = document.getElementById("selectedSubject");
+  const classTitle = document.getElementById("selectedClass");
+  const list = document.getElementById("subjectMaterialsList");
+  if (!section || !title || !classTitle || !list) return;
+
+  section.style.display = "block";
+  classTitle.textContent = String(className).toUpperCase();
+  title.textContent = subjectName;
+  list.innerHTML = `<div class="material-box loading-box"><div class="loading-icon">⏳</div><h3>Loading ${escapeHTML(subjectName)}...</h3><p>${escapeHTML(className)} → ${escapeHTML(subjectName)}</p></div>`;
+  section.scrollIntoView({behavior:"smooth",block:"start"});
+
+  if (!allClasses.length) await loadClasses();
+  if (!allSubjects.length) await loadSubjects();
+  if (!allMaterials.length) await loadAllMaterials();
+
+  const classId = getClassId(className);
+  const subjectId = getSubjectId(subjectName, classId);
+  if (!classId || !subjectId) {
+    list.innerHTML = `<div class="material-box empty-box"><div class="empty-icon">📭</div><h3>No matching subject found</h3><p>${escapeHTML(className)} → ${escapeHTML(subjectName)}</p></div>`;
+    return;
+  }
+
+  const materials = allMaterials.filter(m => Number(m.class_id) === Number(classId) && Number(m.subject_id) === Number(subjectId));
+  if (!materials.length) {
+    list.innerHTML = `<div class="material-box empty-box"><div class="empty-icon">📭</div><h3>Abhi materials available nahi hain</h3><p>${escapeHTML(className)} → ${escapeHTML(subjectName)}</p></div>`;
+    return;
+  }
+
+  const groups = {};
+  materials.forEach(m => {
+    const key = (m.chapter || "General Resources").trim() || "General Resources";
+    (groups[key] ||= []).push(m);
+  });
+
+  const chapters = Object.keys(groups);
+  list.innerHTML = `<div class="chapter-board">${chapters.map((chapter,index) => `
+    <div class="chapter-group">
+      <div class="chapter-head" role="button" tabindex="0" onclick="toggleChapter(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleChapter(this)}">
+        <span>📖 ${escapeHTML(chapter)} <small style="color:var(--muted);font-weight:700">(${groups[chapter].length})</small></span><span>⌄</span>
+      </div>
+      <div class="chapter-items ${index === 0 ? '' : 'hidden-chapter'}">${groups[chapter].map(m => createMaterialCard(m).outerHTML).join('')}</div>
+    </div>`).join('')}</div>`;
+};
+
+function toggleChapter(head) {
+  const body = head.nextElementSibling;
+  if (body) body.classList.toggle("hidden-chapter");
+}
+
+/* Smooth reveal for newly added sections. */
+function setupRevealAnimations() {
+  if (!("IntersectionObserver" in window)) return;
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) { entry.target.classList.add("reveal-visible"); io.unobserve(entry.target); }
+    });
+  }, {threshold:.08});
+  document.querySelectorAll(".quick-panel,.feature-mini,.popular-card,.exam-card,.why-card,.feedback-wrap,.contact-box,.youtube-pro").forEach(el => {
+    el.classList.add("reveal-ready"); io.observe(el);
+  });
+}
+
+/* Hide chapter panels cleanly. */
+const chapterStyle = document.createElement("style");
+chapterStyle.textContent = `.hidden-chapter{display:none}.reveal-ready{opacity:0;transform:translateY(16px);transition:opacity .55s ease,transform .55s ease}.reveal-visible{opacity:1;transform:none}`;
+document.head.appendChild(chapterStyle);
 
 </script>
 
