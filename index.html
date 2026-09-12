@@ -2983,6 +2983,9 @@ let allClasses = [];
 
 let allSubjects = [];
 
+// Active resource-card filter (notes / questions / pdfs / important)
+let activeResourceFilter = "";
+
 
 /* =========================================================
    HELPERS
@@ -3006,6 +3009,20 @@ function normalize(value) {
     .trim()
     .toLowerCase();
 
+}
+
+
+function getResourceCategory(material) {
+  const type = normalize(material?.material_type);
+  const title = normalize(material?.title);
+  const description = normalize(material?.description);
+  const combined = `${type} ${title} ${description}`;
+
+  if (combined.includes("question")) return "questions";
+  if (combined.includes("important")) return "important";
+  if (combined.includes("note")) return "notes";
+  if (type.includes("pdf") || type.includes("worksheet") || material?.file_url) return "pdfs";
+  return "pdfs";
 }
 
 
@@ -3264,6 +3281,7 @@ async function loadAllMaterials() {
       chapter,
       material_type,
       file_url,
+      preview_url,
       youtube_url,
       description,
       created_at,
@@ -3934,13 +3952,15 @@ function activateResource(type) {
   const searchInput = document.getElementById("materialSearch");
   const classFilter = document.getElementById("classFilter");
   const subjectFilter = document.getElementById("subjectFilter");
-  const searches = {notes:"note", questions:"question", pdfs:"pdf", important:"important"};
-  if (!liveSection) return;
+  const searches = { notes: "", questions: "", pdfs: "", important: "" };
+
+  activeResourceFilter = type || "";
   if (classFilter) classFilter.value = "";
   if (subjectFilter) subjectFilter.value = "";
   if (searchInput) searchInput.value = searches[type] || "";
+
   applyFilters();
-  liveSection.scrollIntoView({behavior:"smooth",block:"start"});
+  liveSection?.scrollIntoView({behavior:"smooth",block:"start"});
 }
 window.activateResource = activateResource;
 
@@ -3959,7 +3979,8 @@ function runStudyFinder() {
   const searchInput = document.getElementById("materialSearch");
   if (classFilter) classFilter.value = cls;
   if (subjectFilter) subjectFilter.value = sub;
-  if (searchInput) searchInput.value = type;
+  if (searchInput) searchInput.value = "";
+  activeResourceFilter = type;
   applyFilters();
   result.innerHTML = `Showing <b>${escapeHTML(cls)}</b> → <b>${escapeHTML(sub)}</b> → matching <b>${escapeHTML(type)}</b> resources below.`;
   result.classList.add("show");
