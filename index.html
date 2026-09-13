@@ -1188,7 +1188,66 @@ body.dark select {
     repeat(auto-fit, minmax(280px, 1fr));
 
   gap: 18px;
-}/* =========================================================
+}
+
+
+/* =========================================================
+   RESOURCES
+========================================================= */
+
+.resource-grid {
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(4, 1fr);
+
+  gap: 18px;
+}
+
+.resource-card {
+  padding: 25px;
+
+  background:
+    rgba(255,255,255,.88);
+
+  border-radius: 20px;
+
+  border:
+    1px solid rgba(37,99,235,.09);
+
+  box-shadow:
+    0 10px 30px rgba(15,23,42,.06);
+
+  transition: .25s;
+}
+
+.resource-card:hover {
+  transform: translateY(-6px);
+}
+
+.resource-card div {
+  font-size: 34px;
+
+  margin-bottom: 12px;
+}
+
+.resource-card strong {
+  font-size: 18px;
+}
+
+.resource-card p {
+  color: #64748b;
+
+  margin-top: 8px;
+
+  line-height: 1.6;
+
+  font-size: 13px;
+}
+
+
+/* =========================================================
    ABOUT
 ========================================================= */
 
@@ -1703,7 +1762,23 @@ body.dark .dashboard-chapter-tabs{border-color:#263247}.dashboard-empty{padding:
 @media(max-width:1050px){.dashboard-shell{grid-template-columns:1fr}.dashboard-sidebar{display:grid;grid-template-columns:repeat(2,1fr)}.dashboard-subjects{grid-template-columns:repeat(3,1fr)}}
 @media(max-width:680px){.student-dashboard{padding:24px 15px 5px}.dashboard-hero{padding:22px}.dashboard-hero-top{display:block}.dashboard-icon-stack{display:none}.dashboard-subjects{grid-template-columns:repeat(2,1fr)}.dashboard-sidebar{grid-template-columns:1fr}.dashboard-bottom-strip{grid-template-columns:1fr}.dashboard-chapter-row{grid-template-columns:30px 1fr}.dashboard-actions{grid-column:2;justify-content:flex-start}.dashboard-class-btn{flex:1;padding:11px 15px}.dashboard-section-head{margin-top:22px}}
 
+
+.brand-logo{
+  width:58px;
+  height:58px;
+  object-fit:contain;
+  flex:0 0 58px;
+  border-radius:16px;
+}
+@media(max-width:680px){
+  .brand-logo{width:48px;height:48px;flex-basis:48px}
+}
+
 </style>
+
+  <link rel="icon" type="image/png" sizes="64x64" href="education-point-favicon.png">
+  <link rel="apple-touch-icon" href="education-point-favicon.png">
+
 </head>
 
 
@@ -1742,9 +1817,7 @@ body.dark .dashboard-chapter-tabs{border-color:#263247}.dashboard-empty{padding:
     class="brand"
   >
 
-    <span class="logo">
-      EP
-    </span>
+    <img class="brand-logo" src="education-point-logo.png" alt="Education Point logo">
 
     <span>
 
@@ -1809,7 +1882,7 @@ body.dark .dashboard-chapter-tabs{border-color:#263247}.dashboard-empty{padding:
 <div class="mobile-nav" id="mobileNav">
   <a href="#home">🏠 Home</a>
   <a href="#classes">🎓 Classes</a>
-  <a href="#live-materials">🔎 Materials</a>
+<a href="#live-materials">🔎 Materials</a>
   <a href="#exam-prep">🎯 Exam Prep</a>
   <a href="#youtube">▶️ YouTube</a>
   <a href="#contact">📩 Ask Your Doubt</a>
@@ -1960,7 +2033,6 @@ body.dark .dashboard-chapter-tabs{border-color:#263247}.dashboard-empty{padding:
           <button type="button" class="dashboard-find-btn" id="dashboardFindBtn">🔎 Find Material</button>
         </div>
       </div>
-
       <div class="dashboard-side-card">
         <h3>🔥 Popular Materials</h3>
         <p>Recently available resources.</p>
@@ -2023,7 +2095,7 @@ body.dark .dashboard-chapter-tabs{border-color:#263247}.dashboard-empty{padding:
   </div>
   <div class="subject-grid">
     <div class="subject-card" onclick="showSubjectMaterials('Class 9','Mathematics')"><div class="subject-icon">➗</div><strong>Mathematics</strong><small>Concepts &amp; practice</small></div>
-    <div class="subject-card" onclick="showSubjectMaterials('Class 9','Science')"><div class="subject-icon">🔬</div><strong>Science</strong><small>Concepts • experiments • applications</small></div>
+    <div class="subject-card" onclick="showSubjectMaterials('Class 9','Science')"><div class="subject-icon">🔬</div><strong>Science</strong><small>Concepts • experiments • revision</small></div>
     <div class="subject-card" onclick="showSubjectMaterials('Class 9','English')"><div class="subject-icon">📖</div><strong>English</strong><small>Literature &amp; language</small></div>
     <div class="subject-card" onclick="showSubjectMaterials('Class 9','Hindi')"><div class="subject-icon">📝</div><strong>Hindi</strong><small>Literature &amp; grammar</small></div>
     <div class="subject-card" onclick="showSubjectMaterials('Class 9','Social Science')"><div class="subject-icon">🌍</div><strong>Social Science</strong><small>History • Geography • Civics</small></div>
@@ -2040,7 +2112,7 @@ body.dark .dashboard-chapter-tabs{border-color:#263247}.dashboard-empty{padding:
   </div>
   <div class="subject-grid">
     <div class="subject-card" onclick="showSubjectMaterials('Class 10','Mathematics')"><div class="subject-icon">➗</div><strong>Mathematics</strong><small>Board-focused practice</small></div>
-    <div class="subject-card" onclick="showSubjectMaterials('Class 10','Science')"><div class="subject-icon">🔬</div><strong>Science</strong><small>Concepts • experiments • applications</small></div>
+    <div class="subject-card" onclick="showSubjectMaterials('Class 10','Science')"><div class="subject-icon">🔬</div><strong>Science</strong><small>Concepts • experiments • revision</small></div>
     <div class="subject-card" onclick="showSubjectMaterials('Class 10','English')"><div class="subject-icon">📖</div><strong>English</strong><small>Literature &amp; language</small></div>
     <div class="subject-card" onclick="showSubjectMaterials('Class 10','Hindi')"><div class="subject-icon">📝</div><strong>Hindi</strong><small>Literature &amp; grammar</small></div>
     <div class="subject-card" onclick="showSubjectMaterials('Class 10','Social Science')"><div class="subject-icon">🌍</div><strong>Social Science</strong><small>History • Geography • Civics</small></div>
@@ -2204,6 +2276,18 @@ body.dark .dashboard-chapter-tabs{border-color:#263247}.dashboard-empty{padding:
 
       <option value="Social Science">
         Social Science
+      </option>
+
+      <option value="Physics">
+        Physics
+      </option>
+
+      <option value="Chemistry">
+        Chemistry
+      </option>
+
+      <option value="Biology">
+        Biology
       </option>
 
     </select>
@@ -2401,9 +2485,7 @@ body.dark .dashboard-chapter-tabs{border-color:#263247}.dashboard-empty{padding:
     </a>
 
   </div>
-
-
-  <p>
+<p>
     © 2026 Education Point • Made for students ❤️
   </p>
 
@@ -3426,7 +3508,7 @@ window.showSubjectMaterials =
 ========================================================= */
 const dashboardSubjects = [
   ["Mathematics","➗","Concepts & practice"],
-  ["Science","🔬","Concepts • experiments • applications"],
+  ["Science","🔬","Concepts • experiments • revision"],
   ["English","📖","Literature & language"],
   ["Hindi","📝","Literature & grammar"],
   ["Social Science","🌍","History • Geography • Civics"]
