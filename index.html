@@ -1711,6 +1711,56 @@ body.dark .contact-box{background:linear-gradient(135deg,rgba(15,23,42,.95),rgba
 body.dark .preview-panel{background:#111827;color:#f8fafc}body.dark .preview-head{border-color:#334155}body.dark .preview-close{background:#1e293b;color:#fff}
 @media(max-width:640px){.preview-modal{padding:8px}.preview-panel{height:92vh;border-radius:16px}.material-buttons .material-btn{flex-basis:100%}}
 
+
+/* =======================================================
+   STUDENT DASHBOARD — CLASS 9 & 10
+======================================================= */
+.student-dashboard{padding:34px 6% 10px;max-width:1400px;margin:0 auto}
+.dashboard-shell{display:grid;grid-template-columns:minmax(0,1fr) 330px;gap:22px}
+.dashboard-main{min-width:0}
+.dashboard-hero{position:relative;overflow:hidden;border-radius:28px;padding:30px;background:linear-gradient(135deg,#eaf3ff,#f5edff 55%,#fff7fb);border:1px solid rgba(37,99,235,.10);box-shadow:0 18px 50px rgba(37,99,235,.10)}
+.dashboard-hero:after{content:"";position:absolute;width:240px;height:240px;border-radius:50%;right:-80px;top:-100px;background:rgba(124,58,237,.10)}
+.dashboard-hero-top{position:relative;z-index:1;display:flex;justify-content:space-between;gap:20px;align-items:flex-start}
+.dashboard-kicker{font-size:12px;font-weight:900;letter-spacing:.12em;color:#5b36e8;text-transform:uppercase}
+.dashboard-hero h2{font-size:clamp(28px,4vw,44px);line-height:1.08;margin:8px 0 10px;color:#14213d}
+.dashboard-hero p{max-width:680px;color:#53627b;line-height:1.65}
+.dashboard-class-switch{display:flex;gap:10px;margin-top:22px;position:relative;z-index:2}
+.dashboard-class-btn{border:0;border-radius:14px;padding:12px 24px;background:#fff;color:#25324d;font-weight:900;cursor:pointer;box-shadow:0 8px 20px rgba(15,23,42,.07);transition:.2s}
+.dashboard-class-btn.active{background:linear-gradient(135deg,#2563eb,#7c3aed);color:#fff;transform:translateY(-2px)}
+.dashboard-class-btn:hover{transform:translateY(-2px)}
+.dashboard-icon-stack{font-size:54px;min-width:90px;text-align:center;position:relative;z-index:1}
+.dashboard-section-head{display:flex;justify-content:space-between;align-items:end;gap:15px;margin:26px 4px 14px}
+.dashboard-section-head h3{font-size:24px;color:#18233d}
+.dashboard-section-head p{color:#64748b;font-size:13px;margin-top:4px}
+.dashboard-subjects{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
+.dashboard-subject{border:1px solid rgba(37,99,235,.10);background:rgba(255,255,255,.9);border-radius:20px;padding:18px 10px;text-align:center;cursor:pointer;box-shadow:0 8px 25px rgba(15,23,42,.05);transition:.22s;color:#172033}
+.dashboard-subject:hover{transform:translateY(-5px);box-shadow:0 16px 35px rgba(37,99,235,.12)}
+.dashboard-subject-icon{width:50px;height:50px;border-radius:15px;display:grid;place-items:center;margin:0 auto 10px;font-size:24px;background:#eef4ff}
+.dashboard-subject strong{display:block;font-size:14px}.dashboard-subject small{display:block;color:#718096;margin-top:4px;font-size:11px}
+.dashboard-chapter-panel{margin-top:20px;background:rgba(255,255,255,.92);border:1px solid rgba(37,99,235,.09);border-radius:22px;padding:20px;box-shadow:0 10px 30px rgba(15,23,42,.05)}
+.dashboard-chapter-tabs{display:flex;gap:8px;flex-wrap:wrap;border-bottom:1px solid #e8edf5;padding-bottom:12px}
+.dashboard-tab{border:0;background:#f4f7fb;color:#526078;border-radius:11px;padding:9px 14px;font-weight:800;cursor:pointer}.dashboard-tab.active{background:#e9edff;color:#4338ca}
+.dashboard-chapter-list{display:grid;gap:10px;margin-top:14px}
+.dashboard-chapter-row{display:grid;grid-template-columns:34px minmax(0,1fr) auto;align-items:center;gap:12px;padding:13px;border:1px solid #edf1f7;border-radius:15px;background:#fff}
+.dashboard-chapter-num{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:#eef3ff;color:#315bdc;font-weight:900;font-size:12px}
+.dashboard-chapter-row strong{font-size:14px}.dashboard-chapter-row small{display:block;color:#718096;margin-top:3px}
+.dashboard-actions{display:flex;gap:7px;flex-wrap:wrap;justify-content:flex-end}.dashboard-action{border:0;border-radius:9px;padding:8px 10px;font-size:11px;font-weight:900;cursor:pointer;background:#edf5ff;color:#1760c7}.dashboard-action.questions{background:#fff2e7;color:#c45b08}.dashboard-action.pdf{background:#ffeef2;color:#d52b58}.dashboard-action.video{background:#f1ebff;color:#6635c7}
+.dashboard-sidebar{display:flex;flex-direction:column;gap:16px}.dashboard-side-card{background:rgba(255,255,255,.94);border:1px solid rgba(37,99,235,.09);border-radius:20px;padding:20px;box-shadow:0 10px 30px rgba(15,23,42,.05)}
+.dashboard-side-card h3{font-size:18px;color:#17233e;margin-bottom:6px}.dashboard-side-card>p{font-size:12px;color:#718096;line-height:1.55}
+.dashboard-finder-grid{display:grid;gap:10px;margin-top:14px}.dashboard-finder-grid label{font-size:11px;font-weight:900;color:#4b5870}.dashboard-finder-grid select{width:100%;padding:11px 12px;border:1px solid #dbe3ef;border-radius:11px;background:#fff;color:#26344e}
+.dashboard-find-btn{margin-top:3px;border:0;border-radius:11px;padding:12px;background:linear-gradient(135deg,#2563eb,#7c3aed);color:#fff;font-weight:900;cursor:pointer}
+.dashboard-today-item{margin-top:13px;padding:13px;border-radius:14px;background:#f5f8ff}.dashboard-today-item strong{font-size:13px}.dashboard-today-item p{font-size:12px;margin-top:4px;color:#64748b}.dashboard-progress{height:7px;border-radius:99px;background:#e5eaf3;overflow:hidden;margin-top:10px}.dashboard-progress span{display:block;height:100%;width:62%;background:linear-gradient(90deg,#2563eb,#7c3aed);border-radius:99px}
+.dashboard-popular-list{list-style:none;margin-top:12px;display:grid;gap:8px}.dashboard-popular-list li{display:flex;gap:9px;align-items:center;padding:9px 0;border-bottom:1px solid #edf1f6;font-size:12px}.dashboard-popular-list li:last-child{border-bottom:0}.popular-rank{width:25px;height:25px;border-radius:8px;background:#eef3ff;display:grid;place-items:center;font-weight:900;color:#315bdc}
+.dashboard-bottom-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:20px}.dashboard-mini-card{border-radius:18px;padding:17px;background:linear-gradient(135deg,#fff,#f6f8ff);border:1px solid #e7edf7}.dashboard-mini-card b{display:block;margin-bottom:5px}.dashboard-mini-card span{font-size:12px;color:#66748b;line-height:1.5}
+body.dark .dashboard-hero{background:linear-gradient(135deg,#172554,#2b164d,#241426)}
+body.dark .dashboard-hero h2,body.dark .dashboard-section-head h3,body.dark .dashboard-side-card h3,body.dark .dashboard-subject,body.dark .dashboard-chapter-panel,body.dark .dashboard-side-card,body.dark .dashboard-mini-card{color:#f8fafc}
+body.dark .dashboard-hero p,body.dark .dashboard-section-head p,body.dark .dashboard-side-card>p,body.dark .dashboard-today-item p,body.dark .dashboard-mini-card span{color:#cbd5e1}
+body.dark .dashboard-subject,body.dark .dashboard-chapter-panel,body.dark .dashboard-side-card,body.dark .dashboard-mini-card,body.dark .dashboard-chapter-row{background:#111827;border-color:#263247}
+body.dark .dashboard-class-btn,body.dark .dashboard-finder-grid select{background:#1e293b;color:#f8fafc;border-color:#334155}
+body.dark .dashboard-chapter-tabs{border-color:#263247}.dashboard-empty{padding:20px;text-align:center;color:#64748b;font-size:13px}
+@media(max-width:1050px){.dashboard-shell{grid-template-columns:1fr}.dashboard-sidebar{display:grid;grid-template-columns:repeat(2,1fr)}.dashboard-subjects{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:680px){.student-dashboard{padding:24px 15px 5px}.dashboard-hero{padding:22px}.dashboard-hero-top{display:block}.dashboard-icon-stack{display:none}.dashboard-subjects{grid-template-columns:repeat(2,1fr)}.dashboard-sidebar{grid-template-columns:1fr}.dashboard-bottom-strip{grid-template-columns:1fr}.dashboard-chapter-row{grid-template-columns:30px 1fr}.dashboard-actions{grid-column:2;justify-content:flex-start}.dashboard-class-btn{flex:1;padding:11px 15px}.dashboard-section-head{margin-top:22px}}
+
 </style>
 </head>
 
@@ -1913,6 +1963,88 @@ body.dark .preview-panel{background:#111827;color:#f8fafc}body.dark .preview-hea
 
 </section>
 
+
+<!-- =======================================================
+     STUDENT DASHBOARD
+======================================================= -->
+<section id="student-dashboard" class="student-dashboard">
+  <div class="dashboard-shell">
+    <div class="dashboard-main">
+      <div class="dashboard-hero">
+        <div class="dashboard-hero-top">
+          <div>
+            <div class="dashboard-kicker">🎓 EDUCATION POINT • STUDENT DASHBOARD</div>
+            <h2>Welcome Back, Student! 👋</h2>
+            <p>Class 9 &amp; 10 ke liye notes, chapters, questions, PDFs aur videos — sab kuch ek simple dashboard mein.</p>
+            <div class="dashboard-class-switch">
+              <button type="button" class="dashboard-class-btn active" data-dashboard-class="Class 9">Class 9</button>
+              <button type="button" class="dashboard-class-btn" data-dashboard-class="Class 10">Class 10</button>
+            </div>
+          </div>
+          <div class="dashboard-icon-stack">📚<br><span style="font-size:28px">✏️</span></div>
+        </div>
+      </div>
+
+      <div class="dashboard-section-head">
+        <div><h3 id="dashboardSubjectTitle">Subjects — Class 9</h3><p>Choose a subject to start learning.</p></div>
+      </div>
+      <div class="dashboard-subjects" id="dashboardSubjects"></div>
+
+      <div class="dashboard-chapter-panel">
+        <div class="dashboard-section-head" style="margin:0 0 12px">
+          <div><h3 id="dashboardLearningTitle">Science — Class 9</h3><p>Available study resources from Education Point.</p></div>
+          <button type="button" class="dashboard-tab" id="dashboardOpenSubject">Open Subject →</button>
+        </div>
+        <div class="dashboard-chapter-tabs">
+          <button type="button" class="dashboard-tab active" data-dashboard-tab="chapters">Chapters</button>
+          <button type="button" class="dashboard-tab" data-dashboard-tab="notes">Notes</button>
+          <button type="button" class="dashboard-tab" data-dashboard-tab="questions">Questions</button>
+          <button type="button" class="dashboard-tab" data-dashboard-tab="pdfs">PDFs</button>
+          <button type="button" class="dashboard-tab" data-dashboard-tab="videos">Videos</button>
+        </div>
+        <div class="dashboard-chapter-list" id="dashboardChapterList"></div>
+      </div>
+
+      <div class="dashboard-bottom-strip">
+        <div class="dashboard-mini-card"><b>🎯 Exam Preparation</b><span>Question papers aur important questions se focused revision karo.</span></div>
+        <div class="dashboard-mini-card"><b>⭐ Mark Important</b><span>Jo material useful lage, usko future revision ke liye save kar sakte ho.</span></div>
+        <div class="dashboard-mini-card"><b>💬 Ask Your Doubt</b><span>Kisi topic mein confusion ho to Education Point ko message bhejo.</span></div>
+      </div>
+    </div>
+
+    <aside class="dashboard-sidebar">
+      <div class="dashboard-side-card">
+        <h3>⚡ Quick Access</h3>
+        <p>Class, subject aur resource choose karke direct material section par jao.</p>
+        <div class="dashboard-finder-grid">
+          <div><label for="dashboardFinderClass">CLASS</label><select id="dashboardFinderClass"><option>Class 9</option><option>Class 10</option></select></div>
+          <div><label for="dashboardFinderSubject">SUBJECT</label><select id="dashboardFinderSubject"><option>Mathematics</option><option>Science</option><option>English</option><option>Hindi</option><option>Social Science</option></select></div>
+          <div><label for="dashboardFinderType">RESOURCE</label><select id="dashboardFinderType"><option value="notes">📚 Chapter Notes</option><option value="questions">📝 Question Papers</option><option value="pdfs">📄 PDF Downloads</option><option value="important">🎯 Important Questions</option></select></div>
+          <button type="button" class="dashboard-find-btn" id="dashboardFindBtn">🔎 Find Material</button>
+        </div>
+      </div>
+
+      <div class="dashboard-side-card">
+        <h3>⭐ Today’s Study <span style="float:right;font-size:11px;color:#315bdc">Start</span></h3>
+        <p>Aaj ek focused chapter complete karne ka target rakho.</p>
+        <div class="dashboard-today-item"><strong id="dashboardTodayTitle">Science — Class 9</strong><p id="dashboardTodayText">Latest available material</p><div class="dashboard-progress"><span></span></div></div>
+        <button type="button" class="dashboard-find-btn" id="dashboardTodayBtn">Continue Learning →</button>
+      </div>
+
+      <div class="dashboard-side-card">
+        <h3>🔥 Popular Materials</h3>
+        <p>Recently available resources.</p>
+        <ul class="dashboard-popular-list" id="dashboardPopularList"><li><span class="popular-rank">1</span> Loading...</li></ul>
+      </div>
+
+      <div class="dashboard-side-card">
+        <h3>▶️ YouTube Learning</h3>
+        <p>Concept explanations aur revision videos.</p>
+        <a class="dashboard-find-btn" style="display:block;text-align:center;text-decoration:none" href="https://www.youtube.com/@educationpoint7355" target="_blank" rel="noopener">Watch Education Point ↗</a>
+      </div>
+    </aside>
+  </div>
+</section>
 
 <!-- =======================================================
      CLASSES — 9 & 10 ONLY
@@ -3462,6 +3594,7 @@ document.addEventListener(
     setupMobileMenu();
     setupContactForms();
     setupRevealAnimations();
+    setupStudentDashboard();
 
 
     /*
@@ -3497,6 +3630,105 @@ window.showSubjectMaterials =
   showSubjectMaterials;
 
 
+
+/* =========================================================
+   STUDENT DASHBOARD
+========================================================= */
+const dashboardSubjects = [
+  ["Mathematics","➗","Concepts & practice"],
+  ["Science","🔬","Physics • Chemistry • Biology"],
+  ["English","📖","Literature & language"],
+  ["Hindi","📝","Literature & grammar"],
+  ["Social Science","🌍","History • Geography • Civics"]
+];
+let dashboardClass = "Class 9";
+let dashboardSubject = "Science";
+let dashboardTab = "chapters";
+
+function dashboardClassKey(value){ return cleanClassName(value); }
+function dashboardSubjectKey(value){ return cleanSubjectName(value); }
+function dashboardResourceMatch(material, type){
+  return getResourceCategory(material) === type;
+}
+
+function setupStudentDashboard(){
+  const root=document.getElementById("student-dashboard");
+  if(!root) return;
+  root.querySelectorAll("[data-dashboard-class]").forEach(btn=>btn.addEventListener("click",()=>{
+    dashboardClass=btn.dataset.dashboardClass;
+    root.querySelectorAll("[data-dashboard-class]").forEach(b=>b.classList.toggle("active",b===btn));
+    const fc=document.getElementById("dashboardFinderClass"); if(fc) fc.value=dashboardClass;
+    renderDashboardSubjects();
+    renderDashboardContent();
+  }));
+  root.querySelectorAll("[data-dashboard-tab]").forEach(btn=>btn.addEventListener("click",()=>{
+    dashboardTab=btn.dataset.dashboardTab;
+    root.querySelectorAll("[data-dashboard-tab]").forEach(b=>b.classList.toggle("active",b===btn));
+    renderDashboardContent();
+  }));
+  document.getElementById("dashboardOpenSubject")?.addEventListener("click",()=>showSubjectMaterials(dashboardClass,dashboardSubject));
+  document.getElementById("dashboardTodayBtn")?.addEventListener("click",()=>showSubjectMaterials(dashboardClass,dashboardSubject));
+  document.getElementById("dashboardFindBtn")?.addEventListener("click",()=>{
+    const c=document.getElementById("dashboardFinderClass")?.value;
+    const s=document.getElementById("dashboardFinderSubject")?.value;
+    const t=document.getElementById("dashboardFinderType")?.value;
+    if(c) dashboardClass=c;
+    if(s) dashboardSubject=s;
+    if(t) activeResourceFilter=t;
+    const cf=document.getElementById("classFilter"), sf=document.getElementById("subjectFilter"), si=document.getElementById("materialSearch");
+    if(cf) cf.value=dashboardClass; if(sf) sf.value=dashboardSubject; if(si) si.value="";
+    applyFilters();
+    document.getElementById("live-materials")?.scrollIntoView({behavior:"smooth",block:"start"});
+  });
+  renderDashboardSubjects();
+  renderDashboardContent();
+}
+
+function renderDashboardSubjects(){
+  const box=document.getElementById("dashboardSubjects");
+  if(!box) return;
+  box.innerHTML=dashboardSubjects.map(([name,icon,desc])=>`<button type="button" class="dashboard-subject" data-dashboard-subject="${escapeHTML(name)}"><span class="dashboard-subject-icon">${icon}</span><strong>${escapeHTML(name)}</strong><small>${escapeHTML(desc)}</small></button>`).join("");
+  box.querySelectorAll("[data-dashboard-subject]").forEach(btn=>btn.addEventListener("click",()=>{
+    dashboardSubject=btn.dataset.dashboardSubject;
+    renderDashboardContent();
+  }));
+  const title=document.getElementById("dashboardSubjectTitle"); if(title) title.textContent=`Subjects — ${dashboardClass}`;
+}
+
+function renderDashboardContent(){
+  const title=document.getElementById("dashboardLearningTitle");
+  if(title) title.textContent=`${dashboardSubject} — ${dashboardClass}`;
+  const todayTitle=document.getElementById("dashboardTodayTitle");
+  if(todayTitle) todayTitle.textContent=`${dashboardSubject} — ${dashboardClass}`;
+  const subjectBtn=document.getElementById("dashboardOpenSubject");
+  if(subjectBtn) subjectBtn.textContent=`Open ${dashboardSubject} →`;
+  const list=document.getElementById("dashboardChapterList");
+  if(!list) return;
+  const cls=dashboardClassKey(dashboardClass), sub=dashboardSubjectKey(dashboardSubject);
+  const matches=allMaterials.filter(m=>dashboardClassKey(allClasses.find(c=>Number(c.id)===Number(m.class_id))?.name||"")===cls && dashboardSubjectKey(allSubjects.find(s=>Number(s.id)===Number(m.subject_id))?.name||"")===sub);
+  let filtered=dashboardTab==="chapters"?matches:matches.filter(m=>dashboardResourceMatch(m,dashboardTab));
+  filtered=filtered.slice(0,8);
+  if(!filtered.length){
+    list.innerHTML=`<div class="dashboard-empty">📚 Abhi <b>${escapeHTML(dashboardSubject)}</b> — <b>${escapeHTML(dashboardClass)}</b> ke liye is view mein material available nahi hai.<br><br><button type="button" class="dashboard-tab" onclick="showSubjectMaterials('${escapeHTML(dashboardClass)}','${escapeHTML(dashboardSubject)}')">Open Subject →</button></div>`;
+  } else {
+    list.innerHTML=filtered.map((m,i)=>{
+      const title=escapeHTML(m.title||"Study Material"), chapter=escapeHTML(m.chapter||m.description||"Study resource");
+      const pdf=m.file_url?`<a class="dashboard-action pdf" href="${escapeHTML(m.file_url)}" target="_blank" rel="noopener">PDF</a>`:"";
+      const video=m.youtube_url?`<a class="dashboard-action video" href="${escapeHTML(m.youtube_url)}" target="_blank" rel="noopener">Video</a>`:"";
+      const notes=getResourceCategory(m)==="notes"?`<button type="button" class="dashboard-action" data-preview-url="${escapeHTML(m.preview_url||m.file_url||"")}" data-preview-title="${title}">Notes</button>`:"";
+      const questions=getResourceCategory(m)==="questions"?`<button type="button" class="dashboard-action questions" data-preview-url="${escapeHTML(m.preview_url||m.file_url||"")}" data-preview-title="${title}">Questions</button>`:"";
+      return `<div class="dashboard-chapter-row"><span class="dashboard-chapter-num">${i+1}</span><div><strong>${title}</strong><small>📖 ${chapter}</small></div><div class="dashboard-actions">${notes}${questions}${pdf}${video}</div></div>`;
+    }).join("");
+  }
+  const today=matches[0];
+  const todayText=document.getElementById("dashboardTodayText");
+  if(todayText) todayText.textContent=today?(today.chapter||today.title||"Latest material"):"No material uploaded yet";
+  const pop=document.getElementById("dashboardPopularList");
+  if(pop){
+    const popular=(allMaterials||[]).filter(m=>dashboardClassKey(allClasses.find(c=>Number(c.id)===Number(m.class_id))?.name||"")===cls).slice(0,5);
+    pop.innerHTML=popular.length?popular.map((m,i)=>`<li><span class="popular-rank">${i+1}</span><span>${escapeHTML(m.title||"Study Material")}</span></li>`).join(""):`<li><span class="popular-rank">•</span> No materials yet</li>`;
+  }
+}
 
 /* =========================================================
    PROFESSIONAL EXPERIENCE FUNCTIONS
@@ -3551,7 +3783,7 @@ function runStudyFinder() {
   if (subjectFilter) subjectFilter.value = sub;
   if (searchInput) searchInput.value = "";
 
-  activeResourceFilter = type;
+  activeResourceFilter = ({note:"notes", question:"questions", pdf:"pdfs", important:"important"})[type] || type;
   applyFilters();
 
   const cards = document.querySelectorAll("#liveMaterials .material-box");
@@ -3565,7 +3797,7 @@ function runStudyFinder() {
     if (card.id === "filterNoResults") return;
     const show = classKey(card.dataset.class) === wantedClass &&
       subjectKey(card.dataset.subject) === wantedSubject &&
-      (card.dataset.resourceType || "") === type;
+      (card.dataset.resourceType || "") === (({note:"notes", question:"questions", pdf:"pdfs", important:"important"})[type] || type);
     card.style.display = show ? "" : "none";
     if (show) visible++;
   });
