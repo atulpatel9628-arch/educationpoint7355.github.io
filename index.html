@@ -1196,6 +1196,7 @@ body.dark select {
 ========================================================= */
 
 .resource-grid {
+
   display: grid;
 
   grid-template-columns:
@@ -2149,93 +2150,6 @@ body.dark .dashboard-chapter-tabs{border-color:#263247}.dashboard-empty{padding:
 </section>
 
 
-<!-- ==============================
-     RESOURCES
-============================== -->
-<section id="resources" class="section">
-
-  <div class="heading">
-    <span>02</span>
-
-    <div>
-      <small>STUDY RESOURCES</small>
-      <h2>Everything You Need</h2>
-    </div>
-  </div>
-
-  <div class="resource-grid">
-
-    <!-- CHAPTER NOTES -->
-    <article
-      onclick="activateResource('notes')"
-      style="cursor:pointer;"
-    >
-      <div>📚</div>
-
-      <strong>Chapter Notes</strong>
-
-      <p>
-        Simple notes organized by class and subject.
-      </p>
-
-      <span>View Notes →</span>
-    </article>
-
-
-    <!-- QUESTION PAPERS -->
-    <article
-      onclick="activateResource('questions')"
-      style="cursor:pointer;"
-    >
-      <div>📝</div>
-
-      <strong>Question Papers</strong>
-
-      <p>
-        Practice papers and important questions.
-      </p>
-
-      <span>View Questions →</span>
-    </article>
-
-
-    <!-- PDF DOWNLOADS -->
-    <article
-      onclick="activateResource('pdfs')"
-      style="cursor:pointer;"
-    >
-      <div>📥</div>
-
-      <strong>PDF Downloads</strong>
-
-      <p>
-        Easy access to study PDFs and worksheets.
-      </p>
-
-      <span>View PDFs →</span>
-    </article>
-
-
-    <!-- IMPORTANT QUESTIONS -->
-    <article
-      onclick="activateResource('important')"
-      style="cursor:pointer;"
-    >
-      <div>🎯</div>
-
-      <strong>Important Questions</strong>
-
-      <p>
-        Focused revision material for exams.
-      </p>
-
-      <span>View Questions →</span>
-    </article>
-
-  </div>
-
-</section>
-
 <!-- =======================================================
      QUICK STUDY FINDER
 ======================================================= -->
@@ -2255,26 +2169,6 @@ body.dark .dashboard-chapter-tabs{border-color:#263247}.dashboard-empty{padding:
       <button class="quick-btn" type="button" onclick="runStudyFinder()">Find →</button>
     </div>
     <div class="quick-result" id="finderResult"></div>
-  </div>
-</section>
-
-<!-- =======================================================
-     TODAY'S STUDY
-======================================================= -->
-<section class="section section-alt" id="today-study">
-  <div class="heading"><span>★</span><div><small>START HERE</small><h2>Today’s Study</h2></div></div>
-  <div class="feature-strip">
-    <div class="feature-mini"><b>📖 Pick one chapter</b><span>Focus on one topic instead of searching through everything.</span></div>
-    <div class="feature-mini"><b>📝 Practice questions</b><span>Test what you learned with question papers and important questions.</span></div>
-    <div class="feature-mini"><b>🎥 Learn visually</b><span>Use Education Point videos when you need another explanation.</span></div>
-  </div>
-  <div class="quick-panel" style="margin-bottom:0">
-    <div class="quick-head"><div><h3>What are you studying today?</h3><p>Pick a class and subject to jump straight to its materials.</p></div></div>
-    <div class="quick-form" style="grid-template-columns:1fr 1fr auto">
-      <div class="quick-field"><label>Class</label><select id="todayClass"><option value="">Select Class</option><option>Class 9</option><option>Class 10</option></select></div>
-      <div class="quick-field"><label>Subject</label><select id="todaySubject"><option value="">Select Subject</option><option>Mathematics</option><option>Science</option><option>English</option><option>Hindi</option><option>Social Science</option><option>Physics</option><option>Chemistry</option><option>Biology</option></select></div>
-      <button class="quick-btn" type="button" onclick="startTodayStudy()">Start Studying →</button>
-    </div>
   </div>
 </section>
 
