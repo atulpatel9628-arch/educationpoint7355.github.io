@@ -1664,8 +1664,6 @@ body.dark .section-alt {background:rgba(2,6,23,.2)}
 .exam-banner {padding:30px;border-radius:26px;background:linear-gradient(135deg,#172554,#4338ca,#7c3aed);color:#fff;box-shadow:0 20px 50px rgba(67,56,202,.2)}
 .exam-banner h2{font-size:30px;margin-bottom:8px}.exam-banner p{color:#dbeafe;line-height:1.6;max-width:700px}.exam-banner .btn{margin-top:16px;background:#fff;color:#312e81}
 
-.youtube-pro {max-width:1100px;margin:0 auto 70px;padding:34px;border-radius:28px;background:linear-gradient(135deg,#111827,#1f2937);color:#fff;display:flex;align-items:center;justify-content:space-between;gap:25px;box-shadow:0 20px 50px rgba(15,23,42,.18)}
-.youtube-pro .yt-icon{width:65px;height:65px;display:grid;place-items:center;border-radius:20px;background:#ef4444;font-size:28px;flex-shrink:0}.youtube-pro-left{display:flex;align-items:center;gap:17px}.youtube-pro small{color:#cbd5e1;font-weight:900;letter-spacing:1px}.youtube-pro h2{margin-top:4px}.youtube-pro p{margin-top:7px;color:#94a3b8;line-height:1.5}
 
 .feedback-wrap {max-width:1100px;margin:0 auto 70px;padding:30px;border-radius:28px;background:var(--card);border:1px solid rgba(37,99,235,.10);box-shadow:0 15px 45px rgba(15,23,42,.07)}
 .feedback-form {display:grid;grid-template-columns:1fr 1fr;gap:12px}.feedback-form textarea{grid-column:1/-1;min-height:130px;resize:vertical}.feedback-form input,.feedback-form textarea,.feedback-form select{width:100%;padding:13px 14px;border:1px solid #dbe3ef;border-radius:12px;outline:none;background:white;color:var(--ink)}
@@ -1677,23 +1675,11 @@ body.dark .contact-box{background:linear-gradient(135deg,rgba(15,23,42,.95),rgba
 .contact-form{display:grid;grid-template-columns:1fr 1fr;gap:12px}.contact-form textarea{grid-column:1/-1;min-height:140px;resize:vertical}.contact-form input,.contact-form textarea{width:100%;padding:14px;border:1px solid #dbe3ef;border-radius:12px;outline:none;background:#fff;color:var(--ink)}body.dark .contact-form input,body.dark .contact-form textarea{background:#1e293b;color:#fff;border-color:#475569}.contact-form .full{grid-column:1/-1}
 
 @media (max-width:950px){
-  .mobile-menu-btn{display:block}.navbar .navlinks{display:none}.navbar{gap:10px}.quick-form{grid-template-columns:1fr 1fr}.quick-btn{width:100%}.feature-strip,.popular-grid,.exam-grid,.why-grid{grid-template-columns:1fr 1fr}.youtube-pro{margin-left:15px;margin-right:15px}.chapter-items{grid-template-columns:1fr}
+  .mobile-menu-btn{display:block}.navbar .navlinks{display:none}.navbar{gap:10px}.quick-form{grid-template-columns:1fr 1fr}.quick-btn{width:100%}.feature-strip,.popular-grid,.exam-grid,.why-grid{grid-template-columns:1fr 1fr}.chapter-items{grid-template-columns:1fr}
 }
 @media (max-width:650px){
-  .quick-panel{margin-left:15px;margin-right:15px;padding:20px}.quick-form{grid-template-columns:1fr}.feature-strip,.popular-grid,.exam-grid,.why-grid{grid-template-columns:1fr}.feedback-form,.contact-form{grid-template-columns:1fr}.feedback-form textarea,.feedback-actions,.contact-form textarea,.contact-form .full{grid-column:auto}.youtube-pro{margin-left:15px;margin-right:15px;flex-direction:column;align-items:flex-start}.quick-head{align-items:flex-start;flex-direction:column}.quick-head h3{font-size:21px}
+  .quick-panel{margin-left:15px;margin-right:15px;padding:20px}.quick-form{grid-template-columns:1fr}.feature-strip,.popular-grid,.exam-grid,.why-grid{grid-template-columns:1fr}.feedback-form,.contact-form{grid-template-columns:1fr}.feedback-form textarea,.feedback-actions,.contact-form textarea,.contact-form .full{grid-column:auto}.quick-head{align-items:flex-start;flex-direction:column}.quick-head h3{font-size:21px}
 }
-
-
-/* =========================================================
-   PHASE 3 — MATERIAL UX
-========================================================= */
-.material-badges{display:flex;flex-wrap:wrap;gap:7px;margin:10px 0 4px}.material-badge{display:inline-flex;align-items:center;gap:5px;padding:5px 9px;border-radius:999px;font-size:11px;font-weight:900;letter-spacing:.03em;border:1px solid rgba(37,99,235,.14);background:rgba(37,99,235,.08)}.material-badge.new{background:rgba(16,185,129,.1);border-color:rgba(16,185,129,.2)}.material-badge.important{background:rgba(245,158,11,.12);border-color:rgba(245,158,11,.25)}.material-badge.paper{background:rgba(124,58,237,.1);border-color:rgba(124,58,237,.2)}
-.material-btn.preview-btn{background:linear-gradient(135deg,#111827,#334155);color:#fff}.material-btn.preview-btn:hover{transform:translateY(-2px);filter:brightness(1.08)}
-.material-buttons{display:flex;flex-wrap:wrap;gap:9px}.material-buttons .material-btn{flex:1 1 180px;text-align:center}
-.search-hint{margin:8px 0 0;font-size:12px;opacity:.72}.search-count{font-weight:800}
-.preview-modal{position:fixed;inset:0;z-index:5000;display:none;align-items:center;justify-content:center;padding:20px;background:rgba(2,6,23,.76);backdrop-filter:blur(10px)}.preview-modal.open{display:flex}.preview-panel{width:min(1050px,100%);height:min(86vh,820px);background:#fff;border-radius:22px;box-shadow:0 30px 100px rgba(0,0,0,.35);overflow:hidden;display:flex;flex-direction:column}.preview-head{display:flex;align-items:center;justify-content:space-between;gap:15px;padding:15px 18px;border-bottom:1px solid #e5e7eb}.preview-head h3{font-size:16px}.preview-close{border:0;background:#eef2f7;border-radius:10px;width:40px;height:40px;font-size:20px;cursor:pointer}.preview-body{flex:1;background:#0f172a;display:flex;align-items:center;justify-content:center}.preview-body iframe{width:100%;height:100%;border:0;background:#fff}.preview-image{max-width:100%;max-height:100%;object-fit:contain}.preview-fallback{color:#fff;text-align:center;padding:30px}.preview-fallback a{display:inline-block;margin-top:14px;padding:10px 16px;background:#2563eb;color:#fff;border-radius:10px;text-decoration:none;font-weight:800}
-body.dark .preview-panel{background:#111827;color:#f8fafc}body.dark .preview-head{border-color:#334155}body.dark .preview-close{background:#1e293b;color:#fff}
-@media(max-width:640px){.preview-modal{padding:8px}.preview-panel{height:92vh;border-radius:16px}.material-buttons .material-btn{flex-basis:100%}}
 
 </style>
 </head>
@@ -1773,10 +1759,6 @@ body.dark .preview-panel{background:#111827;color:#f8fafc}body.dark .preview-hea
 
     <a href="#youtube">
       YouTube
-    </a>
-
-    <a href="#why-education-point">
-      Why Us
     </a>
 
     <a href="#contact">
@@ -2588,21 +2570,6 @@ body.dark .preview-panel{background:#111827;color:#f8fafc}body.dark .preview-hea
 </section>
 
 <!-- =======================================================
-     WHY EDUCATION POINT
-======================================================= -->
-<section class="section section-alt" id="why-education-point">
-  <div class="heading"><span>10</span><div><small>WHY STUDENTS CHOOSE US</small><h2>Why Education Point?</h2></div></div>
-  <div class="why-grid">
-    <article class="why-card"><div class="big">📚</div><h3>CBSE Focused</h3><p>Resources are designed around CBSE Classes 9–12.</p></article>
-    <article class="why-card"><div class="big">⚡</div><h3>Quick Access</h3><p>Find your class, subject and resource without unnecessary steps.</p></article>
-    <article class="why-card"><div class="big">📝</div><h3>Practice Ready</h3><p>Notes, question papers and important questions in one place.</p></article>
-    <article class="why-card"><div class="big">🎯</div><h3>Exam Focused</h3><p>Simple revision tools to help you prepare with a clear plan.</p></article>
-    <article class="why-card"><div class="big">📱</div><h3>Mobile Friendly</h3><p>Study resources should work comfortably on phones and desktops.</p></article>
-    <article class="why-card"><div class="big">🆓</div><h3>Student Friendly</h3><p>Simple navigation and free educational resources for students.</p></article>
-  </div>
-</section>
-
-<!-- =======================================================
      LIVE MATERIALS
 ======================================================= -->
 
@@ -2635,7 +2602,7 @@ body.dark .preview-panel{background:#111827;color:#f8fafc}body.dark .preview-hea
     <input
       type="search"
       id="materialSearch"
-      placeholder="🔍 Search title, chapter, subject..."
+      placeholder="🔍 Search study materials..."
       autocomplete="off"
     >
 
@@ -2707,8 +2674,6 @@ body.dark .preview-panel{background:#111827;color:#f8fafc}body.dark .preview-hea
 
   </div>
 
-  <div class="search-hint">💡 Try: <b>Class 10 Science</b>, <b>chemical reaction</b>, <b>question paper</b> <span id="searchCount" class="search-count"></span></div>
-
 
   <div
     id="liveMaterials"
@@ -2736,17 +2701,6 @@ body.dark .preview-panel{background:#111827;color:#f8fafc}body.dark .preview-hea
 </section>
 
 
-
-<!-- =======================================================
-     YOUTUBE PRO
-======================================================= -->
-<section class="youtube-pro" id="youtube-learning">
-  <div class="youtube-pro-left">
-    <div class="yt-icon">▶</div>
-    <div><small>LEARN WITH EDUCATION POINT</small><h2>🎥 Latest Learning Videos</h2><p>Watch lessons, explanations and revision videos on the Education Point YouTube channel.</p></div>
-  </div>
-  <a class="btn" href="https://www.youtube.com/@educationpoint7355" target="_blank" rel="noopener">Watch on YouTube ↗</a>
-</section>
 
 <!-- =======================================================
      YOUTUBE
@@ -2863,19 +2817,6 @@ body.dark .preview-panel{background:#111827;color:#f8fafc}body.dark .preview-hea
 </section>
 
 <!-- =======================================================
-     MATERIAL PREVIEW MODAL
-======================================================= -->
-<div class="preview-modal" id="previewModal" aria-hidden="true">
-  <div class="preview-panel" role="dialog" aria-modal="true" aria-labelledby="previewTitle">
-    <div class="preview-head">
-      <h3 id="previewTitle">Material Preview</h3>
-      <button class="preview-close" id="previewClose" type="button" aria-label="Close preview">×</button>
-    </div>
-    <div class="preview-body" id="previewBody"></div>
-  </div>
-</div>
-
-<!-- =======================================================
      FOOTER
 ======================================================= -->
 
@@ -2983,9 +2924,6 @@ let allClasses = [];
 
 let allSubjects = [];
 
-// Active resource-card filter (notes / questions / pdfs / important)
-let activeResourceFilter = "";
-
 
 /* =========================================================
    HELPERS
@@ -3009,20 +2947,6 @@ function normalize(value) {
     .trim()
     .toLowerCase();
 
-}
-
-
-function getResourceCategory(material) {
-  const type = normalize(material?.material_type);
-  const title = normalize(material?.title);
-  const description = normalize(material?.description);
-  const combined = `${type} ${title} ${description}`;
-
-  if (combined.includes("question")) return "questions";
-  if (combined.includes("important")) return "important";
-  if (combined.includes("note")) return "notes";
-  if (type.includes("pdf") || type.includes("worksheet") || material?.file_url) return "pdfs";
-  return "pdfs";
 }
 
 
@@ -3281,7 +3205,6 @@ async function loadAllMaterials() {
       chapter,
       material_type,
       file_url,
-      preview_url,
       youtube_url,
       description,
       created_at,
@@ -3349,48 +3272,194 @@ function createMaterialCard(
   material
 ) {
 
-  const classObject = allClasses.find(item => Number(item.id) === Number(material.class_id));
-  const subjectObject = allSubjects.find(item => Number(item.id) === Number(material.subject_id));
-  const className = classObject?.name || "Class";
-  const subjectName = subjectObject?.name || "Subject";
-  const materialType = material.material_type || "PDF";
-  const title = material.title || "Study Material";
-  const category = getResourceCategory(material);
-  const created = material.created_at ? new Date(material.created_at) : null;
-  const isNew = created && !Number.isNaN(created.getTime()) && (Date.now() - created.getTime()) <= 1000 * 60 * 60 * 24 * 14;
-  const isImportant = /important/i.test(String(materialType)) || /important/i.test(String(title)) || /important/i.test(String(material.description || ""));
+  const classObject =
+    allClasses.find(
+      item =>
+        Number(item.id) ===
+        Number(material.class_id)
+    );
 
-  const card = document.createElement("article");
-  card.className = "material-box";
-  card.dataset.class = className;
-  card.dataset.subject = subjectName;
-  card.dataset.resourceType = category;
-  card.dataset.search = [title, material.chapter, material.description, materialType, className, subjectName].filter(Boolean).join(" ").toLowerCase();
 
-  const previewUrl = material.preview_url || material.file_url || "";
-  const previewButton = previewUrl ? `<button type="button" class="material-btn preview-btn" data-preview-url="${escapeHTML(previewUrl)}" data-preview-title="${escapeHTML(title)}">👁 Preview</button>` : "";
+  const subjectObject =
+    allSubjects.find(
+      item =>
+        Number(item.id) ===
+        Number(material.subject_id)
+    );
+
+
+  const className =
+    classObject?.name ||
+    "Class";
+
+
+  const subjectName =
+    subjectObject?.name ||
+    "Subject";
+
+
+  const materialType =
+    material.material_type ||
+    "PDF";
+
+
+  const card =
+    document.createElement("article");
+
+
+  card.className =
+    "material-box";
+
+
+  card.dataset.class =
+    className;
+
+
+  card.dataset.subject =
+    subjectName;
+
+  card.dataset.resourceType = getResourceType(materialType, material);
+
+
+  card.dataset.search = [
+
+    material.title,
+
+    material.chapter,
+
+    material.description,
+
+    materialType,
+
+    className,
+
+    subjectName
+
+  ]
+    .filter(Boolean)
+    .join(" ")
+    .toLowerCase();
+
 
   card.innerHTML = `
+
     <div class="material-top">
-      <div class="material-icon">${typeIcon(materialType)}</div>
-      <div class="material-type">${typeIcon(materialType)} ${escapeHTML(materialType)}</div>
+
+      <div class="material-icon">
+        ${typeIcon(materialType)}
+      </div>
+
+      <div class="material-type">
+        ${typeIcon(materialType)}
+        ${escapeHTML(materialType)}
+      </div>
+
     </div>
-    <div class="material-meta">🎓 ${escapeHTML(className)} → 📚 ${escapeHTML(subjectName)}</div>
-    <div class="material-badges">
-      ${isNew ? '<span class="material-badge new">🆕 NEW</span>' : ''}
-      ${isImportant ? '<span class="material-badge important">🎯 IMPORTANT</span>' : ''}
-      ${/question/i.test(String(materialType)) ? '<span class="material-badge paper">📝 QUESTION PAPER</span>' : ''}
+
+
+    <div class="material-meta">
+
+      🎓 ${escapeHTML(className)}
+
+      →
+
+      📚 ${escapeHTML(subjectName)}
+
     </div>
-    <h3>${escapeHTML(title)}</h3>
-    ${material.chapter ? `<div class="material-chapter">📖 <span>${escapeHTML(material.chapter)}</span></div>` : ""}
-    ${material.description ? `<p>${escapeHTML(material.description)}</p>` : ""}
+
+
+    <h3>
+      ${escapeHTML(
+        material.title ||
+        "Study Material"
+      )}
+    </h3>
+
+
+    ${
+      material.chapter
+      ? `
+
+        <div class="material-chapter">
+
+          📖
+
+          <span>
+            ${escapeHTML(
+              material.chapter
+            )}
+          </span>
+
+        </div>
+
+      `
+      : ""
+    }
+
+
+    ${
+      material.description
+      ? `
+
+        <p>
+          ${escapeHTML(
+            material.description
+          )}
+        </p>
+
+      `
+      : ""
+    }
+
+
     <div class="material-buttons">
-      ${previewButton}
-      ${material.file_url ? `<a class="material-btn pdf-btn" href="${escapeHTML(material.file_url)}" target="_blank" rel="noopener noreferrer">📥 Open / Download PDF</a>` : ""}
-      ${material.youtube_url ? `<a class="material-btn video-btn" href="${escapeHTML(material.youtube_url)}" target="_blank" rel="noopener noreferrer">▶ Watch Video</a>` : ""}
+
+      ${
+        material.file_url
+        ? `
+
+          <a
+            class="material-btn pdf-btn"
+            href="${escapeHTML(
+              material.file_url
+            )}"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            📥 Open / Download PDF
+          </a>
+
+        `
+        : ""
+      }
+
+
+      ${
+        material.youtube_url
+        ? `
+
+          <a
+            class="material-btn video-btn"
+            href="${escapeHTML(
+              material.youtube_url
+            )}"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            ▶ Watch Video
+          </a>
+
+        `
+        : ""
+      }
+
     </div>
+
   `;
+
+
   return card;
+
 }
 
 
@@ -3733,42 +3802,52 @@ async function showSubjectMaterials(
    FILTER MATERIALS
 ========================================================= */
 
+function normalizeClassForFilter(value) {
+  return normalize(value || "").replace(/^class\s*/i, "").replace(/\s+/g, "");
+}
+
+function normalizeSubjectForFilter(value) {
+  return normalize(value || "").replace(/\s+/g, " ").trim().toLowerCase();
+}
+
 function applyFilters() {
   const rawSearch = document.getElementById("materialSearch")?.value?.trim() || "";
   const tokens = rawSearch.toLowerCase().split(/\s+/).filter(Boolean);
   const selectedClass = document.getElementById("classFilter")?.value || "";
   const selectedSubject = document.getElementById("subjectFilter")?.value || "";
-  const cards = document.querySelectorAll("#liveMaterials .material-box");
+  const cards = [...document.querySelectorAll("#liveMaterials .material-box")].filter(card => card.id !== "filterNoResults");
   let visible = 0;
 
   cards.forEach(card => {
-    if (card.id === "filterNoResults") return;
-    const text = card.dataset.search || card.textContent.toLowerCase();
-    const cardClass = card.dataset.class || "";
-    const cardSubject = card.dataset.subject || "";
+    const text = (card.dataset.search || card.textContent || "").toLowerCase();
+    const cardClass = normalizeClassForFilter(card.dataset.class || "");
+    const cardSubject = normalizeSubjectForFilter(card.dataset.subject || "");
     const resourceType = card.dataset.resourceType || "";
+
     const searchMatch = tokens.length === 0 || tokens.every(token => text.includes(token));
-    const classMatch = !selectedClass || cardClass === selectedClass;
-    const subjectMatch = !selectedSubject || cardSubject === selectedSubject;
+    const classMatch = !selectedClass || cardClass === normalizeClassForFilter(selectedClass);
+    const subjectMatch = !selectedSubject || cardSubject === normalizeSubjectForFilter(selectedSubject);
     const resourceMatch = !activeResourceFilter || resourceType === activeResourceFilter;
+
     const show = searchMatch && classMatch && subjectMatch && resourceMatch;
     card.style.display = show ? "" : "none";
     if (show) visible++;
   });
 
   const count = document.getElementById("searchCount");
-  if (count) count.textContent = rawSearch || selectedClass || selectedSubject || activeResourceFilter ? ` • ${visible} result${visible === 1 ? "" : "s"}` : "";
+  if (count) count.textContent = (rawSearch || selectedClass || selectedSubject || activeResourceFilter) ? ` • ${visible} result${visible === 1 ? "" : "s"}` : "";
 
-  let noResults = document.getElementById("filterNoResults");
+  document.getElementById("filterNoResults")?.remove();
   if (cards.length > 0 && visible === 0) {
-    if (!noResults) {
-      noResults = document.createElement("div");
+    const live = document.getElementById("liveMaterials");
+    if (live) {
+      const noResults = document.createElement("div");
       noResults.id = "filterNoResults";
       noResults.className = "material-box empty-box";
       noResults.innerHTML = `<div class="empty-icon">🔍</div><h3>No materials found</h3><p>Search ya filter change karke try karo.</p><button type="button" class="material-btn pdf-btn" onclick="clearAllMaterialFilters()" style="border:none;cursor:pointer;margin-top:10px;">Clear Filters</button>`;
-      document.getElementById("liveMaterials")?.appendChild(noResults);
+      live.appendChild(noResults);
     }
-  } else noResults?.remove();
+  }
 }
 
 
@@ -3854,39 +3933,6 @@ function setupSubjectCards() {
 
 
 /* =========================================================
-   MATERIAL PREVIEW
-========================================================= */
-function openMaterialPreview(url, title) {
-  const modal = document.getElementById("previewModal");
-  const body = document.getElementById("previewBody");
-  const titleEl = document.getElementById("previewTitle");
-  if (!modal || !body || !url) return;
-  titleEl.textContent = title || "Material Preview";
-  const lower = url.toLowerCase().split("?")[0];
-  if (/\.(png|jpe?g|webp|gif)$/i.test(lower)) {
-    body.innerHTML = `<img class="preview-image" src="${escapeHTML(url)}" alt="${escapeHTML(title || "Material preview")}">`;
-  } else {
-    body.innerHTML = `<iframe src="${escapeHTML(url)}" title="${escapeHTML(title || "Material preview")}"></iframe><div class="preview-fallback" id="previewFallback">If the PDF does not appear, <a href="${escapeHTML(url)}" target="_blank" rel="noopener noreferrer">Open PDF</a></div>`;
-  }
-  modal.classList.add("open"); modal.setAttribute("aria-hidden", "false"); document.body.style.overflow = "hidden";
-}
-function closeMaterialPreview() {
-  const modal = document.getElementById("previewModal");
-  if (!modal) return;
-  modal.classList.remove("open"); modal.setAttribute("aria-hidden", "true");
-  document.getElementById("previewBody").innerHTML = "";
-  document.body.style.overflow = "";
-}
-function setupMaterialPreview() {
-  document.addEventListener("click", event => {
-    const button = event.target.closest("[data-preview-url]");
-    if (button) { event.preventDefault(); openMaterialPreview(button.dataset.previewUrl, button.dataset.previewTitle); }
-    if (event.target.id === "previewClose" || event.target.id === "previewModal") closeMaterialPreview();
-  });
-  document.addEventListener("keydown", event => { if (event.key === "Escape") closeMaterialPreview(); });
-}
-
-/* =========================================================
    INITIALIZE
 ========================================================= */
 
@@ -3952,39 +3998,113 @@ function activateResource(type) {
   const searchInput = document.getElementById("materialSearch");
   const classFilter = document.getElementById("classFilter");
   const subjectFilter = document.getElementById("subjectFilter");
-  const searches = { notes: "", questions: "", pdfs: "", important: "" };
 
   activeResourceFilter = type || "";
   if (classFilter) classFilter.value = "";
   if (subjectFilter) subjectFilter.value = "";
-  if (searchInput) searchInput.value = searches[type] || "";
+  if (searchInput) searchInput.value = "";
 
   applyFilters();
   liveSection?.scrollIntoView({behavior:"smooth",block:"start"});
 }
 window.activateResource = activateResource;
 
+function cleanClassName(value) {
+  return normalize(value).replace(/^class\s*/i, "").replace(/\s+/g, "");
+}
+
+function cleanSubjectName(value) {
+  return normalize(value).replace(/\s+/g, " ").trim().toLowerCase();
+}
+
 function runStudyFinder() {
   const cls = document.getElementById("finderClass")?.value || "";
   const sub = document.getElementById("finderSubject")?.value || "";
   const type = document.getElementById("finderType")?.value || "";
   const result = document.getElementById("finderResult");
+
   if (!cls || !sub || !type) {
-    result.textContent = "Please select Class, Subject and Resource first. 😊";
-    result.classList.add("show");
+    if (result) {
+      result.textContent = "Please select Class, Subject and Resource first. 😊";
+      result.classList.add("show");
+    }
     return;
   }
+
+  activeResourceFilter = type;
+
   const classFilter = document.getElementById("classFilter");
   const subjectFilter = document.getElementById("subjectFilter");
   const searchInput = document.getElementById("materialSearch");
-  if (classFilter) classFilter.value = cls;
-  if (subjectFilter) subjectFilter.value = sub;
+
+  if (classFilter) {
+    const option = [...classFilter.options].find(o => cleanClassName(o.value) === cleanClassName(cls));
+    if (option) classFilter.value = option.value;
+  }
+  if (subjectFilter) {
+    const option = [...subjectFilter.options].find(o => cleanSubjectName(o.value) === cleanSubjectName(sub));
+    if (option) subjectFilter.value = option.value;
+  }
   if (searchInput) searchInput.value = "";
-  activeResourceFilter = type;
+
   applyFilters();
-  result.innerHTML = `Showing <b>${escapeHTML(cls)}</b> → <b>${escapeHTML(sub)}</b> → matching <b>${escapeHTML(type)}</b> resources below.`;
-  result.classList.add("show");
+
+  const wantedClass = cleanClassName(cls);
+  const wantedSubject = cleanSubjectName(sub);
+  const cards = [...document.querySelectorAll("#liveMaterials .material-box")].filter(card => card.id !== "filterNoResults");
+  let visible = 0;
+
+  cards.forEach(card => {
+    const show = cleanClassName(card.dataset.class || "") === wantedClass &&
+                 cleanSubjectName(card.dataset.subject || "") === wantedSubject &&
+                 (card.dataset.resourceType || "") === type;
+    card.style.display = show ? "" : "none";
+    if (show) visible++;
+  });
+
+  document.getElementById("filterNoResults")?.remove();
+  if (visible === 0) {
+    const live = document.getElementById("liveMaterials");
+    if (live) {
+      const empty = document.createElement("div");
+      empty.id = "filterNoResults";
+      empty.className = "material-box empty-box";
+      empty.innerHTML = `<div class="empty-icon">🔍</div><h3>No matching material yet</h3><p>${escapeHTML(cls)} → ${escapeHTML(sub)} ke liye is category mein material available nahi hai.</p>`;
+      live.appendChild(empty);
+    }
+  }
+
+  if (result) {
+    result.innerHTML = visible
+      ? `Showing <b>${escapeHTML(cls)}</b> → <b>${escapeHTML(sub)}</b> → ${visible} matching material${visible === 1 ? "" : "s"}.` 
+      : `No material found for <b>${escapeHTML(cls)}</b> → <b>${escapeHTML(sub)}</b> in this category.`;
+    result.classList.add("show");
+  }
+
   document.getElementById("live-materials")?.scrollIntoView({behavior:"smooth",block:"start"});
+}
+window.runStudyFinder = runStudyFinder;
+
+function clearAllMaterialFilters() {
+  activeResourceFilter = "";
+  const search = document.getElementById("materialSearch");
+  const cls = document.getElementById("classFilter");
+  const sub = document.getElementById("subjectFilter");
+  if (search) search.value = "";
+  if (cls) cls.value = "";
+  if (sub) sub.value = "";
+  document.getElementById("finderResult")?.classList.remove("show");
+  applyFilters();
+}
+window.clearAllMaterialFilters = clearAllMaterialFilters;
+
+function getResourceType(materialType, material = {}) {
+  const value = normalize(materialType || material.type || material.category || "").toLowerCase();
+  if (value.includes("question") || value.includes("paper") || value.includes("sample") || value.includes("previous")) return "question";
+  if (value.includes("important")) return "important";
+  if (value.includes("note") || value.includes("chapter")) return "note";
+  if (value.includes("pdf") || value.includes("worksheet") || value.includes("download")) return "pdf";
+  return "pdf";
 }
 
 function startTodayStudy() {
