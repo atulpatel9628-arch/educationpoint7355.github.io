@@ -3826,6 +3826,74 @@ chapterStyle.textContent = `.hidden-chapter{display:none}.reveal-ready{opacity:0
 document.head.appendChild(chapterStyle);
 
 </script>
+<script>
+/* =========================================================
+   EDUCATION POINT — VISITOR TRACKING
+   ========================================================= */
 
+(function trackEducationPointVisitor() {
+
+  try {
+
+    const VISITOR_KEY = "educationPointVisitorId";
+
+    let visitorId =
+      localStorage.getItem(VISITOR_KEY);
+
+    if (!visitorId) {
+
+      visitorId =
+        (crypto.randomUUID
+          ? crypto.randomUUID()
+          : "visitor-" +
+            Date.now() +
+            "-" +
+            Math.random()
+              .toString(36)
+              .slice(2));
+
+      localStorage.setItem(
+        VISITOR_KEY,
+        visitorId
+      );
+    }
+
+    if (
+      typeof supabaseClient === "undefined"
+    ) {
+      console.warn(
+        "Education Point: Supabase client not found."
+      );
+      return;
+    }
+
+    supabaseClient
+      .from("visitor_logs")
+      .insert({
+        visitor_id: visitorId,
+        page: window.location.pathname
+      })
+      .then(({ error }) => {
+
+        if (error) {
+          console.warn(
+            "Visitor tracking error:",
+            error
+          );
+        }
+
+      });
+
+  } catch (error) {
+
+    console.warn(
+      "Visitor tracking failed:",
+      error
+    );
+
+  }
+
+})();
+</script>
 </body>
 </html>
