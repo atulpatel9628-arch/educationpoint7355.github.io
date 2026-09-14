@@ -355,7 +355,55 @@ select option{background:#101326;color:#eef2ff}
   </header>
 
   <div class="card"><h2>Welcome back 👋</h2><p class="muted">Manage your Education Point platform from one secure control center.</p></div>
+<!-- =====================================================
+     VISITOR ANALYTICS
+     ===================================================== -->
+<div class="card" id="visitorAnalyticsCard" style="margin-top:20px;">
+  <div class="topbar" style="margin-bottom:16px;">
+    <div>
+      <h2>📊 Website Analytics</h2>
+      <p class="muted">Live visitor statistics from Education Point.</p>
+    </div>
 
+    <button
+      class="btn btn-secondary"
+      id="visitorRefreshBtn"
+      type="button">
+      🔄 Refresh
+    </button>
+  </div>
+
+  <div class="stats visitor-stats">
+
+    <div class="stat">
+      <b id="totalVisitors">—</b>
+      <span class="muted">👥 Total Visitors</span>
+    </div>
+
+    <div class="stat">
+      <b id="todayVisitors">—</b>
+      <span class="muted">🟢 Today Visitors</span>
+    </div>
+
+    <div class="stat">
+      <b id="pageViews">—</b>
+      <span class="muted">👁️ Page Views</span>
+    </div>
+
+    <div class="stat">
+      <b id="monthVisitors">—</b>
+      <span class="muted">📅 This Month</span>
+    </div>
+
+    <div class="stat">
+      <b id="last7DaysVisitors">—</b>
+      <span class="muted">📈 Last 7 Days</span>
+    </div>
+
+  </div>
+
+  <div id="visitorAnalyticsStatus" class="status"></div>
+</div>
   <div class="stats">
     <div class="stat card"><b id="totalMaterials">—</b><span class="muted">Materials</span></div>
     <div class="stat card"><b id="totalClasses">—</b><span class="muted">Classes</span></div>
@@ -589,8 +637,101 @@ $("themeBtn").addEventListener("click",()=>{
   $("themeBtn").textContent=document.body.classList.contains("cyber-dim")?"💡 Bright Cyber":"⚡ Cyber Mode";
 });
 
-let initialized=false;async function initializeAdmin(){if(initialized){await Promise.all([loadDashboardStats(),loadRecentUploads(),loadAdminMaterials(),loadStudentMessages()]);return;}await loadClasses();await loadSubjectFilter();await loadDashboardStats();await loadRecentUploads();await loadAdminMaterials();await loadStudentMessages();initialized=true;}
+let initialized=false;async function initializeAdmin(){if(initialized){await Promise.all([loadDashboardStats(),loadRecentUploads(),loadAdminMaterials(),loadStudentMessages()]);return;}await loadClasses();await loadSubjectFilter();await loadDashboardStats();await loadRecentUploads();await loadAdminMaterials();await loadStudentMessages();initialized=true;}await loadStudentMessages();await loadVisitorAnalytics();
 $("refreshBtn").addEventListener("click",initializeAdmin);$("recentRefreshBtn").addEventListener("click",loadRecentUploads);$("materialsRefreshBtn").addEventListener("click",loadAdminMaterials);loadTheme();checkLogin();
+/* =========================================================
+   EDUCATION POINT — VISITOR ANALYTICS
+   ========================================================= */
+
+async function loadVisitorAnalytics() {
+
+  const total = document.getElementById("totalVisitors");
+  const today = document.getElementById("todayVisitors");
+  const views = document.getElementById("pageViews");
+  const month = document.getElementById("monthVisitors");
+  const last7 = document.getElementById("last7DaysVisitors");
+  const status = document.getElementById("visitorAnalyticsStatus");
+
+  if (!total || !today || !views || !month || !last7) {
+    return;
+  }
+
+  try {
+
+    total.textContent = "…";
+    today.textContent = "…";
+    views.textContent = "…";
+    month.textContent = "…";
+    last7.textContent = "…";
+
+    const {
+      data,
+      error
+    } = await supabaseClient.rpc(
+      "get_visitor_analytics"
+    );
+
+    if (error) {
+      throw error;
+    }
+
+    const stats = data || {};
+
+    total.textContent =
+      Number(stats.total_visitors || 0).toLocaleString();
+
+    today.textContent =
+      Number(stats.today_visitors || 0).toLocaleString();
+
+    views.textContent =
+      Number(stats.page_views || 0).toLocaleString();
+
+    month.textContent =
+      Number(stats.month_visitors || 0).toLocaleString();
+
+    last7.textContent =
+      Number(stats.last_7_days || 0).toLocaleString();
+
+    if (status) {
+      status.className = "status";
+      status.textContent = "";
+    }
+
+  } catch (error) {
+
+    console.error(
+      "Visitor analytics error:",
+      error
+    );
+
+    total.textContent = "—";
+    today.textContent = "—";
+    views.textContent = "—";
+    month.textContent = "—";
+    last7.textContent = "—";
+
+    if (status) {
+      status.className = "status show error";
+      status.textContent =
+        "❌ Visitor analytics load nahi ho pa rahi.";
+    }
+  }
+}
+
+
+/* Visitor analytics refresh button */
+
+const visitorRefreshBtn =
+  document.getElementById("visitorRefreshBtn");
+
+if (visitorRefreshBtn) {
+
+  visitorRefreshBtn.addEventListener(
+    "click",
+    loadVisitorAnalytics
+  );
+
+}   
 </script>
 </body>
 </html>
