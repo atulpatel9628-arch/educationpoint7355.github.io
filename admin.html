@@ -330,6 +330,13 @@ select option{background:#101326;color:#eef2ff}
 @keyframes premiumBlink{50%{opacity:0}}
 @media(max-width:750px){body{padding:10px}.topbar h1::after{display:block;margin-top:6px}.topbar::after{display:none}.card{border-radius:16px}}
 
+
+.analytics-card{margin-top:20px}
+.analytics-stats{grid-template-columns:repeat(5,1fr)}
+.analytics-stats .stat{min-height:92px}
+@media(max-width:950px){.analytics-stats{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:600px){.analytics-stats{grid-template-columns:1fr 1fr}}
+
 </style>
 </head>
 <body>
@@ -355,60 +362,34 @@ select option{background:#101326;color:#eef2ff}
   </header>
 
   <div class="card"><h2>Welcome back 👋</h2><p class="muted">Manage your Education Point platform from one secure control center.</p></div>
-<!-- =====================================================
-     VISITOR ANALYTICS
-     ===================================================== -->
-<div class="card" id="visitorAnalyticsCard" style="margin-top:20px;">
-  <div class="topbar" style="margin-bottom:16px;">
-    <div>
-      <h2>📊 Website Analytics</h2>
-      <p class="muted">Live visitor statistics from Education Point.</p>
-    </div>
 
-    <button
-      class="btn btn-secondary"
-      id="visitorRefreshBtn"
-      type="button">
-      🔄 Refresh
-    </button>
-  </div>
-
-  <div class="stats visitor-stats">
-
-    <div class="stat">
-      <b id="totalVisitors">—</b>
-      <span class="muted">👥 Total Visitors</span>
-    </div>
-
-    <div class="stat">
-      <b id="todayVisitors">—</b>
-      <span class="muted">🟢 Today Visitors</span>
-    </div>
-
-    <div class="stat">
-      <b id="pageViews">—</b>
-      <span class="muted">👁️ Page Views</span>
-    </div>
-
-    <div class="stat">
-      <b id="monthVisitors">—</b>
-      <span class="muted">📅 This Month</span>
-    </div>
-
-    <div class="stat">
-      <b id="last7DaysVisitors">—</b>
-      <span class="muted">📈 Last 7 Days</span>
-    </div>
-
-  </div>
-
-  <div id="visitorAnalyticsStatus" class="status"></div>
-</div>
   <div class="stats">
     <div class="stat card"><b id="totalMaterials">—</b><span class="muted">Materials</span></div>
     <div class="stat card"><b id="totalClasses">—</b><span class="muted">Classes</span></div>
     <div class="stat card"><b id="totalSubjects">—</b><span class="muted">Subjects</span></div>
   </div>
+
+  <!-- =====================================================
+       WEBSITE ANALYTICS
+  ===================================================== -->
+  <section class="card analytics-card" aria-labelledby="analyticsTitle">
+    <div class="messages-toolbar">
+      <div>
+        <h2 id="analyticsTitle">📊 Website Analytics</h2>
+        <p class="muted">Anonymous visitor statistics from the Education Point website.</p>
+      </div>
+      <button class="btn btn-secondary" id="visitorRefreshBtn" type="button">🔄 Refresh Analytics</button>
+    </div>
+
+    <div class="stats analytics-stats">
+      <div class="stat"><b id="totalVisitors">—</b><span class="muted">👥 Total Visitors</span></div>
+      <div class="stat"><b id="todayVisitors">—</b><span class="muted">🟢 Today Visitors</span></div>
+      <div class="stat"><b id="pageViews">—</b><span class="muted">👁️ Page Views</span></div>
+      <div class="stat"><b id="monthVisitors">—</b><span class="muted">📅 This Month</span></div>
+      <div class="stat"><b id="last7DaysVisitors">—</b><span class="muted">📈 Last 7 Days</span></div>
+    </div>
+    <div id="visitorAnalyticsStatus" class="status" role="status" aria-live="polite"></div>
+  </section>
 
   <div class="row" style="margin-top:20px">
     <div class="card">
@@ -486,7 +467,28 @@ async function checkLogin(){const {data}=await supabaseClient.auth.getSession();
 
 async function loadClasses(){const select=$("classSelect"),filter=$("classFilter");try{const {data,error}=await supabaseClient.from("classes").select("*").order("id");if(error)throw error;const allowedClasses=(data||[]).filter(x=>{const n=String(x.name||x.class_name||x.title||("Class "+x.id)).trim().toLowerCase();return n==="class 9"||n==="class 10";});select.innerHTML='<option value="">Select Class</option>';filter.innerHTML='<option value="">All Classes</option>';allowedClasses.forEach(x=>{const name=x.name||x.class_name||x.title||("Class "+x.id);select.insertAdjacentHTML("beforeend",`<option value="${x.id}">${escapeHTML(name)}</option>`);filter.insertAdjacentHTML("beforeend",`<option value="${escapeHTML(name)}">${escapeHTML(name)}</option>`);});}catch(err){showStatus($("uploadStatus"),"❌ Classes load nahi ho rahi: "+err.message,"error");}}
 
-$("classSelect").addEventListener("change",async function(){const id=this.value,select=$("subjectSelect");select.disabled=true;select.innerHTML='<option value="">Loading subjects...</option>';if(!id){select.innerHTML='<option value="">Select Subject</option>';return;}try{const {data,error}=await supabaseClient.from("subjects").select("*").eq("class_id",id).order("id");if(error)throw error;select.innerHTML='<option value="">Select Subject</option>';(data||[]).forEach(x=>{const name=x.name||x.subject_name||x.title||("Subject "+x.id);select.insertAdjacentHTML("beforeend",`<option value="${x.id}">${escapeHTML(name)}</option>`);});select.disabled=false;}catch(err){select.innerHTML='<option value="">Unable to load subjects</option>';showStatus($("uploadStatus"),"❌ Subjects load nahi ho rahe: "+err.message,"error");}});
+const ALLOWED_SUBJECTS = new Set(["mathematics","science","english","hindi","social science"]);
+
+$("classSelect").addEventListener("change",async function(){
+  const id=this.value,select=$("subjectSelect");
+  select.disabled=true;
+  select.innerHTML='<option value="">Loading subjects...</option>';
+  if(!id){select.innerHTML='<option value="">Select Subject</option>';return;}
+  try{
+    const {data,error}=await supabaseClient.from("subjects").select("*").eq("class_id",id).order("id");
+    if(error)throw error;
+    select.innerHTML='<option value="">Select Subject</option>';
+    (data||[]).forEach(x=>{
+      const name=x.name||x.subject_name||x.title||("Subject "+x.id);
+      if(!ALLOWED_SUBJECTS.has(String(name).trim().toLowerCase())) return;
+      select.insertAdjacentHTML("beforeend",`<option value="${x.id}">${escapeHTML(name)}</option>`);
+    });
+    select.disabled=false;
+  }catch(err){
+    select.innerHTML='<option value="">Unable to load subjects</option>';
+    showStatus($("uploadStatus"),"❌ Subjects load nahi ho rahe: "+err.message,"error");
+  }
+});
 
 $("materialType").addEventListener("change",()=>$("questionPaperFields").classList.toggle("hidden",$("materialType").value!=="Question Paper"));
 
@@ -504,14 +506,14 @@ $("uploadForm").addEventListener("submit",uploadMaterial);
 
 async function loadDashboardStats(){try{const [m,c,s]=await Promise.all([supabaseClient.from("materials").select("*",{count:"exact",head:true}),supabaseClient.from("classes").select("*",{count:"exact",head:true}),supabaseClient.from("subjects").select("*",{count:"exact",head:true})]);if(m.error)throw m.error;if(c.error)throw c.error;if(s.error)throw s.error;$("totalMaterials").textContent=m.count??0;$("totalClasses").textContent=2;$("totalSubjects").textContent=5;}catch(e){$("totalMaterials").textContent="—";$("totalClasses").textContent="—";$("totalSubjects").textContent="—";}}
 
-async function loadRecentUploads(){const el=$("recentUploads");el.innerHTML='<p class="muted">⏳ Loading...</p>';try{const {data,error}=await supabaseClient.from("materials").select("id,title,chapter,file_url,created_at,classes(name),subjects(name)").order("created_at",{ascending:false}).limit(5);if(error)throw error;if(!data?.length){el.innerHTML='<p class="muted">No materials uploaded yet.</p>';return;}el.innerHTML=data.map(m=>`<div style="border:1px solid #e5e7eb;border-radius:12px;padding:12px;margin-bottom:8px"><b>${escapeHTML(m.title)}</b><div class="muted" style="font-size:12px">${escapeHTML(m.classes?.name||"")} → ${escapeHTML(m.subjects?.name||"")}</div>${m.file_url?`<a href="${escapeHTML(m.file_url)}" target="_blank" rel="noopener" style="display:inline-block;margin-top:7px">Open PDF ↗</a>`:""}</div>`).join("");}catch(e){el.innerHTML='<p class="muted">❌ Recent uploads load nahi ho pa rahe.</p>';}}
+async function loadRecentUploads(){const el=$("recentUploads");el.innerHTML='<p class="muted">⏳ Loading...</p>';try{const {data,error}=await supabaseClient.from("materials").select("id,title,chapter,file_url,created_at,classes(name),subjects(name)").order("created_at",{ascending:false}).limit(20);if(error)throw error;const allowedRecent=(data||[]).filter(m=>["class 9","class 10"].includes(String(m.classes?.name||"").trim().toLowerCase())&&ALLOWED_SUBJECTS.has(String(m.subjects?.name||"").trim().toLowerCase())).slice(0,5);if(!allowedRecent.length){el.innerHTML='<p class="muted">No materials uploaded yet.</p>';return;}el.innerHTML=allowedRecent.map(m=>`<div style="border:1px solid #e5e7eb;border-radius:12px;padding:12px;margin-bottom:8px"><b>${escapeHTML(m.title)}</b><div class="muted" style="font-size:12px">${escapeHTML(m.classes?.name||"")} → ${escapeHTML(m.subjects?.name||"")}</div>${m.file_url?`<a href="${escapeHTML(m.file_url)}" target="_blank" rel="noopener" style="display:inline-block;margin-top:7px">Open PDF ↗</a>`:""}</div>`).join("");}catch(e){el.innerHTML='<p class="muted">❌ Recent uploads load nahi ho pa rahe.</p>';}}
 
 let allMaterials=[];
 async function loadAdminMaterials(){const el=$("adminMaterialsList");el.innerHTML='<p class="muted">⏳ Loading materials...</p>';try{const {data,error}=await supabaseClient.from("materials").select("id,title,chapter,material_type,file_url,preview_url,description,youtube_url,created_at,class_id,subject_id,classes(name),subjects(name)").order("created_at",{ascending:false});if(error)throw error;allMaterials=data||[];renderMaterials();}catch(e){el.innerHTML='<p class="muted">❌ Materials load nahi ho pa rahe.<br>'+escapeHTML(e.message)+'</p>';}}
 
 async function loadSubjectFilter(){const el=$("subjectFilter");try{const {data,error}=await supabaseClient.from("subjects").select("*").order("id");if(error)throw error;const allowedSubjects=["mathematics","science","english","hindi","social science"];el.innerHTML='<option value="">All Subjects</option>';(data||[]).filter(x=>allowedSubjects.includes(String(x.name||x.subject_name||x.title||"").trim().toLowerCase())).forEach(x=>{const name=x.name||x.subject_name||x.title||("Subject "+x.id);el.insertAdjacentHTML("beforeend",`<option value="${escapeHTML(name)}">${escapeHTML(name)}</option>`);});}catch(e){console.error(e);}}
 
-function renderMaterials(){const el=$("adminMaterialsList"),search=$("materialSearch").value.toLowerCase().trim(),cf=$("classFilter").value,sf=$("subjectFilter").value;const filtered=allMaterials.filter(m=>{const cn=m.classes?.name||"",sn=m.subjects?.name||"",text=[m.title,m.chapter,m.description,cn,sn,m.material_type].filter(Boolean).join(" ").toLowerCase();return(!search||text.includes(search))&&(!cf||cn===cf)&&(!sf||sn===sf);});if(!filtered.length){el.innerHTML='<p class="muted">📚 No matching materials found.</p>';return;}el.innerHTML="";filtered.forEach(m=>{const cn=m.classes?.name||"Unknown Class",sn=m.subjects?.name||"Unknown Subject",item=document.createElement("div");item.className="material";item.innerHTML=`<div class="material-info"><div class="material-meta">🎓 ${escapeHTML(cn)} → 📚 ${escapeHTML(sn)}</div><div class="material-title">${escapeHTML(m.title||"Untitled Material")}</div><div class="material-chapter">📖 ${escapeHTML(m.chapter||"No chapter")} · ${escapeHTML(m.material_type||"PDF")}</div>${m.preview_url?`<img class="preview" src="${escapeHTML(m.preview_url)}" alt="Preview">`:""}</div><div class="material-actions">${m.file_url?`<a class="btn" href="${escapeHTML(m.file_url)}" target="_blank" rel="noopener">📄 Open</a>`:""}<button class="btn btn-warning" data-edit-id="${m.id}">✏️ Edit</button><button class="btn btn-danger" data-delete-id="${m.id}">🗑️ Delete</button></div>`;el.appendChild(item);});}
+function renderMaterials(){const el=$("adminMaterialsList"),search=$("materialSearch").value.toLowerCase().trim(),cf=$("classFilter").value,sf=$("subjectFilter").value;const filtered=allMaterials.filter(m=>{const cn=m.classes?.name||"",sn=m.subjects?.name||"",allowedClass=["class 9","class 10"].includes(String(cn).trim().toLowerCase()),allowedSubject=ALLOWED_SUBJECTS.has(String(sn).trim().toLowerCase()),text=[m.title,m.chapter,m.description,cn,sn,m.material_type].filter(Boolean).join(" ").toLowerCase();return allowedClass&&allowedSubject&&(!search||text.includes(search))&&(!cf||cn===cf)&&(!sf||sn===sf);});if(!filtered.length){el.innerHTML='<p class="muted">📚 No matching materials found.</p>';return;}el.innerHTML="";filtered.forEach(m=>{const cn=m.classes?.name||"Unknown Class",sn=m.subjects?.name||"Unknown Subject",item=document.createElement("div");item.className="material";item.innerHTML=`<div class="material-info"><div class="material-meta">🎓 ${escapeHTML(cn)} → 📚 ${escapeHTML(sn)}</div><div class="material-title">${escapeHTML(m.title||"Untitled Material")}</div><div class="material-chapter">📖 ${escapeHTML(m.chapter||"No chapter")} · ${escapeHTML(m.material_type||"PDF")}</div>${m.preview_url?`<img class="preview" src="${escapeHTML(m.preview_url)}" alt="Preview">`:""}</div><div class="material-actions">${m.file_url?`<a class="btn" href="${escapeHTML(m.file_url)}" target="_blank" rel="noopener">📄 Open</a>`:""}<button class="btn btn-warning" data-edit-id="${m.id}">✏️ Edit</button><button class="btn btn-danger" data-delete-id="${m.id}">🗑️ Delete</button></div>`;el.appendChild(item);});}
 
 $("materialSearch").addEventListener("input",renderMaterials);$("classFilter").addEventListener("change",renderMaterials);$("subjectFilter").addEventListener("change",renderMaterials);$("clearFiltersBtn").addEventListener("click",()=>{$("materialSearch").value="";$("classFilter").value="";$("subjectFilter").value="";renderMaterials();});
 $("adminMaterialsList").addEventListener("click",e=>{const edit=e.target.closest("[data-edit-id]"),del=e.target.closest("[data-delete-id]");if(edit)editMaterial(edit.dataset.editId);if(del)deleteMaterial(del.dataset.deleteId);});
@@ -586,6 +588,98 @@ $("studentMessages").addEventListener("click",e=>{
 });
 $("messagesRefreshBtn").addEventListener("click",loadStudentMessages);
 
+/* =========================================================
+   WEBSITE ANALYTICS
+   Uses the RPC when available and falls back to a direct,
+   authenticated read so the dashboard remains usable even
+   before the optional RPC function is created.
+========================================================= */
+
+function localStartOfDay(date = new Date()) {
+  return new Date(date.getFullYear(), date.getMonth(), date.getDate());
+}
+
+function localStartOfMonth(date = new Date()) {
+  return new Date(date.getFullYear(), date.getMonth(), 1);
+}
+
+function setAnalyticsValues(stats) {
+  $("totalVisitors").textContent = Number(stats.total_visitors || 0).toLocaleString();
+  $("todayVisitors").textContent = Number(stats.today_visitors || 0).toLocaleString();
+  $("pageViews").textContent = Number(stats.page_views || 0).toLocaleString();
+  $("monthVisitors").textContent = Number(stats.month_visitors || 0).toLocaleString();
+  $("last7DaysVisitors").textContent = Number(stats.last_7_days || 0).toLocaleString();
+}
+
+async function loadVisitorAnalytics() {
+  const ids = ["totalVisitors","todayVisitors","pageViews","monthVisitors","last7DaysVisitors"];
+  if (ids.some(id => !$(id))) return;
+
+  ids.forEach(id => $(id).textContent = "…");
+  hideStatus($("visitorAnalyticsStatus"));
+
+  try {
+    const rpc = await supabaseClient.rpc("get_visitor_analytics");
+    if (!rpc.error && rpc.data) {
+      setAnalyticsValues(rpc.data);
+      return;
+    }
+
+    // Fallback: direct authenticated read.
+    const { data, error } = await supabaseClient
+      .from("visitor_logs")
+      .select("visitor_id,visited_at")
+      .order("visited_at", { ascending: false });
+
+    if (error) throw error;
+
+    const rows = data || [];
+    const now = new Date();
+    const todayStart = localStartOfDay(now).getTime();
+    const monthStart = localStartOfMonth(now).getTime();
+    const sevenDaysStart = Date.now() - (7 * 24 * 60 * 60 * 1000);
+
+    const allVisitors = new Set();
+    const todayVisitors = new Set();
+    const monthVisitors = new Set();
+    const sevenDayVisitors = new Set();
+
+    rows.forEach(row => {
+      const id = String(row.visitor_id || "");
+      if (!id) return;
+      const time = new Date(row.visited_at).getTime();
+      allVisitors.add(id);
+      if (time >= todayStart) todayVisitors.add(id);
+      if (time >= monthStart) monthVisitors.add(id);
+      if (time >= sevenDaysStart) sevenDayVisitors.add(id);
+    });
+
+    setAnalyticsValues({
+      total_visitors: allVisitors.size,
+      today_visitors: todayVisitors.size,
+      page_views: rows.length,
+      month_visitors: monthVisitors.size,
+      last_7_days: sevenDayVisitors.size
+    });
+
+    showStatus(
+      $("visitorAnalyticsStatus"),
+      "✅ Analytics loaded successfully.",
+      "success"
+    );
+  } catch (error) {
+    console.error("Visitor analytics error:", error);
+    ids.forEach(id => $(id).textContent = "—");
+    showStatus(
+      $("visitorAnalyticsStatus"),
+      "❌ Analytics load nahi ho pa rahi. Check visitor_logs permissions/table.",
+      "error"
+    );
+  }
+}
+
+$("visitorRefreshBtn").addEventListener("click", loadVisitorAnalytics);
+
 /* Matrix-style background animation */
 (function setupMatrix(){
   const canvas=$("matrixCanvas");
@@ -637,101 +731,8 @@ $("themeBtn").addEventListener("click",()=>{
   $("themeBtn").textContent=document.body.classList.contains("cyber-dim")?"💡 Bright Cyber":"⚡ Cyber Mode";
 });
 
-let initialized=false;async function initializeAdmin(){if(initialized){await Promise.all([loadDashboardStats(),loadRecentUploads(),loadAdminMaterials(),loadStudentMessages()]);return;}await loadClasses();await loadSubjectFilter();await loadDashboardStats();await loadRecentUploads();await loadAdminMaterials();await loadStudentMessages();initialized=true;}await loadStudentMessages();await loadVisitorAnalytics();
+let initialized=false;async function initializeAdmin(){if(initialized){await Promise.all([loadDashboardStats(),loadRecentUploads(),loadAdminMaterials(),loadStudentMessages(),loadVisitorAnalytics()]);return;}await loadClasses();await loadSubjectFilter();await loadDashboardStats();await loadRecentUploads();await loadAdminMaterials();await loadStudentMessages();await loadVisitorAnalytics();initialized=true;}
 $("refreshBtn").addEventListener("click",initializeAdmin);$("recentRefreshBtn").addEventListener("click",loadRecentUploads);$("materialsRefreshBtn").addEventListener("click",loadAdminMaterials);loadTheme();checkLogin();
-/* =========================================================
-   EDUCATION POINT — VISITOR ANALYTICS
-   ========================================================= */
-
-async function loadVisitorAnalytics() {
-
-  const total = document.getElementById("totalVisitors");
-  const today = document.getElementById("todayVisitors");
-  const views = document.getElementById("pageViews");
-  const month = document.getElementById("monthVisitors");
-  const last7 = document.getElementById("last7DaysVisitors");
-  const status = document.getElementById("visitorAnalyticsStatus");
-
-  if (!total || !today || !views || !month || !last7) {
-    return;
-  }
-
-  try {
-
-    total.textContent = "…";
-    today.textContent = "…";
-    views.textContent = "…";
-    month.textContent = "…";
-    last7.textContent = "…";
-
-    const {
-      data,
-      error
-    } = await supabaseClient.rpc(
-      "get_visitor_analytics"
-    );
-
-    if (error) {
-      throw error;
-    }
-
-    const stats = data || {};
-
-    total.textContent =
-      Number(stats.total_visitors || 0).toLocaleString();
-
-    today.textContent =
-      Number(stats.today_visitors || 0).toLocaleString();
-
-    views.textContent =
-      Number(stats.page_views || 0).toLocaleString();
-
-    month.textContent =
-      Number(stats.month_visitors || 0).toLocaleString();
-
-    last7.textContent =
-      Number(stats.last_7_days || 0).toLocaleString();
-
-    if (status) {
-      status.className = "status";
-      status.textContent = "";
-    }
-
-  } catch (error) {
-
-    console.error(
-      "Visitor analytics error:",
-      error
-    );
-
-    total.textContent = "—";
-    today.textContent = "—";
-    views.textContent = "—";
-    month.textContent = "—";
-    last7.textContent = "—";
-
-    if (status) {
-      status.className = "status show error";
-      status.textContent =
-        "❌ Visitor analytics load nahi ho pa rahi.";
-    }
-  }
-}
-
-
-/* Visitor analytics refresh button */
-
-const visitorRefreshBtn =
-  document.getElementById("visitorRefreshBtn");
-
-if (visitorRefreshBtn) {
-
-  visitorRefreshBtn.addEventListener(
-    "click",
-    loadVisitorAnalytics
-  );
-
-}   
 </script>
 </body>
 </html>
